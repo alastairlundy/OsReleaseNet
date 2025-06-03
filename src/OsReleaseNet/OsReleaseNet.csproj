@@ -1,0 +1,64 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <LangVersion>13</LangVersion>
+        <ImplicitUsings>disable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <TargetFrameworks>net9.0;net8.0;netstandard2.0;netstandard2.1</TargetFrameworks>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <Version>1.0.0</Version>
+        <Title>AlastairLundy.OsReleaseNet</Title>
+        <Authors>AlastairLundy</Authors>
+        <Description>Linux OsRelease detection, SteamOS detection, and helpful detection code for Linux.</Description>
+        <Copyright>Copyright (c) Alastair Lundy 2024-2025</Copyright>
+        <RepositoryUrl>https://github.com/alastairlundy/OsReleaseNet</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <PackageReleaseNotes>Initial release as standalone package under new name.</PackageReleaseNotes>
+        <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+        <PackageIcon>platformkit_logo_512x.jpg</PackageIcon>
+        <PackageTags>os-release, linux,</PackageTags>
+        <IncludeContentInPack>true</IncludeContentInPack>
+        <IncludeSymbols>true</IncludeSymbols>
+        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+        <EmbedUntrackedSources>true</EmbedUntrackedSources>
+        <PackageLicenseExpression>MPL-2.0</PackageLicenseExpression>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <AssemblyName>AlastairLundy.OsReleaseNet</AssemblyName>
+        <RootNamespace>AlastairLundy.OsReleaseNet</RootNamespace>
+        <PackageId>AlastairLundy.OsReleaseNet</PackageId>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <None Include="../README.md" Pack="true" PackagePath="\" />
+    </ItemGroup>
+    
+    <ItemGroup>
+        <PackageReference Include="AlastairLundy.DotExtensions" Version="7.1.1" />
+    </ItemGroup>
+
+    <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0' OR '$(TargetFramework)' == 'netstandard2.1'">
+        <PackageReference Include="Polyfill" Version="7.33.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Update="Internal\Localizations\Resources.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Update="Internal\Localizations\Resources.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>Resources.resx</DependentUpon>
+      </Compile>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Include="..\..\assets\platformkit_logo_512x.jpg">
+        <Link>platformkit_logo_512x.jpg</Link>
+      </Content>
+    </ItemGroup>
+
+</Project>
