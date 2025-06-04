@@ -27,10 +27,6 @@
         <RootNamespace>AlastairLundy.OsReleaseNet</RootNamespace>
         <PackageId>AlastairLundy.OsReleaseNet</PackageId>
     </PropertyGroup>
-
-    <ItemGroup>
-        <None Include="../README.md" Pack="true" PackagePath="\" />
-    </ItemGroup>
     
     <ItemGroup>
         <PackageReference Include="AlastairLundy.DotExtensions" Version="7.1.1" />
