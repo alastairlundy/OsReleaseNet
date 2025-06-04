@@ -15,9 +15,20 @@ namespace AlastairLundy.OsReleaseNet
     /// </summary>
     public class LinuxOsReleaseInfo
     {
-        public LinuxOsReleaseInfo()
+        internal LinuxOsReleaseInfo()
         {
-        
+            Name = string.Empty;
+            Identifier = string.Empty;
+            Identifier_Like = string.Empty;
+            Version = string.Empty;
+            PrettyName = string.Empty;
+            Version = string.Empty;
+            VersionCodename = string.Empty;
+            HomeUrl = string.Empty;
+            SupportUrl = string.Empty;
+            BugReportUrl = string.Empty;
+            PrivacyPolicyUrl = string.Empty;
+            
         }
     
         public LinuxOsReleaseInfo(string name, string version, string identifier, string identifierLike, string prettyName, string versionId, string versionCodeName, string homeUrl, string bugReportUrl, string privacyPolicyUrl, string supportUrl)
