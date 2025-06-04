@@ -17,6 +17,7 @@ namespace AlastairLundy.OsReleaseNet
     {
         internal LinuxOsReleaseInfo()
         {
+            VersionId = string.Empty;
             Name = string.Empty;
             Identifier = string.Empty;
             Identifier_Like = string.Empty;
@@ -28,7 +29,7 @@ namespace AlastairLundy.OsReleaseNet
             SupportUrl = string.Empty;
             BugReportUrl = string.Empty;
             PrivacyPolicyUrl = string.Empty;
-            
+            IsLongTermSupportRelease = false;
         }
     
         public LinuxOsReleaseInfo(string name, string version, string identifier, string identifierLike, string prettyName, string versionId, string versionCodeName, string homeUrl, string bugReportUrl, string privacyPolicyUrl, string supportUrl)
