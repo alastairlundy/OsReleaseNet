@@ -1,4 +1,4 @@
-# OsReleaseNet
+# OsReleaseNet (formerly PlatformKit.Linux, a part of PlatformKit)
 Linux OsRelease detection, SteamOS detection, and helpful detection code for Linux.
 
 [OsReleaseNet](https://www.nuget.org/packages/AlastairLundy.OsReleaseNet/) [![NuGet](https://img.shields.io/nuget/v/AlastairLundy.OsReleaseNet.svg)](https://www.nuget.org/packages/AlastairLundy.OsReleaseNet/)  [![NuGet](https://img.shields.io/nuget/dt/AlastairLundy.OsReleaseNet.svg)](https://www.nuget.org/packages/AlastairLundy.OsReleaseNet/)
