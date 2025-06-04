@@ -114,6 +114,19 @@ namespace AlastairLundy.OsReleaseNet
         
             LinuxOsReleaseInfo osReleaseInfo = await GetReleaseInfoAsync();
         
+            return GetDistroBase(osReleaseInfo);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="osReleaseInfo"></param>
+        /// <returns></returns>
+#if NET5_0_OR_GREATER
+        [SupportedOSPlatform("linux")]
+#endif
+        public LinuxDistroBase GetDistroBase(LinuxOsReleaseInfo osReleaseInfo)
+        {
             string identifierLike = osReleaseInfo.Identifier_Like.ToLower();
             
             return identifierLike switch

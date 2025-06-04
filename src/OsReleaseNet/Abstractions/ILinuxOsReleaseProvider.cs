@@ -52,5 +52,16 @@ namespace AlastairLundy.OsReleaseNet.Abstractions
         [SupportedOSPlatform("linux")]
 #endif
         Task<LinuxDistroBase> GetDistroBaseAsync();
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="osReleaseInfo"></param>
+        /// <returns></returns>
+#if NET5_0_OR_GREATER
+        [SupportedOSPlatform("linux")]
+#endif
+        LinuxDistroBase GetDistroBase(LinuxOsReleaseInfo osReleaseInfo);
+
     }
 }
