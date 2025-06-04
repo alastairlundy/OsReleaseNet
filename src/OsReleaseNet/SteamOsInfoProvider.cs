@@ -146,9 +146,11 @@ namespace AlastairLundy.OsReleaseNet
             }
             if (distroBase == LinuxDistroBase.Debian && distroInfo.PrettyName.ToLower().Contains("steamos"))
             {
+                // ReSharper disable once DuplicatedStatements
                 return false;
             }
 
+            //Fallback to false if it isn't detected as SteamOS.
             return false;
         }
     }
