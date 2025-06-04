@@ -52,8 +52,16 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Content Include="..\..\assets\platformkit_logo_512x.jpg">
+      <None Include="..\..\assets\logos\platformkit_logo_512x.jpg">
+        <Pack>True</Pack>
+        <PackagePath></PackagePath>
         <Link>platformkit_logo_512x.jpg</Link>
+      </None>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Include="..\..\README.md">
+        <Link>README.md</Link>
       </Content>
     </ItemGroup>
 
