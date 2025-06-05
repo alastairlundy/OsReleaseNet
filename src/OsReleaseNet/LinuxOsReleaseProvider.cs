@@ -118,10 +118,13 @@ namespace AlastairLundy.OsReleaseNet
         }
 
         /// <summary>
-        /// 
+        /// Compares the Linux Os Release Identifier information to determine what distro it is based on and returns it as a LinuxDistroBase enum.
         /// </summary>
-        /// <param name="osReleaseInfo"></param>
-        /// <returns></returns>
+        /// <remarks>This method is, by design, not asynchronous. It performs no asynchronous operations.
+        /// <para>Whilst this method does not throw an Exception if it is not run on Linux, there is no way to provide valid LinuxOsRelease from a  </para></remarks>
+        /// <param name="osReleaseInfo">The LinuxOsReleaseInfo object to parse.</param>
+        /// <returns>The detected LinuxDistroBase as an enum if successfully detected,
+        /// the LinuxDistroBase.NotDetected enum value otherwise.</returns>
 #if NET5_0_OR_GREATER
         [SupportedOSPlatform("linux")]
 #endif
