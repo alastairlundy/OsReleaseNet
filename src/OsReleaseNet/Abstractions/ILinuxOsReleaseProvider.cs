@@ -14,16 +14,16 @@ using System.Runtime.Versioning;
 
 using System.Threading.Tasks;
 
-namespace AlastairLundy.OsReleaseNet.Abstractions
-{
-    /// <summary>
-    /// Defines an interface for retrieving information about a Linux operating system.
-    /// </summary>
+namespace AlastairLundy.OsReleaseNet.Abstractions;
+
+/// <summary>
+/// Defines an interface for retrieving information about a Linux operating system.
+/// </summary>
 #if NET5_0_OR_GREATER
-    [SupportedOSPlatform("linux")]
+[SupportedOSPlatform("linux")]
 #endif
-    public interface ILinuxOsReleaseProvider
-    {
+public interface ILinuxOsReleaseProvider
+{
     
         /// <summary>
         /// Retrieves the value of the specified property from the current system.
@@ -63,5 +63,4 @@ namespace AlastairLundy.OsReleaseNet.Abstractions
 #endif
         LinuxDistroBase GetDistroBase(LinuxOsReleaseInfo osReleaseInfo);
 
-    }
 }
