@@ -29,7 +29,7 @@
     </PropertyGroup>
     
     <ItemGroup>
-        <PackageReference Include="AlastairLundy.DotExtensions" Version="7.1.1" />
+        <PackageReference Include="AlastairLundy.DotExtensions" Version="7.2.0" />
     </ItemGroup>
 
     <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0' OR '$(TargetFramework)' == 'netstandard2.1'">
