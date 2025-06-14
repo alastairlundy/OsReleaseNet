@@ -55,7 +55,7 @@ namespace AlastairLundy.OsReleaseNet
             string[] resultArray = await Task.Run(() => File.ReadAllLines("/etc/os-release"));
 #endif
 
-            resultArray = RemoveUnwantedCharacters(resultArray);
+            resultArray = RemoveUnwantedCharacters(resultArray).ToArray();
         
             string? result = resultArray.FirstOrDefault(x => x.Contains(propertyName));
 
@@ -91,7 +91,7 @@ namespace AlastairLundy.OsReleaseNet
             string[] resultArray = await Task.Run(() => File.ReadAllLines("/etc/os-release"));
 #endif
         
-            resultArray = RemoveUnwantedCharacters(resultArray);
+            resultArray = RemoveUnwantedCharacters(resultArray).ToArray();
 
             return await Task.FromResult(ParseOsReleaseInfo(resultArray));
         }
@@ -253,7 +253,7 @@ namespace AlastairLundy.OsReleaseNet
         /// </summary>
         /// <param name="resultArray">The input array containing strings that may contain unwanted characters.</param>
         /// <returns>An array of strings with unwanted characters removed.</returns>
-        private string[] RemoveUnwantedCharacters(string[] resultArray)
+        private IEnumerable<string> RemoveUnwantedCharacters(string[] resultArray)
         {
             char[] delimiter = ['\t', '"'];
 
@@ -266,7 +266,7 @@ namespace AlastairLundy.OsReleaseNet
                 newResultArray = newResultArray.Select(x => x.Replace(c.ToString(), string.Empty));
             }
 
-            return newResultArray.ToArray();
+            return newResultArray;
         }
     }
 }
