@@ -7,23 +7,22 @@
     file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-namespace AlastairLundy.OsReleaseNet
+namespace AlastairLundy.OsReleaseNet;
+
+/// <summary>
+/// The mode that SteamOS 3.x and newer is running in.
+/// </summary>
+// ReSharper disable once InconsistentNaming
+public enum SteamOSMode
 {
     /// <summary>
-    /// The mode that SteamOS 3.x and newer is running in.
+    /// The normal UI of the SteamDeck without a desktop environment running.
     /// </summary>
-// ReSharper disable once InconsistentNaming
-    public enum SteamOSMode
-    {
-        /// <summary>
-        /// The normal UI of the SteamDeck without a desktop environment running.
-        /// </summary>
-        GamingMode,
-        /// <summary>
-        /// The mode where the Manjaro desktop environment is running.
-        /// </summary>
-        DesktopMode,
-        // ReSharper disable once InconsistentNaming
-        NotSteamOS
-    }
+    GamingMode,
+    /// <summary>
+    /// The mode where the Manjaro desktop environment is running.
+    /// </summary>
+    DesktopMode,
+    // ReSharper disable once InconsistentNaming
+    NotSteamOS
 }
