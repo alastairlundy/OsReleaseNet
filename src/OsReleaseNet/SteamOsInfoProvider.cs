@@ -11,15 +11,14 @@
 // ReSharper disable ConvertToPrimaryConstructor
 
 using System;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
 using AlastairLundy.OsReleaseNet.Abstractions;
 
 using AlastairLundy.OsReleaseNet.Internal.Localizations;
 
-#if NETSTANDARD2_0 || NETSTANDARD2_1
-using OperatingSystem = Polyfills.OperatingSystemPolyfill;
-#else
+#if NET5_0_OR_GREATER
 using System.Runtime.Versioning;
 #endif
 
@@ -131,7 +130,7 @@ public class SteamOsInfoProvider : ISteamOsInfoProvider
 #endif
     public async Task<bool> IsSteamOSAsync(bool includeHoloIsoAsSteamOs)
     {
-        if (OperatingSystem.IsLinux() == false)
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) == false)
         {
             throw new PlatformNotSupportedException(Resources.Exceptions_PlatformNotSupported_LinuxOnly);
         }
