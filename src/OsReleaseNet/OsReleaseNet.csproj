@@ -6,16 +6,17 @@
         <Nullable>enable</Nullable>
         <TargetFrameworks>net9.0;net8.0;netstandard2.0;netstandard2.1</TargetFrameworks>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-        <Version>1.0.1</Version>
+        <Version>1.0.2</Version>
         <Title>AlastairLundy.OsReleaseNet</Title>
         <Authors>AlastairLundy</Authors>
         <Description>Linux OsRelease detection, SteamOS detection, and helpful detection code for Linux.</Description>
         <Copyright>Copyright (c) Alastair Lundy 2024-2025</Copyright>
         <RepositoryUrl>https://github.com/alastairlundy/OsReleaseNet</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
-        <PackageReleaseNotes>### Changes since 1.0.0
-* Updated DotExtensions dependency from 7.1.1 to 7.2.0
-* Updated Polyfill and set it to PrivateAssets="All"</PackageReleaseNotes>
+        <PackageReleaseNotes>### Changes
+
+            * Bump AlastairLundy.DotExtensions and Polyfill @dependabot[bot] (#2)
+        </PackageReleaseNotes>
         <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
         <PackageIcon>platformkit_logo_512x.jpg</PackageIcon>
         <PackageTags>os-release, linux,</PackageTags>
