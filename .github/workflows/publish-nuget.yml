@@ -1,0 +1,29 @@
+# This workflow will build and publish System Extensions to Nuget.
+
+name: Publish to Nuget
+
+on:
+  workflow_dispatch:
+    
+jobs:
+  publish-nuget:
+
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 9.0.x
+        working-directory: DotExtensions
+    - name: Restore dependencies
+      run: dotnet restore
+    - name: Create packages
+      run: dotnet build -c Release
+    - name: Publish the package to nuget.org
+      run: dotnet nuget push DotExtensions/bin/Release/*.nupkg -k $NUGET_AUTH_TOKEN -s https://api.nuget.org/v3/index.json
+      env:
+          NUGET_AUTH_TOKEN: ${{ secrets.NUGET_TOKEN }}
