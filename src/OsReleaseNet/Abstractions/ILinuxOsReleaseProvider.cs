@@ -54,10 +54,10 @@ public interface ILinuxOsReleaseProvider
         Task<LinuxDistroBase> GetDistroBaseAsync();
 
         /// <summary>
-        /// 
+        /// Retrieves information about the base distribution of the <see cref="LinuxOsReleaseInfo"/>.
         /// </summary>
         /// <param name="osReleaseInfo"></param>
-        /// <returns></returns>
+        /// <returns>The base distribution of the Linux operating system.</returns>
 #if NET5_0_OR_GREATER
         [SupportedOSPlatform("linux")]
 #endif
