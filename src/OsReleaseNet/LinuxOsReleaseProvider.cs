@@ -12,7 +12,6 @@ using System.Runtime.Versioning;
 #endif
 
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -54,7 +53,7 @@ public class LinuxOsReleaseProvider : ILinuxOsReleaseProvider
         string[] resultArray = await Task.Run(() => File.ReadAllLines("/etc/os-release"));
 #endif
 
-        resultArray = RemoveUnwantedCharacters(resultArray).ToArray();
+        resultArray = RemoveUnwantedCharacters(resultArray);
         
         string? result = resultArray.FirstOrDefault(x => x.ToUpper().Contains(propertyName.ToUpper()));
 
@@ -152,9 +151,9 @@ public class LinuxOsReleaseProvider : ILinuxOsReleaseProvider
     {
         LinuxOsReleaseInfo linuxDistroInfo = new LinuxOsReleaseInfo();
             
-        for (int index = 0; index < resultArray.Length; index++)
+        foreach (string resultLine in resultArray)
         {
-            string line = resultArray[index].ToUpper();
+            string line = resultLine.ToUpper();
 
             if (line.Contains("NAME=") && !line.Contains("VERSION"))
             {
@@ -162,12 +161,12 @@ public class LinuxOsReleaseProvider : ILinuxOsReleaseProvider
                 if (line.StartsWith("PRETTY_"))
                 {
                     linuxDistroInfo.PrettyName =
-                        resultArray[index].Replace("PRETTY_NAME=", string.Empty);
+                        resultLine.Replace("PRETTY_NAME=", string.Empty);
                 }
 
                 if (!line.Contains("PRETTY") && !line.Contains("CODE"))
                 {
-                    linuxDistroInfo.Name = resultArray[index]
+                    linuxDistroInfo.Name = resultLine
                         .Replace("NAME=", string.Empty);
                 }
             }
@@ -186,16 +185,16 @@ public class LinuxOsReleaseProvider : ILinuxOsReleaseProvider
                 if (line.Contains("ID="))
                 {
                     linuxDistroInfo.VersionId =
-                        resultArray[index].Replace("VERSION_ID=", string.Empty);
+                        resultLine.Replace("VERSION_ID=", string.Empty);
                 }
                 else if (!line.Contains("ID=") && line.Contains("CODE"))
                 {
                     linuxDistroInfo.VersionCodename =
-                        resultArray[index].Replace("VERSION_CODENAME=", string.Empty);
+                        resultLine.Replace("VERSION_CODENAME=", string.Empty);
                 }
                 else if (!line.Contains("ID=") && !line.Contains("CODE"))
                 {
-                    linuxDistroInfo.Version = resultArray[index].Replace("VERSION=", string.Empty)
+                    linuxDistroInfo.Version = resultLine.Replace("VERSION=", string.Empty)
                         .Replace("LTS", string.Empty);
                 }
             }
@@ -205,7 +204,7 @@ public class LinuxOsReleaseProvider : ILinuxOsReleaseProvider
                 if (line.Contains("ID_LIKE="))
                 {
                     linuxDistroInfo.Identifier_Like =
-                        resultArray[index].Replace("ID_LIKE=", string.Empty);
+                        resultLine.Replace("ID_LIKE=", string.Empty);
 
                     if (linuxDistroInfo.Identifier_Like.ToLower().Contains("ubuntu") &&
                         linuxDistroInfo.Identifier_Like.ToLower().Contains("debian"))
@@ -215,7 +214,7 @@ public class LinuxOsReleaseProvider : ILinuxOsReleaseProvider
                 }
                 else if (!line.Contains("VERSION"))
                 {
-                    linuxDistroInfo.Identifier = resultArray[index].Replace("ID=", string.Empty);
+                    linuxDistroInfo.Identifier = resultLine.Replace("ID=", string.Empty);
                 }
             }
 
@@ -223,22 +222,22 @@ public class LinuxOsReleaseProvider : ILinuxOsReleaseProvider
             {
                 if (line.StartsWith("HOME_"))
                 {
-                    linuxDistroInfo.HomeUrl = resultArray[index].Replace("HOME_URL=", string.Empty);
+                    linuxDistroInfo.HomeUrl = resultLine.Replace("HOME_URL=", string.Empty);
                 }
                 else if (line.StartsWith("SUPPORT_"))
                 {
                     linuxDistroInfo.SupportUrl =
-                        resultArray[index].Replace("SUPPORT_URL=", string.Empty);
+                        resultLine.Replace("SUPPORT_URL=", string.Empty);
                 }
                 else if (line.StartsWith("BUG_"))
                 {
                     linuxDistroInfo.BugReportUrl =
-                        resultArray[index].Replace("BUG_REPORT_URL=", string.Empty);
+                        resultLine.Replace("BUG_REPORT_URL=", string.Empty);
                 }
                 else if (line.StartsWith("PRIVACY_"))
                 {
                     linuxDistroInfo.PrivacyPolicyUrl =
-                        resultArray[index].Replace("PRIVACY_POLICY_URL=", string.Empty);
+                        resultLine.Replace("PRIVACY_POLICY_URL=", string.Empty);
                 }
             }
         }
@@ -251,19 +250,12 @@ public class LinuxOsReleaseProvider : ILinuxOsReleaseProvider
     /// </summary>
     /// <param name="resultArray">The input array containing strings that may contain unwanted characters.</param>
     /// <returns>An array of strings with unwanted characters removed.</returns>
-    private IEnumerable<string> RemoveUnwantedCharacters(string[] resultArray)
+    private string[] RemoveUnwantedCharacters(string[] resultArray)
     {
-        char[] delimiter = ['\t', '"'];
-
-        IEnumerable<string> newResultArray = resultArray
+        return resultArray
             .Where(x => string.IsNullOrWhiteSpace(x) == false)
-            .Select(x => x.RemoveEscapeCharacters());
-            
-        foreach (char c in delimiter)
-        {
-            newResultArray = newResultArray.Select(x => x.Replace(c.ToString(), string.Empty));
-        }
-
-        return newResultArray;
+            .Select(x => x.RemoveEscapeCharacters()
+                .Replace('"'.ToString(), string.Empty))
+            .ToArray();
     }
 }
