@@ -44,9 +44,8 @@ public class LinuxOsReleaseProvider : ILinuxOsReleaseProvider
     public async Task<string?> GetReleaseInfoPropertyValueAsync(string propertyName)
     {
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) == false)
-        {
-            throw new PlatformNotSupportedException(Resources.Exceptions_PlatformNotSupported_LinuxOnly);
-        }
+            throw new PlatformNotSupportedException(Resources.
+                Exceptions_PlatformNotSupported_LinuxOnly);
             
 #if NET6_0_OR_GREATER
         string[] resultArray = await File.ReadAllLinesAsync("/etc/os-release");
@@ -56,7 +55,8 @@ public class LinuxOsReleaseProvider : ILinuxOsReleaseProvider
 
         resultArray = RemoveUnwantedCharacters(resultArray).ToArray();
         
-        string? result = resultArray.FirstOrDefault(x => x.ToUpper().Contains(propertyName.ToUpper()));
+        string? result = resultArray.FirstOrDefault(x => x.ToUpper()
+            .Contains(propertyName.ToUpper()));
 
         if (result is not null)
         {
@@ -106,9 +106,8 @@ public class LinuxOsReleaseProvider : ILinuxOsReleaseProvider
     public async Task<LinuxDistroBase> GetDistroBaseAsync()
     {
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) == false)
-        {
-            throw new PlatformNotSupportedException(Resources.Exceptions_PlatformNotSupported_LinuxOnly);
-        }
+            throw new PlatformNotSupportedException(Resources.
+                Exceptions_PlatformNotSupported_LinuxOnly);
         
         LinuxOsReleaseInfo osReleaseInfo = await GetReleaseInfoAsync();
         
