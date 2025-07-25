@@ -25,6 +25,9 @@ using System.IO;
 
 namespace AlastairLundy.OsReleaseNet;
 
+/// <summary>
+/// 
+/// </summary>
 public class FreeBsdReleaseProvider : IFreeBsdReleaseProvider
 {
     /// <summary>
@@ -82,6 +85,12 @@ public class FreeBsdReleaseProvider : IFreeBsdReleaseProvider
         return await Task.FromResult(ParseOsReleaseInfo(resultArray));
     }
 
+    /// <summary>
+    /// Removes unwanted characters from an array of strings.
+    /// </summary>
+    /// <param name="resultArray">The input array containing strings that need to be processed.</param>
+    /// <returns>The processed array of strings with unwanted characters removed.</returns>
+    /// <exception cref="InvalidOperationException">Thrown if the resultArray is null or empty.</exception>
     private string[] RemoveUnwantedCharacters(string[] resultArray)
     {
         return resultArray
