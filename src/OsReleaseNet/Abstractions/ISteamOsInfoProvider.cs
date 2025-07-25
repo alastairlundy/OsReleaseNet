@@ -7,10 +7,7 @@
     file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-
-#if NET5_0_OR_GREATER
 using System.Runtime.Versioning;
-#endif
 
 using System.Threading.Tasks;
 
@@ -28,9 +25,7 @@ public interface ISteamOsInfoProvider
     /// Retrieves the current SteamOS mode.
     /// </summary>
     /// <returns>The current SteamOS mode.</returns>
-#if NET5_0_OR_GREATER
     [SupportedOSPlatform("linux")]
-#endif
     Task<SteamOSMode> GetSteamOSModeAsync();
     
     /// <summary>
@@ -38,18 +33,14 @@ public interface ISteamOsInfoProvider
     /// </summary>
     /// <param name="includeHoloIsoAsSteamOs">Whether HoloISO should be considered as Steam OS.</param>
     /// <returns>The current SteamOS mode.</returns>
-#if NET5_0_OR_GREATER
     [SupportedOSPlatform("linux")]
-#endif
     Task<SteamOSMode> GetSteamOSModeAsync(bool includeHoloIsoAsSteamOs);
     
     /// <summary>
     /// Checks whether the current OS is Steam OS.
     /// </summary>
     /// <returns>True if the current OS is Steam OS; false otherwise.</returns>
-#if NET5_0_OR_GREATER
     [SupportedOSPlatform("linux")]
-#endif
     Task<bool> IsSteamOSAsync();
     
     /// <summary>
@@ -57,8 +48,6 @@ public interface ISteamOsInfoProvider
     /// </summary>
     /// <param name="includeHoloIsoAsSteamOs">Whether HoloISO should be considered as Steam OS.</param>
     /// <returns>A boolean indicating whether the system is running a Steam OS.</returns>
-#if NET5_0_OR_GREATER
     [SupportedOSPlatform("linux")]
-#endif
     Task<bool> IsSteamOSAsync(bool includeHoloIsoAsSteamOs);
 }
