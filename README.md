@@ -27,7 +27,6 @@ OsReleaseNet can be installed via the .NET SDK CLI, Nuget via your IDE or code e
 OsReleaseNet supports:
 * .NET 8
 * .NET 9
-* .NET Standard 2.0
 
 ## How to build the code
 To build the project in Debug mode run the following command: ``dotnet build -c Debug``.
@@ -49,7 +48,5 @@ If you'd like to contribute to the code, please fork the project, make your chan
 ## Credits/ Acknowledgements
 
 ### Projects
-This project would like to thank the following projects for their work:
-* [Polyfill](https://github.com/SimonCropp/Polyfill) for simplifying .NET Standard 2.0 support
 
 For more information, please see the [THIRD_PARTY_NOTICES file](https://github.com/alastairlundy/OsReleaseNet/blob/main/THIRD_PARTY_NOTICES.txt).
