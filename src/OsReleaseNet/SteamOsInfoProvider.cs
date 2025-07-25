@@ -18,9 +18,7 @@ using AlastairLundy.OsReleaseNet.Abstractions;
 
 using AlastairLundy.OsReleaseNet.Internal.Localizations;
 
-#if NET5_0_OR_GREATER
 using System.Runtime.Versioning;
-#endif
 
 namespace AlastairLundy.OsReleaseNet;
 
@@ -50,9 +48,7 @@ public class SteamOsInfoProvider : ISteamOsInfoProvider
     /// <returns>the SteamOS mode being run if run on SteamOS.</returns>
     /// <exception cref="ArgumentException">Thrown if Holo ISO is detected and if Holo ISO isn't counted as SteamOS.</exception>
     /// <exception cref="PlatformNotSupportedException">Throw if run on an Operating System that isn't SteamOS 3 or newer</exception>
-#if NET5_0_OR_GREATER
     [SupportedOSPlatform("linux")]
-#endif
     public async Task<SteamOSMode> GetSteamOSModeAsync()
     {
         return await GetSteamOSModeAsync(false);
@@ -65,9 +61,7 @@ public class SteamOsInfoProvider : ISteamOsInfoProvider
     /// <returns>the SteamOS mode being run if run on SteamOS.</returns>
     /// <exception cref="ArgumentException">Thrown if Holo ISO is detected and if Holo ISO isn't counted as SteamOS.</exception>
     /// <exception cref="PlatformNotSupportedException">Throw if run on an Operating System that isn't SteamOS 3 or newer</exception>
-#if NET5_0_OR_GREATER
     [SupportedOSPlatform("linux")]
-#endif
     public async Task<SteamOSMode> GetSteamOSModeAsync(bool includeHoloIsoAsSteamOs)
     {
         bool isSteamOs = await IsSteamOSAsync(includeHoloIsoAsSteamOs);
@@ -97,8 +91,6 @@ public class SteamOsInfoProvider : ISteamOsInfoProvider
             {
                 return SteamOSMode.GamingMode;
             }
-
-            return SteamOSMode.NotSteamOS;
         }
 
         return SteamOSMode.NotSteamOS;
@@ -110,9 +102,7 @@ public class SteamOsInfoProvider : ISteamOsInfoProvider
     /// <returns>true if running on a SteamOS 3.x based distribution, returns false otherwise.</returns>
     /// <exception cref="PlatformNotSupportedException">Thrown if not run on a Linux-based Operating System.</exception>
     // ReSharper disable once InconsistentNaming
-#if NET5_0_OR_GREATER
     [SupportedOSPlatform("linux")]
-#endif
     public async Task<bool> IsSteamOSAsync()
     {
         return await IsSteamOSAsync(false);
@@ -125,9 +115,7 @@ public class SteamOsInfoProvider : ISteamOsInfoProvider
     /// <returns>true if running on a SteamOS 3.x based distribution, returns false otherwise.</returns>
     /// <exception cref="PlatformNotSupportedException">Thrown if not run on a Linux-based Operating System.</exception>
     // ReSharper disable once InconsistentNaming
-#if NET5_0_OR_GREATER
     [SupportedOSPlatform("linux")]
-#endif
     public async Task<bool> IsSteamOSAsync(bool includeHoloIsoAsSteamOs)
     {
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) == false)
