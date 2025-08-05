@@ -83,9 +83,9 @@ public class LinuxOsReleaseProvider : ILinuxOsReleaseProvider
                 Resources.Exceptions_PlatformNotSupported_LinuxOnly);
 
 #if NET6_0_OR_GREATER
-            string[] resultArray = await File.ReadAllLinesAsync("/etc/os-release");
+        string[] resultArray = await File.ReadAllLinesAsync("/etc/os-release");
 #else
-        string[] resultArray = await Task.Run(() => File.ReadAllLines("/etc/os-release"));
+        string[] resultArray = await FilePolyfill.ReadAllLinesAsync("/etc/os-release");
 #endif
         
         resultArray = RemoveUnwantedCharacters(resultArray).ToArray();
