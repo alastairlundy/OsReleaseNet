@@ -88,9 +88,10 @@ public class LinuxOsReleaseProvider : ILinuxOsReleaseProvider
         string[] resultArray = await FilePolyfill.ReadAllLinesAsync("/etc/os-release");
 #endif
         
-        resultArray = RemoveUnwantedCharacters(resultArray).ToArray();
+        LinuxOsReleaseInfo result = ParseOsReleaseInfo(
+            RemoveUnwantedCharacters(resultArray).ToArray());
 
-        return await Task.FromResult(ParseOsReleaseInfo(resultArray));
+        return await Task.FromResult(result);
     }
 
     /// <summary>
