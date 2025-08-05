@@ -108,8 +108,15 @@ public class LinuxOsReleaseProvider : ILinuxOsReleaseProvider
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) == false)
             throw new PlatformNotSupportedException(Resources.
                 Exceptions_PlatformNotSupported_LinuxOnly);
+
+        LinuxOsReleaseInfo osReleaseInfo = new LinuxOsReleaseInfo();
         
-        LinuxOsReleaseInfo osReleaseInfo = await GetReleaseInfoAsync();
+        string? result =  await GetReleaseInfoPropertyValueAsync("ID_LIKE=");
+
+        if (result is not null)
+            osReleaseInfo.Identifier_Like = result;
+        else
+            osReleaseInfo = await GetReleaseInfoAsync();
         
         return GetDistroBase(osReleaseInfo);
     }
