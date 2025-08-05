@@ -252,17 +252,11 @@ public class LinuxOsReleaseProvider : ILinuxOsReleaseProvider
     /// <returns>An array of strings with unwanted characters removed.</returns>
     private IEnumerable<string> RemoveUnwantedCharacters(string[] resultArray)
     {
-        char[] delimiter = ['\t', '"'];
-
         IEnumerable<string> newResultArray = resultArray
-            .Where(x => string.IsNullOrWhiteSpace(x) == false)
-            .Select(x => x.RemoveEscapeCharacters());
-            
-        foreach (char c in delimiter)
-        {
-            newResultArray = newResultArray.Select(x => x.Replace(c.ToString(), string.Empty));
-        }
-
+            .Where(x => string.IsNullOrWhiteSpace(x) == false && x.Equals(string.Empty) == false)
+            .Select(x => x.RemoveEscapeCharacters())
+            .Select(x => x.Replace('"'.ToString(), string.Empty));
+        
         return newResultArray;
     }
 }
