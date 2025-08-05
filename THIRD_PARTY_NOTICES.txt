@@ -1,7 +1,7 @@
 This library makes use of some open source libraries.
 
 -----------------------------------------------------------------------------
- OsReleaseNet uses Polyfill to enable easier support for .NET Standard 2.0 and .NET Standard 2.1
+ OsReleaseNet uses Polyfill to enable easier support for .NET Standard 2.0
  
 Polyfill is licensed under the MIT license.
 -----------------------------------------------------

@@ -43,19 +43,19 @@ public class LinuxOsReleaseProvider : ILinuxOsReleaseProvider
     public async Task<string?> GetReleaseInfoPropertyValueAsync(string propertyName)
     {
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) == false)
-        {
-            throw new PlatformNotSupportedException(Resources.Exceptions_PlatformNotSupported_LinuxOnly);
-        }
+            throw new PlatformNotSupportedException(Resources.
+                Exceptions_PlatformNotSupported_LinuxOnly);
             
 #if NET6_0_OR_GREATER
         string[] resultArray = await File.ReadAllLinesAsync("/etc/os-release");
 #else
-        string[] resultArray = await Task.Run(() => File.ReadAllLines("/etc/os-release"));
+        string[] resultArray = await FilePolyfill.ReadAllLinesAsync("/etc/os-release");
 #endif
 
-        resultArray = RemoveUnwantedCharacters(resultArray);
         
-        string? result = resultArray.FirstOrDefault(x => x.ToUpper().Contains(propertyName.ToUpper()));
+        string? result = RemoveUnwantedCharacters(resultArray)
+        .FirstOrDefault(x => x.ToUpper()
+            .Contains(propertyName.ToUpper()));
 
         if (result is not null)
         {
@@ -78,19 +78,19 @@ public class LinuxOsReleaseProvider : ILinuxOsReleaseProvider
     public async Task<LinuxOsReleaseInfo> GetReleaseInfoAsync()
     {
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) == false)
-        {
-            throw new PlatformNotSupportedException(Resources.Exceptions_PlatformNotSupported_LinuxOnly);
-        }
+            throw new PlatformNotSupportedException(
+                Resources.Exceptions_PlatformNotSupported_LinuxOnly);
 
 #if NET6_0_OR_GREATER
-            string[] resultArray = await File.ReadAllLinesAsync("/etc/os-release");
+        string[] resultArray = await File.ReadAllLinesAsync("/etc/os-release");
 #else
-        string[] resultArray = await Task.Run(() => File.ReadAllLines("/etc/os-release"));
+        string[] resultArray = await FilePolyfill.ReadAllLinesAsync("/etc/os-release");
 #endif
         
-        resultArray = RemoveUnwantedCharacters(resultArray).ToArray();
+        LinuxOsReleaseInfo result = ParseOsReleaseInfo(
+            RemoveUnwantedCharacters(resultArray));
 
-        return await Task.FromResult(ParseOsReleaseInfo(resultArray));
+        return await Task.FromResult(result);
     }
 
     /// <summary>
@@ -105,11 +105,17 @@ public class LinuxOsReleaseProvider : ILinuxOsReleaseProvider
     public async Task<LinuxDistroBase> GetDistroBaseAsync()
     {
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) == false)
-        {
-            throw new PlatformNotSupportedException(Resources.Exceptions_PlatformNotSupported_LinuxOnly);
-        }
+            throw new PlatformNotSupportedException(Resources.
+                Exceptions_PlatformNotSupported_LinuxOnly);
+
+        LinuxOsReleaseInfo osReleaseInfo = new LinuxOsReleaseInfo();
         
-        LinuxOsReleaseInfo osReleaseInfo = await GetReleaseInfoAsync();
+        string? result =  await GetReleaseInfoPropertyValueAsync("ID_LIKE=");
+
+        if (result is not null)
+            osReleaseInfo.Identifier_Like = result;
+        else
+            osReleaseInfo = await GetReleaseInfoAsync();
         
         return GetDistroBase(osReleaseInfo);
     }
@@ -147,97 +153,88 @@ public class LinuxOsReleaseProvider : ILinuxOsReleaseProvider
     /// </summary>
     /// <param name="resultArray">The input array containing strings that need to be parsed for OS release information.</param>
     /// <returns>The extracted Linux OS release information.</returns>
-    private LinuxOsReleaseInfo ParseOsReleaseInfo(string[] resultArray)
+    private LinuxOsReleaseInfo ParseOsReleaseInfo(IEnumerable<string> results)
     {
         LinuxOsReleaseInfo linuxDistroInfo = new LinuxOsReleaseInfo();
-            
-        foreach (string resultLine in resultArray)
+        
+        foreach (string line in results)
         {
-            string line = resultLine.ToUpper();
+            string lineUpper = line.ToUpper();
 
-            if (line.Contains("NAME=") && !line.Contains("VERSION"))
+            if (lineUpper.Contains("NAME=") && !lineUpper.Contains("VERSION"))
             {
-
-                if (line.StartsWith("PRETTY_"))
+                if (lineUpper.StartsWith("PRETTY_"))
                 {
                     linuxDistroInfo.PrettyName =
-                        resultLine.Replace("PRETTY_NAME=", string.Empty);
+                        line.Replace("PRETTY_NAME=", string.Empty);
                 }
 
-                if (!line.Contains("PRETTY") && !line.Contains("CODE"))
+                if (!lineUpper.Contains("PRETTY") && !lineUpper.Contains("CODE"))
                 {
-                    linuxDistroInfo.Name = resultLine
-                        .Replace("NAME=", string.Empty);
+                    linuxDistroInfo.Name = line.Replace("NAME=", string.Empty);
                 }
             }
 
-            if (line.Contains("VERSION="))
+            if (lineUpper.Contains("VERSION="))
             {
-                if (line.Contains("LTS"))
-                {
-                    linuxDistroInfo.IsLongTermSupportRelease = true;
-                }
-                else
-                {
-                    linuxDistroInfo.IsLongTermSupportRelease = false;
-                }
+                linuxDistroInfo.IsLongTermSupportRelease = lineUpper.Contains("LTS");
 
-                if (line.Contains("ID="))
+                if (lineUpper.Contains("ID="))
                 {
                     linuxDistroInfo.VersionId =
-                        resultLine.Replace("VERSION_ID=", string.Empty);
+                        line.Replace("VERSION_ID=", string.Empty);
                 }
-                else if (!line.Contains("ID=") && line.Contains("CODE"))
+                else if (!lineUpper.Contains("ID=") && lineUpper.Contains("CODE"))
                 {
                     linuxDistroInfo.VersionCodename =
-                        resultLine.Replace("VERSION_CODENAME=", string.Empty);
+                        line.Replace("VERSION_CODENAME=", string.Empty);
                 }
-                else if (!line.Contains("ID=") && !line.Contains("CODE"))
+                else if (!lineUpper.Contains("ID=") && !lineUpper.Contains("CODE"))
                 {
-                    linuxDistroInfo.Version = resultLine.Replace("VERSION=", string.Empty)
+                    linuxDistroInfo.Version = line.Replace("VERSION=", string.Empty)
                         .Replace("LTS", string.Empty);
                 }
             }
 
-            if (line.Contains("ID"))
+            if (lineUpper.Contains("ID"))
             {
-                if (line.Contains("ID_LIKE="))
+                if (lineUpper.Contains("ID_LIKE="))
                 {
                     linuxDistroInfo.Identifier_Like =
-                        resultLine.Replace("ID_LIKE=", string.Empty);
+                        line.Replace("ID_LIKE=", string.Empty);
 
                     if (linuxDistroInfo.Identifier_Like.ToLower().Contains("ubuntu") &&
                         linuxDistroInfo.Identifier_Like.ToLower().Contains("debian"))
                     {
-                        linuxDistroInfo.Identifier_Like = "ubuntu";
+                        linuxDistroInfo.Identifier_Like += $"{linuxDistroInfo}{Environment.NewLine}";
                     }
                 }
-                else if (!line.Contains("VERSION"))
+                else if (!lineUpper.Contains("VERSION"))
                 {
-                    linuxDistroInfo.Identifier = resultLine.Replace("ID=", string.Empty);
+                    linuxDistroInfo.Identifier = line.Replace("ID=", string.Empty);
                 }
             }
 
-            if (line.Contains("URL="))
+            if (lineUpper.Contains("URL="))
             {
-                if (line.StartsWith("HOME_"))
+                if (lineUpper.StartsWith("HOME_"))
                 {
-                    linuxDistroInfo.HomeUrl = resultLine.Replace("HOME_URL=", string.Empty);
+                    linuxDistroInfo.HomeUrl = line.Replace("HOME_URL=", string.Empty);
                 }
-                else if (line.StartsWith("SUPPORT_"))
+                else if (lineUpper.StartsWith("SUPPORT_"))
                 {
                     linuxDistroInfo.SupportUrl =
-                        resultLine.Replace("SUPPORT_URL=", string.Empty);
+                        line.Replace("SUPPORT_URL=", string.Empty);
                 }
-                else if (line.StartsWith("BUG_"))
+                else if (lineUpper.StartsWith("BUG_"))
                 {
                     linuxDistroInfo.BugReportUrl =
-                        resultLine.Replace("BUG_REPORT_URL=", string.Empty);
+                        line.Replace("BUG_REPORT_URL=", string.Empty);
                 }
-                else if (line.StartsWith("PRIVACY_"))
+                else if (lineUpper.StartsWith("PRIVACY_"))
                 {
                     linuxDistroInfo.PrivacyPolicyUrl =
-                        resultLine.Replace("PRIVACY_POLICY_URL=", string.Empty);
+                        line.Replace("PRIVACY_POLICY_URL=", string.Empty);
                 }
             }
         }
@@ -250,12 +247,13 @@ public class LinuxOsReleaseProvider : ILinuxOsReleaseProvider
     /// </summary>
     /// <param name="resultArray">The input array containing strings that may contain unwanted characters.</param>
     /// <returns>An array of strings with unwanted characters removed.</returns>
-    private string[] RemoveUnwantedCharacters(string[] resultArray)
+    private IEnumerable<string> RemoveUnwantedCharacters(string[] resultArray)
     {
-        return resultArray
-            .Where(x => string.IsNullOrWhiteSpace(x) == false)
-            .Select(x => x.RemoveEscapeCharacters()
-                .Replace('"'.ToString(), string.Empty))
-            .ToArray();
+        IEnumerable<string> newResults = resultArray
+            .Where(x => string.IsNullOrWhiteSpace(x) == false && x.Equals(string.Empty) == false)
+            .Select(x => x.RemoveEscapeCharacters())
+            .Select(x => x.Replace('"'.ToString(), string.Empty));
+        
+        return newResults;
     }
 }

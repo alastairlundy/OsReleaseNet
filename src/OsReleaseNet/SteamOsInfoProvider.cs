@@ -53,10 +53,8 @@ public class SteamOsInfoProvider : ISteamOsInfoProvider
 #if NET5_0_OR_GREATER
     [SupportedOSPlatform("linux")]
 #endif
-    public async Task<SteamOSMode> GetSteamOSModeAsync()
-    {
-        return await GetSteamOSModeAsync(false);
-    }
+    public async Task<SteamOSMode> GetSteamOSModeAsync() 
+        => await GetSteamOSModeAsync(false);
     
     /// <summary>
     /// Detects whether a device running SteamOS 3.x is running in Desktop Mode or in Gaming Mode.
@@ -73,9 +71,8 @@ public class SteamOsInfoProvider : ISteamOsInfoProvider
         bool isSteamOs = await IsSteamOSAsync(includeHoloIsoAsSteamOs);
         
         if (isSteamOs == false)
-        {
-            throw new PlatformNotSupportedException(Resources.Exceptions_PlatformNotSupported_LinuxOnly);    
-        }
+            throw new PlatformNotSupportedException(
+                Resources.Exceptions_PlatformNotSupported_LinuxOnly);
         
         LinuxDistroBase distroBase = await _linuxOsReleaseProvider.GetDistroBaseAsync();
 
@@ -87,8 +84,6 @@ public class SteamOsInfoProvider : ISteamOsInfoProvider
             {
                 return SteamOSMode.DesktopMode;
             }
-
-            return SteamOSMode.NotSteamOS;
         }
 
         if (distroBase == LinuxDistroBase.Arch)
@@ -97,8 +92,6 @@ public class SteamOsInfoProvider : ISteamOsInfoProvider
             {
                 return SteamOSMode.GamingMode;
             }
-
-            return SteamOSMode.NotSteamOS;
         }
 
         return SteamOSMode.NotSteamOS;
@@ -113,10 +106,8 @@ public class SteamOsInfoProvider : ISteamOsInfoProvider
 #if NET5_0_OR_GREATER
     [SupportedOSPlatform("linux")]
 #endif
-    public async Task<bool> IsSteamOSAsync()
-    {
-        return await IsSteamOSAsync(false);
-    }
+    public async Task<bool> IsSteamOSAsync() 
+        => await IsSteamOSAsync(false);
 
     /// <summary>
     /// Detects if a Linux distro is Steam OS.
@@ -131,12 +122,11 @@ public class SteamOsInfoProvider : ISteamOsInfoProvider
     public async Task<bool> IsSteamOSAsync(bool includeHoloIsoAsSteamOs)
     {
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) == false)
-        {
-            throw new PlatformNotSupportedException(Resources.Exceptions_PlatformNotSupported_LinuxOnly);
-        }
+            throw new PlatformNotSupportedException(
+                Resources.Exceptions_PlatformNotSupported_LinuxOnly);
 
         LinuxOsReleaseInfo distroInfo = await _linuxOsReleaseProvider.GetReleaseInfoAsync();
-        LinuxDistroBase distroBase = await _linuxOsReleaseProvider.GetDistroBaseAsync();
+        LinuxDistroBase distroBase = _linuxOsReleaseProvider.GetDistroBase(distroInfo);
 
         if (distroBase == LinuxDistroBase.Manjaro || distroBase == LinuxDistroBase.Arch)
         {
@@ -144,10 +134,8 @@ public class SteamOsInfoProvider : ISteamOsInfoProvider
                    distroInfo.PrettyName.ToLower().Contains("steamos");
         }
         if (distroBase == LinuxDistroBase.Debian && distroInfo.PrettyName.ToLower().Contains("steamos"))
-        {
             // ReSharper disable once DuplicatedStatements
             return false;
-        }
 
         //Fallback to false if it isn't detected as SteamOS.
         return false;
