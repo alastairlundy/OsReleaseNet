@@ -79,9 +79,8 @@ public class LinuxOsReleaseProvider : ILinuxOsReleaseProvider
     public async Task<LinuxOsReleaseInfo> GetReleaseInfoAsync()
     {
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) == false)
-        {
-            throw new PlatformNotSupportedException(Resources.Exceptions_PlatformNotSupported_LinuxOnly);
-        }
+            throw new PlatformNotSupportedException(
+                Resources.Exceptions_PlatformNotSupported_LinuxOnly);
 
 #if NET6_0_OR_GREATER
             string[] resultArray = await File.ReadAllLinesAsync("/etc/os-release");
