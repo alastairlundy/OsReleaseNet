@@ -15,6 +15,9 @@ namespace AlastairLundy.OsReleaseNet;
 /// </summary>
 public class LinuxOsReleaseInfo
 {
+    /// <summary>
+    /// 
+    /// </summary>
     internal LinuxOsReleaseInfo()
     {
         VersionId = string.Empty;
@@ -32,6 +35,20 @@ public class LinuxOsReleaseInfo
         IsLongTermSupportRelease = false;
     }
     
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="name"></param>
+    /// <param name="version"></param>
+    /// <param name="identifier"></param>
+    /// <param name="identifierLike"></param>
+    /// <param name="prettyName"></param>
+    /// <param name="versionId"></param>
+    /// <param name="versionCodeName"></param>
+    /// <param name="homeUrl"></param>
+    /// <param name="bugReportUrl"></param>
+    /// <param name="privacyPolicyUrl"></param>
+    /// <param name="supportUrl"></param>
     public LinuxOsReleaseInfo(string name, string version, string identifier, string identifierLike, string prettyName, string versionId, string versionCodeName, string homeUrl, string bugReportUrl, string privacyPolicyUrl, string supportUrl)
     {
         Name = name;
@@ -48,25 +65,62 @@ public class LinuxOsReleaseInfo
         IsLongTermSupportRelease = VersionId.ToLower().Contains("lts");
     }
     
+    /// <summary>
+    /// 
+    /// </summary>
     public bool IsLongTermSupportRelease { get; set; }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public string Name { get; set; }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public string Version { get; set; }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public string Identifier { get; set; }
 
     // ReSharper disable once InconsistentNaming
+    /// <summary>
+    /// 
+    /// </summary>
     public string Identifier_Like { get; set; }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public string PrettyName { get; set; }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public string VersionId { get; set; }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public string HomeUrl { get; set; }
+    
+    /// <summary>
+    /// 
+    /// </summary>
     public string SupportUrl { get; set; }
+    
+    /// <summary>
+    /// 
+    /// </summary>
     public string BugReportUrl { get; set; }
+    
+    /// <summary>
+    /// 
+    /// </summary>
     public string PrivacyPolicyUrl { get; set; }
 
+    ///   
     public string VersionCodename { get; set; }
 }
