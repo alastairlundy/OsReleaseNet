@@ -12,7 +12,6 @@ using System.Runtime.Versioning;
 #endif
 
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -50,12 +49,12 @@ public class LinuxOsReleaseProvider : ILinuxOsReleaseProvider
 #if NET6_0_OR_GREATER
         string[] resultArray = await File.ReadAllLinesAsync("/etc/os-release");
 #else
-        string[] resultArray = await Task.Run(() => File.ReadAllLines("/etc/os-release"));
+        string[] resultArray = await FilePolyfill.ReadAllLinesAsync("/etc/os-release");
 #endif
 
-        resultArray = RemoveUnwantedCharacters(resultArray).ToArray();
         
-        string? result = resultArray.FirstOrDefault(x => x.ToUpper()
+        string? result = RemoveUnwantedCharacters(resultArray)
+        .FirstOrDefault(x => x.ToUpper()
             .Contains(propertyName.ToUpper()));
 
         if (result is not null)
@@ -89,7 +88,7 @@ public class LinuxOsReleaseProvider : ILinuxOsReleaseProvider
 #endif
         
         LinuxOsReleaseInfo result = ParseOsReleaseInfo(
-            RemoveUnwantedCharacters(resultArray).ToArray());
+            RemoveUnwantedCharacters(resultArray));
 
         return await Task.FromResult(result);
     }
@@ -154,11 +153,11 @@ public class LinuxOsReleaseProvider : ILinuxOsReleaseProvider
     /// </summary>
     /// <param name="resultArray">The input array containing strings that need to be parsed for OS release information.</param>
     /// <returns>The extracted Linux OS release information.</returns>
-    private LinuxOsReleaseInfo ParseOsReleaseInfo(string[] resultArray)
+    private LinuxOsReleaseInfo ParseOsReleaseInfo(IEnumerable<string> results)
     {
         LinuxOsReleaseInfo linuxDistroInfo = new LinuxOsReleaseInfo();
         
-        foreach (string line in resultArray)
+        foreach (string line in results)
         {
             string lineUpper = line.ToUpper();
 
@@ -250,11 +249,11 @@ public class LinuxOsReleaseProvider : ILinuxOsReleaseProvider
     /// <returns>An array of strings with unwanted characters removed.</returns>
     private IEnumerable<string> RemoveUnwantedCharacters(string[] resultArray)
     {
-        IEnumerable<string> newResultArray = resultArray
+        IEnumerable<string> newResults = resultArray
             .Where(x => string.IsNullOrWhiteSpace(x) == false && x.Equals(string.Empty) == false)
             .Select(x => x.RemoveEscapeCharacters())
             .Select(x => x.Replace('"'.ToString(), string.Empty));
         
-        return newResultArray;
+        return newResults;
     }
 }
