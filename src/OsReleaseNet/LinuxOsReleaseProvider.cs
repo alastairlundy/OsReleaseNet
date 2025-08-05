@@ -150,94 +150,85 @@ public class LinuxOsReleaseProvider : ILinuxOsReleaseProvider
     private LinuxOsReleaseInfo ParseOsReleaseInfo(string[] resultArray)
     {
         LinuxOsReleaseInfo linuxDistroInfo = new LinuxOsReleaseInfo();
-            
-        for (int index = 0; index < resultArray.Length; index++)
+        
+        foreach (string line in resultArray)
         {
-            string line = resultArray[index].ToUpper();
+            string lineUpper = line.ToUpper();
 
-            if (line.Contains("NAME=") && !line.Contains("VERSION"))
+            if (lineUpper.Contains("NAME=") && !lineUpper.Contains("VERSION"))
             {
-
-                if (line.StartsWith("PRETTY_"))
+                if (lineUpper.StartsWith("PRETTY_"))
                 {
                     linuxDistroInfo.PrettyName =
-                        resultArray[index].Replace("PRETTY_NAME=", string.Empty);
+                        line.Replace("PRETTY_NAME=", string.Empty);
                 }
 
-                if (!line.Contains("PRETTY") && !line.Contains("CODE"))
+                if (!lineUpper.Contains("PRETTY") && !lineUpper.Contains("CODE"))
                 {
-                    linuxDistroInfo.Name = resultArray[index]
-                        .Replace("NAME=", string.Empty);
+                    linuxDistroInfo.Name = line.Replace("NAME=", string.Empty);
                 }
             }
 
-            if (line.Contains("VERSION="))
+            if (lineUpper.Contains("VERSION="))
             {
-                if (line.Contains("LTS"))
-                {
-                    linuxDistroInfo.IsLongTermSupportRelease = true;
-                }
-                else
-                {
-                    linuxDistroInfo.IsLongTermSupportRelease = false;
-                }
+                linuxDistroInfo.IsLongTermSupportRelease = lineUpper.Contains("LTS");
 
-                if (line.Contains("ID="))
+                if (lineUpper.Contains("ID="))
                 {
                     linuxDistroInfo.VersionId =
-                        resultArray[index].Replace("VERSION_ID=", string.Empty);
+                        line.Replace("VERSION_ID=", string.Empty);
                 }
-                else if (!line.Contains("ID=") && line.Contains("CODE"))
+                else if (!lineUpper.Contains("ID=") && lineUpper.Contains("CODE"))
                 {
                     linuxDistroInfo.VersionCodename =
-                        resultArray[index].Replace("VERSION_CODENAME=", string.Empty);
+                        line.Replace("VERSION_CODENAME=", string.Empty);
                 }
-                else if (!line.Contains("ID=") && !line.Contains("CODE"))
+                else if (!lineUpper.Contains("ID=") && !lineUpper.Contains("CODE"))
                 {
-                    linuxDistroInfo.Version = resultArray[index].Replace("VERSION=", string.Empty)
+                    linuxDistroInfo.Version = line.Replace("VERSION=", string.Empty)
                         .Replace("LTS", string.Empty);
                 }
             }
 
-            if (line.Contains("ID"))
+            if (lineUpper.Contains("ID"))
             {
-                if (line.Contains("ID_LIKE="))
+                if (lineUpper.Contains("ID_LIKE="))
                 {
                     linuxDistroInfo.Identifier_Like =
-                        resultArray[index].Replace("ID_LIKE=", string.Empty);
+                        line.Replace("ID_LIKE=", string.Empty);
 
                     if (linuxDistroInfo.Identifier_Like.ToLower().Contains("ubuntu") &&
                         linuxDistroInfo.Identifier_Like.ToLower().Contains("debian"))
                     {
-                        linuxDistroInfo.Identifier_Like = "ubuntu";
+                        linuxDistroInfo.Identifier_Like += $"{linuxDistroInfo}{Environment.NewLine}";
                     }
                 }
-                else if (!line.Contains("VERSION"))
+                else if (!lineUpper.Contains("VERSION"))
                 {
-                    linuxDistroInfo.Identifier = resultArray[index].Replace("ID=", string.Empty);
+                    linuxDistroInfo.Identifier = line.Replace("ID=", string.Empty);
                 }
             }
 
-            if (line.Contains("URL="))
+            if (lineUpper.Contains("URL="))
             {
-                if (line.StartsWith("HOME_"))
+                if (lineUpper.StartsWith("HOME_"))
                 {
-                    linuxDistroInfo.HomeUrl = resultArray[index].Replace("HOME_URL=", string.Empty);
+                    linuxDistroInfo.HomeUrl = line.Replace("HOME_URL=", string.Empty);
                 }
-                else if (line.StartsWith("SUPPORT_"))
+                else if (lineUpper.StartsWith("SUPPORT_"))
                 {
                     linuxDistroInfo.SupportUrl =
-                        resultArray[index].Replace("SUPPORT_URL=", string.Empty);
+                        line.Replace("SUPPORT_URL=", string.Empty);
                 }
-                else if (line.StartsWith("BUG_"))
+                else if (lineUpper.StartsWith("BUG_"))
                 {
                     linuxDistroInfo.BugReportUrl =
-                        resultArray[index].Replace("BUG_REPORT_URL=", string.Empty);
+                        line.Replace("BUG_REPORT_URL=", string.Empty);
                 }
-                else if (line.StartsWith("PRIVACY_"))
+                else if (lineUpper.StartsWith("PRIVACY_"))
                 {
                     linuxDistroInfo.PrivacyPolicyUrl =
-                        resultArray[index].Replace("PRIVACY_POLICY_URL=", string.Empty);
+                        line.Replace("PRIVACY_POLICY_URL=", string.Empty);
                 }
             }
         }
