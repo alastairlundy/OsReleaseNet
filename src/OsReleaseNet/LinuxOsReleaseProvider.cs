@@ -12,6 +12,7 @@ using System.Runtime.Versioning;
 #endif
 
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -151,7 +152,7 @@ public class LinuxOsReleaseProvider : ILinuxOsReleaseProvider
     /// <summary>
     /// Parses an array of strings to extract the Linux OS release information.
     /// </summary>
-    /// <param name="resultArray">The input array containing strings that need to be parsed for OS release information.</param>
+    /// <param name="results">The input array containing strings that need to be parsed for OS release information.</param>
     /// <returns>The extracted Linux OS release information.</returns>
     private LinuxOsReleaseInfo ParseOsReleaseInfo(IEnumerable<string> results)
     {
