@@ -53,10 +53,8 @@ public class SteamOsInfoProvider : ISteamOsInfoProvider
 #if NET5_0_OR_GREATER
     [SupportedOSPlatform("linux")]
 #endif
-    public async Task<SteamOSMode> GetSteamOSModeAsync()
-    {
-        return await GetSteamOSModeAsync(false);
-    }
+    public async Task<SteamOSMode> GetSteamOSModeAsync() 
+        => await GetSteamOSModeAsync(false);
     
     /// <summary>
     /// Detects whether a device running SteamOS 3.x is running in Desktop Mode or in Gaming Mode.
@@ -108,10 +106,8 @@ public class SteamOsInfoProvider : ISteamOsInfoProvider
 #if NET5_0_OR_GREATER
     [SupportedOSPlatform("linux")]
 #endif
-    public async Task<bool> IsSteamOSAsync()
-    {
-        return await IsSteamOSAsync(false);
-    }
+    public async Task<bool> IsSteamOSAsync() 
+        => await IsSteamOSAsync(false);
 
     /// <summary>
     /// Detects if a Linux distro is Steam OS.
