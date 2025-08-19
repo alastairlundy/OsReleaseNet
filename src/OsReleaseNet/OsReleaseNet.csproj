@@ -6,7 +6,7 @@
         <Nullable>enable</Nullable>
         <TargetFrameworks>net8.0;net9.0;</TargetFrameworks>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-        <Version>1.1.0</Version>
+        <Version>1.1.2</Version>
         <Title>AlastairLundy.OsReleaseNet</Title>
         <Authors>AlastairLundy</Authors>
         <Description>Linux OsRelease detection, SteamOS detection, and helpful detection code for Linux.</Description>
@@ -15,8 +15,12 @@
         <RepositoryType>git</RepositoryType>
         <PackageReleaseNotes>## Changes
 
-- Remove .NET Standard 2.1 TFM - Still supported implicitly by 2.0 TFM @alastairlundy (#9)
-- Bump AlastairLundy.DotExtensions from 7.5.1 to 7.6.0 @[dependabot[bot]](https://github.com/apps/dependabot) (#8)</PackageReleaseNotes>
+- Bump Polyfill from 8.7.3 to 8.8.0
+- Bump AlastairLundy.DotExtensions from 7.6.2 to 7.6.5
+
+## 🚀 Features
+
+- Improve Linux Os Release Parsing code performance @alastairlundy (#14)</PackageReleaseNotes>
         <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
         <PackageIcon>platformkit_logo_512x.jpg</PackageIcon>
         <PackageTags>os-release, linux,</PackageTags>
@@ -32,7 +36,7 @@
     </PropertyGroup>
     
     <ItemGroup>
-        <PackageReference Include="AlastairLundy.DotExtensions" Version="7.6.0" />
+        <PackageReference Include="AlastairLundy.DotExtensions" Version="7.6.5" />
     </ItemGroup>
 
     <ItemGroup>
