@@ -6,7 +6,7 @@
         <Nullable>enable</Nullable>
         <TargetFrameworks>net8.0;net9.0;netstandard2.0</TargetFrameworks>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-        <Version>1.1.1</Version>
+        <Version>1.1.2</Version>
         <Title>AlastairLundy.OsReleaseNet</Title>
         <Authors>AlastairLundy</Authors>
         <Description>Linux OsRelease detection, SteamOS detection, and helpful detection code for Linux.</Description>
@@ -14,8 +14,13 @@
         <RepositoryUrl>https://github.com/alastairlundy/OsReleaseNet</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
         <PackageReleaseNotes>## Changes
-- Improved performance of ``GetDistroBaseAsync`` method in some circumstances
-- Bump AlastairLundy.DotExtensions from 7.6.0 to 7.6.2 and Bump Polyfill from 8.7.3 to 8.7.4 @[dependabot[bot]](https://github.com/apps/dependabot) (#13)</PackageReleaseNotes>
+
+- Bump Polyfill from 8.7.3 to 8.8.0
+- Bump AlastairLundy.DotExtensions from 7.6.2 to 7.6.5
+
+## 🚀 Features
+
+- Improve Linux Os Release Parsing code performance @alastairlundy (#14)</PackageReleaseNotes>
         <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
         <PackageIcon>platformkit_logo_512x.jpg</PackageIcon>
         <PackageTags>os-release, linux,</PackageTags>
