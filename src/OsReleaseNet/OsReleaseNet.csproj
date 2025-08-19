@@ -4,7 +4,7 @@
         <LangVersion>13</LangVersion>
         <ImplicitUsings>disable</ImplicitUsings>
         <Nullable>enable</Nullable>
-        <TargetFrameworks>net8.0;net9.0;netstandard2.0</TargetFrameworks>
+        <TargetFrameworks>net8.0;net9.0;</TargetFrameworks>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Version>1.1.2</Version>
         <Title>AlastairLundy.OsReleaseNet</Title>
@@ -37,10 +37,6 @@
     
     <ItemGroup>
         <PackageReference Include="AlastairLundy.DotExtensions" Version="7.6.5" />
-    </ItemGroup>
-
-    <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
-        <PackageReference Include="Polyfill" Version="8.8.0" PrivateAssets="All" />
     </ItemGroup>
 
     <ItemGroup>

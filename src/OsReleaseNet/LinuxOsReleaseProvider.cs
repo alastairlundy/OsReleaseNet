@@ -7,10 +7,9 @@
     file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-#if NET5_0_OR_GREATER
 using System.Runtime.Versioning;
 using System.IO;
-#endif
+
 
 using System;
 using System.Collections.Generic;
@@ -38,26 +37,18 @@ public class LinuxOsReleaseProvider : ILinuxOsReleaseProvider
     /// <returns>The value of the specified property if found; a null string otherwise.</returns>
     /// <exception cref="PlatformNotSupportedException">Throw if run on an Operating System
     /// that isn't Linux-based.</exception>
-#if NET5_0_OR_GREATER
     [SupportedOSPlatform("linux")]
-#endif
     public async Task<string?> GetReleaseInfoPropertyValueAsync(string propertyName)
     {
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) == false)
             throw new PlatformNotSupportedException(Resources.
                 Exceptions_PlatformNotSupported_LinuxOnly);
             
-#if NET6_0_OR_GREATER
         string[] resultArray = await File.ReadAllLinesAsync("/etc/os-release");
-#else
-        string[] resultArray = await FilePolyfill.ReadAllLinesAsync("/etc/os-release");
-#endif
-
         
         string? result = RemoveUnwantedCharacters(resultArray)
-        .FirstOrDefault(x => x.ToUpper()
-            .Contains(propertyName.ToUpper()));
-
+        .FirstOrDefault(x => x.ToUpper().Contains(propertyName.ToUpper()));
+            
         if (result is not null)
         {
             result = result.Replace(propertyName, string.Empty)
@@ -73,21 +64,15 @@ public class LinuxOsReleaseProvider : ILinuxOsReleaseProvider
     /// <returns>The Linux OS release information.</returns>
     /// <exception cref="PlatformNotSupportedException">Throw if run on an Operating System
     /// that isn't Linux-based.</exception>
-#if NET5_0_OR_GREATER
     [SupportedOSPlatform("linux")]
-#endif
     public async Task<LinuxOsReleaseInfo> GetReleaseInfoAsync()
     {
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) == false)
             throw new PlatformNotSupportedException(
                 Resources.Exceptions_PlatformNotSupported_LinuxOnly);
 
-#if NET6_0_OR_GREATER
         string[] resultArray = await File.ReadAllLinesAsync("/etc/os-release");
-#else
-        string[] resultArray = await FilePolyfill.ReadAllLinesAsync("/etc/os-release");
-#endif
-        
+
         LinuxOsReleaseInfo result = ParseOsReleaseInfo(
             RemoveUnwantedCharacters(resultArray));
 
@@ -100,9 +85,7 @@ public class LinuxOsReleaseProvider : ILinuxOsReleaseProvider
     /// <returns>The base Linux distribution information.</returns>
     /// <exception cref="PlatformNotSupportedException">Throw if run on an Operating System
     /// that isn't Linux-based.</exception>
-#if NET5_0_OR_GREATER
     [SupportedOSPlatform("linux")]    
-#endif
     public async Task<LinuxDistroBase> GetDistroBaseAsync()
     {
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) == false)
@@ -129,9 +112,7 @@ public class LinuxOsReleaseProvider : ILinuxOsReleaseProvider
     /// <param name="osReleaseInfo">The LinuxOsReleaseInfo object to parse.</param>
     /// <returns>The detected LinuxDistroBase as an enum if successfully detected,
     /// the LinuxDistroBase.NotDetected enum value otherwise.</returns>
-#if NET5_0_OR_GREATER
-        [SupportedOSPlatform("linux")]
-#endif
+    [SupportedOSPlatform("linux")]
     public LinuxDistroBase GetDistroBase(LinuxOsReleaseInfo osReleaseInfo)
     {
         string identifierLike = osReleaseInfo.Identifier_Like.ToLower();
