@@ -18,7 +18,7 @@ public class FreeBsdReleaseInfo
         IsLongTermSupportRelease = false;
     }
     
-    public FreeBsdReleaseInfo(string name, string version, string identifier, string prettyName, string versionId, string versionCodeName, string homeUrl, string bugReportUrl, string privacyPolicyUrl, string supportUrl)
+    public FreeBsdReleaseInfo(string name, string version, string identifier, string prettyName, string versionId, string homeUrl, string bugReportUrl, string ansiColor, string cpeName)
     {
         Name = name;
         Version = version;
