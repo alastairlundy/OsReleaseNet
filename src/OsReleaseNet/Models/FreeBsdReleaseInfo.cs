@@ -38,7 +38,7 @@ public class FreeBsdReleaseInfo
     public string Name { get; set; }
 
     public string Version { get; set; }
-
+    
     public string Identifier { get; set; }
 
     public string PrettyName { get; set; }
@@ -46,9 +46,5 @@ public class FreeBsdReleaseInfo
     public string VersionId { get; set; }
 
     public string HomeUrl { get; set; }
-    public string SupportUrl { get; set; }
     public string BugReportUrl { get; set; }
-    public string PrivacyPolicyUrl { get; set; }
-
-    public string VersionCodename { get; set; }
 }

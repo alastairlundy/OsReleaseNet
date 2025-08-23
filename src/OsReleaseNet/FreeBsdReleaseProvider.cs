@@ -143,11 +143,6 @@ public class FreeBsdReleaseProvider : IFreeBsdReleaseProvider
                     freeBsdReleaseInfo.VersionId =
                         resultLine.Replace("VERSION_ID=", string.Empty);
                 }
-                else if (!line.Contains("ID=") && line.Contains("CODE"))
-                {
-                    freeBsdReleaseInfo.VersionCodename =
-                        resultLine.Replace("VERSION_CODENAME=", string.Empty);
-                }
                 else if (!line.Contains("ID=") && !line.Contains("CODE"))
                 {
                     freeBsdReleaseInfo.Version = resultLine.Replace("VERSION=", string.Empty)
@@ -169,21 +164,21 @@ public class FreeBsdReleaseProvider : IFreeBsdReleaseProvider
                 {
                     freeBsdReleaseInfo.HomeUrl = resultLine.Replace("HOME_URL=", string.Empty);
                 }
-                else if (line.StartsWith("SUPPORT_"))
+                /*else if (line.StartsWith("SUPPORT_"))
                 {
                     freeBsdReleaseInfo.SupportUrl =
                         resultLine.Replace("SUPPORT_URL=", string.Empty);
-                }
+                }*/
                 else if (line.StartsWith("BUG_"))
                 {
                     freeBsdReleaseInfo.BugReportUrl =
                         resultLine.Replace("BUG_REPORT_URL=", string.Empty);
                 }
-                else if (line.StartsWith("PRIVACY_"))
+                /*else if (line.StartsWith("PRIVACY_"))
                 {
                     freeBsdReleaseInfo.PrivacyPolicyUrl =
                         resultLine.Replace("PRIVACY_POLICY_URL=", string.Empty);
-                }
+                }*/
             }
         }
 
