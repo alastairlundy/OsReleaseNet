@@ -10,11 +10,8 @@ public class FreeBsdReleaseInfo
         Version = string.Empty;
         PrettyName = string.Empty;
         Version = string.Empty;
-        VersionCodename = string.Empty;
         HomeUrl = string.Empty;
-        SupportUrl = string.Empty;
         BugReportUrl = string.Empty;
-        PrivacyPolicyUrl = string.Empty;
         IsLongTermSupportRelease = false;
     }
     
@@ -25,11 +22,8 @@ public class FreeBsdReleaseInfo
         Identifier = identifier;
         PrettyName = prettyName;
         VersionId = versionId;
-        VersionCodename = versionCodeName;
         HomeUrl = homeUrl;
-        SupportUrl = supportUrl;
         BugReportUrl = bugReportUrl;
-        PrivacyPolicyUrl = privacyPolicyUrl;
         IsLongTermSupportRelease = VersionId.ToLower().Contains("lts");
     }
     
