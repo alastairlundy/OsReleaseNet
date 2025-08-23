@@ -4,7 +4,9 @@ public class FreeBsdReleaseInfo
 {
     internal FreeBsdReleaseInfo()
     {
+        AnsiColor = string.Empty;
         VersionId = string.Empty;
+        CpeName = string.Empty;
         Name = string.Empty;
         Identifier = string.Empty;
         Version = string.Empty;
@@ -24,11 +26,17 @@ public class FreeBsdReleaseInfo
         VersionId = versionId;
         HomeUrl = homeUrl;
         BugReportUrl = bugReportUrl;
+        AnsiColor = ansiColor;
+        CpeName = cpeName;
         IsLongTermSupportRelease = VersionId.ToLower().Contains("lts");
     }
     
     public bool IsLongTermSupportRelease { get; set; }
 
+    public string AnsiColor { get; set; }
+
+    public string CpeName { get; set; }
+    
     public string Name { get; set; }
 
     public string Version { get; set; }
