@@ -11,8 +11,6 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 
-using AlastairLundy.DotExtensions.Strings;
-
 using AlastairLundy.OsReleaseNet.Abstractions;
 
 using AlastairLundy.OsReleaseNet.Internal.Localizations;
@@ -89,10 +87,8 @@ public class FreeBsdReleaseProvider : IFreeBsdReleaseProvider
     /// <exception cref="InvalidOperationException">Thrown if the resultArray is null or empty.</exception>
     private string[] RemoveUnwantedCharacters(string[] resultArray)
     {
-        return resultArray
-            .Where(x => string.IsNullOrWhiteSpace(x) == false)
-            .Select(x => x.RemoveEscapeCharacters()
-                .Replace('"'.ToString(), string.Empty)
+        return resultArray.Where(x => string.IsNullOrWhiteSpace(x) == false)
+            .Select(x => x.Replace('"'.ToString(), string.Empty)
             )
             .ToArray();
     }
