@@ -107,9 +107,20 @@ public class FreeBsdReleaseProvider : IFreeBsdReleaseProvider
         {
             string line = resultLine.ToUpper();
 
+            if(line.Contains("ANSI_"))
+            {
+                if (line.StartsWith("ANSI_COLOR="))
+                {
+                    freeBsdReleaseInfo.AnsiColor = resultLine.Replace("ANSI_COLOR=", string.Empty);
+                }   
+            }
             if (line.Contains("NAME=") && !line.Contains("VERSION"))
             {
 
+                if (line.StartsWith("CPE_"))
+                {
+                    freeBsdReleaseInfo.CpeName = resultLine.Replace("CPE_NAME=", string.Empty);
+                }
                 if (line.StartsWith("PRETTY_"))
                 {
                     freeBsdReleaseInfo.PrettyName =
