@@ -17,11 +17,7 @@ using AlastairLundy.OsReleaseNet.Abstractions;
 
 using AlastairLundy.OsReleaseNet.Internal.Localizations;
 
-#if NETSTANDARD2_0
-using OperatingSystem = Polyfills.OperatingSystemPolyfill;
-#else
 using System.IO;
-#endif
 
 namespace AlastairLundy.OsReleaseNet;
 
