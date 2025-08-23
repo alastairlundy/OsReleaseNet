@@ -1,4 +1,4 @@
-# OsReleaseNet (formerly PlatformKit.Linux)
+# OsReleaseNet
 Linux OsRelease detection, SteamOS detection, and helpful detection code for Linux.
 
 [OsReleaseNet](https://www.nuget.org/packages/AlastairLundy.OsReleaseNet/) [![NuGet](https://img.shields.io/nuget/v/AlastairLundy.OsReleaseNet.svg)](https://www.nuget.org/packages/AlastairLundy.OsReleaseNet/)  [![NuGet](https://img.shields.io/nuget/dt/AlastairLundy.OsReleaseNet.svg)](https://www.nuget.org/packages/AlastairLundy.OsReleaseNet/)
@@ -27,8 +27,6 @@ OsReleaseNet can be installed via the .NET SDK CLI, Nuget via your IDE or code e
 OsReleaseNet supports:
 * .NET 8
 * .NET 9
-* .NET Standard 2.0
-* .NET Standard 2.1
 
 ## How to build the code
 To build the project in Debug mode run the following command: ``dotnet build -c Debug``.
@@ -50,7 +48,5 @@ If you'd like to contribute to the code, please fork the project, make your chan
 ## Credits/ Acknowledgements
 
 ### Projects
-This project would like to thank the following projects for their work:
-* [Polyfill](https://github.com/SimonCropp/Polyfill) for simplifying .NET Standard 2.0 & 2.1 support
 
 For more information, please see the [THIRD_PARTY_NOTICES file](https://github.com/alastairlundy/OsReleaseNet/blob/main/THIRD_PARTY_NOTICES.txt).

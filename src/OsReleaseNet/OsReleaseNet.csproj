@@ -4,9 +4,9 @@
         <LangVersion>13</LangVersion>
         <ImplicitUsings>disable</ImplicitUsings>
         <Nullable>enable</Nullable>
-        <TargetFrameworks>net8.0;net9.0;netstandard2.0</TargetFrameworks>
+        <TargetFrameworks>net8.0;net9.0;</TargetFrameworks>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-        <Version>1.0.3</Version>
+        <Version>1.1.2</Version>
         <Title>AlastairLundy.OsReleaseNet</Title>
         <Authors>AlastairLundy</Authors>
         <Description>Linux OsRelease detection, SteamOS detection, and helpful detection code for Linux.</Description>
@@ -15,12 +15,12 @@
         <RepositoryType>git</RepositoryType>
         <PackageReleaseNotes>## Changes
 
-- Bump AlastairLundy.DotExtensions from 7.5.0 to 7.5.1 @[dependabot[bot]](https://github.com/apps/dependabot) (#7)
-
+- Bump Polyfill from 8.7.3 to 8.8.0
+- Bump AlastairLundy.DotExtensions from 7.6.2 to 7.6.5
 
 ## 🚀 Features
 
-- Reduce dependence on Polyfill for Linux OsRelease code @alastairlundy (#3)</PackageReleaseNotes>
+- Improve Linux Os Release Parsing code performance @alastairlundy (#14)</PackageReleaseNotes>
         <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
         <PackageIcon>platformkit_logo_512x.jpg</PackageIcon>
         <PackageTags>os-release, linux,</PackageTags>
@@ -36,11 +36,7 @@
     </PropertyGroup>
     
     <ItemGroup>
-        <PackageReference Include="AlastairLundy.DotExtensions" Version="7.5.1" />
-    </ItemGroup>
-
-    <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0' OR '$(TargetFramework)' == 'netstandard2.1'">
-        <PackageReference Include="Polyfill" Version="8.7.3" PrivateAssets="All" />
+        <PackageReference Include="AlastairLundy.DotExtensions" Version="8.2.0" />
     </ItemGroup>
 
     <ItemGroup>

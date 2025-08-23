@@ -18,9 +18,7 @@ using AlastairLundy.OsReleaseNet.Abstractions;
 
 using AlastairLundy.OsReleaseNet.Internal.Localizations;
 
-#if NET5_0_OR_GREATER
 using System.Runtime.Versioning;
-#endif
 
 namespace AlastairLundy.OsReleaseNet;
 
@@ -50,13 +48,9 @@ public class SteamOsInfoProvider : ISteamOsInfoProvider
     /// <returns>the SteamOS mode being run if run on SteamOS.</returns>
     /// <exception cref="ArgumentException">Thrown if Holo ISO is detected and if Holo ISO isn't counted as SteamOS.</exception>
     /// <exception cref="PlatformNotSupportedException">Throw if run on an Operating System that isn't SteamOS 3 or newer</exception>
-#if NET5_0_OR_GREATER
     [SupportedOSPlatform("linux")]
-#endif
-    public async Task<SteamOSMode> GetSteamOSModeAsync()
-    {
-        return await GetSteamOSModeAsync(false);
-    }
+    public async Task<SteamOSMode> GetSteamOSModeAsync() 
+        => await GetSteamOSModeAsync(false);
     
     /// <summary>
     /// Detects whether a device running SteamOS 3.x is running in Desktop Mode or in Gaming Mode.
@@ -65,17 +59,14 @@ public class SteamOsInfoProvider : ISteamOsInfoProvider
     /// <returns>the SteamOS mode being run if run on SteamOS.</returns>
     /// <exception cref="ArgumentException">Thrown if Holo ISO is detected and if Holo ISO isn't counted as SteamOS.</exception>
     /// <exception cref="PlatformNotSupportedException">Throw if run on an Operating System that isn't SteamOS 3 or newer</exception>
-#if NET5_0_OR_GREATER
     [SupportedOSPlatform("linux")]
-#endif
     public async Task<SteamOSMode> GetSteamOSModeAsync(bool includeHoloIsoAsSteamOs)
     {
         bool isSteamOs = await IsSteamOSAsync(includeHoloIsoAsSteamOs);
         
         if (isSteamOs == false)
-        {
-            throw new PlatformNotSupportedException(Resources.Exceptions_PlatformNotSupported_LinuxOnly);    
-        }
+            throw new PlatformNotSupportedException(
+                Resources.Exceptions_PlatformNotSupported_LinuxOnly);
         
         LinuxDistroBase distroBase = await _linuxOsReleaseProvider.GetDistroBaseAsync();
 
@@ -87,8 +78,6 @@ public class SteamOsInfoProvider : ISteamOsInfoProvider
             {
                 return SteamOSMode.DesktopMode;
             }
-
-            return SteamOSMode.NotSteamOS;
         }
 
         if (distroBase == LinuxDistroBase.Arch)
@@ -97,8 +86,6 @@ public class SteamOsInfoProvider : ISteamOsInfoProvider
             {
                 return SteamOSMode.GamingMode;
             }
-
-            return SteamOSMode.NotSteamOS;
         }
 
         return SteamOSMode.NotSteamOS;
@@ -110,13 +97,9 @@ public class SteamOsInfoProvider : ISteamOsInfoProvider
     /// <returns>true if running on a SteamOS 3.x based distribution, returns false otherwise.</returns>
     /// <exception cref="PlatformNotSupportedException">Thrown if not run on a Linux-based Operating System.</exception>
     // ReSharper disable once InconsistentNaming
-#if NET5_0_OR_GREATER
     [SupportedOSPlatform("linux")]
-#endif
-    public async Task<bool> IsSteamOSAsync()
-    {
-        return await IsSteamOSAsync(false);
-    }
+    public async Task<bool> IsSteamOSAsync() 
+        => await IsSteamOSAsync(false);
 
     /// <summary>
     /// Detects if a Linux distro is Steam OS.
@@ -125,18 +108,15 @@ public class SteamOsInfoProvider : ISteamOsInfoProvider
     /// <returns>true if running on a SteamOS 3.x based distribution, returns false otherwise.</returns>
     /// <exception cref="PlatformNotSupportedException">Thrown if not run on a Linux-based Operating System.</exception>
     // ReSharper disable once InconsistentNaming
-#if NET5_0_OR_GREATER
     [SupportedOSPlatform("linux")]
-#endif
     public async Task<bool> IsSteamOSAsync(bool includeHoloIsoAsSteamOs)
     {
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) == false)
-        {
-            throw new PlatformNotSupportedException(Resources.Exceptions_PlatformNotSupported_LinuxOnly);
-        }
+            throw new PlatformNotSupportedException(
+                Resources.Exceptions_PlatformNotSupported_LinuxOnly);
 
         LinuxOsReleaseInfo distroInfo = await _linuxOsReleaseProvider.GetReleaseInfoAsync();
-        LinuxDistroBase distroBase = await _linuxOsReleaseProvider.GetDistroBaseAsync();
+        LinuxDistroBase distroBase = _linuxOsReleaseProvider.GetDistroBase(distroInfo);
 
         if (distroBase == LinuxDistroBase.Manjaro || distroBase == LinuxDistroBase.Arch)
         {
@@ -144,10 +124,8 @@ public class SteamOsInfoProvider : ISteamOsInfoProvider
                    distroInfo.PrettyName.ToLower().Contains("steamos");
         }
         if (distroBase == LinuxDistroBase.Debian && distroInfo.PrettyName.ToLower().Contains("steamos"))
-        {
             // ReSharper disable once DuplicatedStatements
             return false;
-        }
 
         //Fallback to false if it isn't detected as SteamOS.
         return false;
