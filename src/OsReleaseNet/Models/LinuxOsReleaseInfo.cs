@@ -13,8 +13,10 @@ namespace AlastairLundy.OsReleaseNet;
 /// <summary>
 /// Represents a Linux Distribution's OsRelease file and information contained therein.
 /// </summary>
+/// <remarks>All trademarks mentioned belong to their respective owners.</remarks>
 public class LinuxOsReleaseInfo
 {
+    
     /// <summary>
     /// 
     /// </summary>
@@ -71,56 +73,59 @@ public class LinuxOsReleaseInfo
     public bool IsLongTermSupportRelease { get; set; }
 
     /// <summary>
-    /// 
+    /// The name of the Linux Distribution.
     /// </summary>
     public string Name { get; set; }
 
     /// <summary>
-    /// 
+    /// The distribution display version. 
     /// </summary>
+    /// <remarks>This string should not be parsed into a <see cref="Version"/> object as it may contain a version number and version name. Use <see cref="VersionId"/> instead.</remarks>
     public string Version { get; set; }
 
     /// <summary>
-    /// 
+    /// The linux distribution's identifier.
     /// </summary>
     public string Identifier { get; set; }
 
     // ReSharper disable once InconsistentNaming
     /// <summary>
-    /// 
+    /// A list of distribution identifiers that the distribution has self identified as being based on.
     /// </summary>
     public string Identifier_Like { get; set; }
 
     /// <summary>
-    /// 
+    /// The pretty name/display name for the Linux distribution.
     /// </summary>
     public string PrettyName { get; set; }
 
     /// <summary>
-    /// 
+    /// The distribution's version number.
     /// </summary>
     public string VersionId { get; set; }
 
     /// <summary>
-    /// 
+    /// The distribution's homepage/website.
     /// </summary>
     public string HomeUrl { get; set; }
     
     /// <summary>
-    /// 
+    /// The distribution's support website url (if provided).
     /// </summary>
     public string SupportUrl { get; set; }
     
     /// <summary>
-    /// 
+    /// The distribution's bug reporting website url (if provided).
     /// </summary>
     public string BugReportUrl { get; set; }
     
     /// <summary>
-    /// 
+    /// The distribution's privacy policy url (if provided).
     /// </summary>
     public string PrivacyPolicyUrl { get; set; }
 
-    ///   
+    /// <summary>
+    /// The distribution version codename (if specified).
+    /// </summary>
     public string VersionCodename { get; set; }
 }
