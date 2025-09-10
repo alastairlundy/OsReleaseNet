@@ -49,9 +49,7 @@ public class FreeBsdReleaseProvider : IFreeBsdReleaseProvider
     public async Task<string?> GetReleaseInfoPropertyValueAsync(string propertyName)
     {
         if (OperatingSystem.IsFreeBSD() == false)
-        {
             throw new PlatformNotSupportedException(Resources.Exceptions_PlatformNotSupported_FreeBsdOnly);
-        }
             
         string[] resultArray = await File.ReadAllLinesAsync("/etc/os-release");
         
@@ -77,9 +75,7 @@ public class FreeBsdReleaseProvider : IFreeBsdReleaseProvider
     public async Task<FreeBsdReleaseInfo> GetReleaseInfoAsync()
     {
         if (OperatingSystem.IsFreeBSD() == false)
-        {
             throw new PlatformNotSupportedException(Resources.Exceptions_PlatformNotSupported_FreeBsdOnly);
-        }
 
         string[] resultArray = await File.ReadAllLinesAsync("/etc/os-release");
         
