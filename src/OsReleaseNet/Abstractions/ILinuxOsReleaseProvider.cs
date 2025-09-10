@@ -13,9 +13,8 @@ using System.Threading.Tasks;
 namespace AlastairLundy.OsReleaseNet.Abstractions;
 
 /// <summary>
-/// Defines an interface for retrieving information about a Linux operating system.
+/// An interface for retrieving information about a Linux operating system.
 /// </summary>
-[SupportedOSPlatform("linux")]
 public interface ILinuxOsReleaseProvider
 {
     /// <summary>

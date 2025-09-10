@@ -18,18 +18,18 @@ using AlastairLundy.OsReleaseNet.Internal.Localizations;
 namespace AlastairLundy.OsReleaseNet.Parsers;
 
 /// <summary>
-/// 
+/// A class to parse the contents of a FreeBSD OsRelease file.
 /// </summary>
 public class FreeBsdOsReleaseParser : IFreeBsdOsReleaseParser
 {
     
     /// <summary>
-    /// 
+    /// Parses the contents of a FreeBSD OsRelease file.
     /// </summary>
-    /// <param name="fileContents"></param>
-    /// <returns></returns>
-    /// <exception cref="PlatformNotSupportedException">Thrown if run on a operating system that is not FreeBSD based.</exception>
-    /// <exception cref="ArgumentException"></exception>
+    /// <param name="fileContents">The FreeBSD OsRelease file contents.</param>
+    /// <returns>The parsed FreeBSD OsRelease file contents as a FreeBsdReleaseInfo object.</returns>
+    /// <exception cref="PlatformNotSupportedException">Thrown if run on an operating system that is not FreeBSD based.</exception>
+    /// <exception cref="ArgumentException">Thrown if the string array provided hasn't come from an os-release file.</exception>
     [SupportedOSPlatform("freebsd")]
     public FreeBsdOsReleaseInfo ParseFreeBsdRelease(string[] fileContents)
     {

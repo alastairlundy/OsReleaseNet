@@ -9,7 +9,7 @@
 
 using System;
 using System.Linq;
-
+using System.Runtime.Versioning;
 using AlastairLundy.DotExtensions.Strings;
 
 using AlastairLundy.OsReleaseNet.Abstractions.Parsers;
@@ -19,18 +19,19 @@ using AlastairLundy.OsReleaseNet.Internal.Localizations;
 namespace AlastairLundy.OsReleaseNet.Parsers;
 
 /// <summary>
-/// 
+/// A class to parse the contents of a Linux OsRelease file.
 /// </summary>
 public class LinuxOsReleaseParser : ILinuxOsReleaseParser
 {
     
     /// <summary>
-    /// 
+    /// Parses the contents of a Linux OsRelease file.
     /// </summary>
-    /// <param name="fileContents"></param>
-    /// <returns></returns>
-    /// <exception cref="PlatformNotSupportedException"></exception>
-    /// <exception cref="ArgumentException"></exception>
+    /// <param name="fileContents">The Linux OsRelease file contents.</param>
+    /// <returns>The parsed Linux OsRelease file contents as a LinuxOsReleaseInfo object.</returns>
+    /// <exception cref="PlatformNotSupportedException">Thrown if run on an operating system that is not Linux based.</exception>
+    /// <exception cref="ArgumentException">Thrown if the string array provided hasn't come from an os-release file.</exception>
+    [SupportedOSPlatform("linux")]
     public LinuxOsReleaseInfo ParseLinuxOsRelease(string[] fileContents)
     {
         if (OperatingSystem.IsLinux() == false)

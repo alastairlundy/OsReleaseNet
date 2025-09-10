@@ -12,15 +12,15 @@ using System.Runtime.Versioning;
 namespace AlastairLundy.OsReleaseNet.Abstractions.Parsers;
 
 /// <summary>
-/// 
+/// An interface for parsing the contents of a Linux OsRelease file.
 /// </summary>
 public interface ILinuxOsReleaseParser
 {
     /// <summary>
-    /// 
+    /// Parses the contents of a Linux OsRelease file.
     /// </summary>
-    /// <param name="fileContents"></param>
-    /// <returns></returns>
+    /// <param name="fileContents">The Linux OsRelease file contents.</param>
+    /// <returns>The parsed Linux OsRelease file contents as a LinuxOsReleaseInfo object.</returns>
     [SupportedOSPlatform("linux")]
     LinuxOsReleaseInfo ParseLinuxOsRelease(string[] fileContents);
 }

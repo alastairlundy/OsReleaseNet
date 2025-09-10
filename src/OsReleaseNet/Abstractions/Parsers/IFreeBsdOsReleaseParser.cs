@@ -12,15 +12,15 @@ using System.Runtime.Versioning;
 namespace AlastairLundy.OsReleaseNet.Abstractions.Parsers;
 
 /// <summary>
-/// 
+/// An interface for parsing the contents of a FreeBSD OsRelease file.
 /// </summary>
 public interface IFreeBsdOsReleaseParser
 {
     /// <summary>
-    /// 
+    /// Parses the contents of a FreeBSD OsRelease file.
     /// </summary>
-    /// <param name="fileContents"></param>
-    /// <returns></returns>
+    /// <param name="fileContents">The FreeBSD OsRelease file contents.</param>
+    /// <returns>The parsed FreeBSD OsRelease file contents as a FreeBsdReleaseInfo object.</returns>
     [SupportedOSPlatform("freebsd")]
     FreeBsdOsReleaseInfo ParseFreeBsdRelease(string[] fileContents);
 }

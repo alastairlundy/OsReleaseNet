@@ -24,12 +24,16 @@ using AlastairLundy.OsReleaseNet.Internal.Localizations;
 namespace AlastairLundy.OsReleaseNet;
 
 /// <summary>
-/// Provides information about the current Linux OS Release.
+/// A class that provides information about the current Linux OS Release.
 /// </summary>
 public class LinuxOsReleaseProvider : ILinuxOsReleaseProvider
 {
     private readonly ILinuxOsReleaseParser _linuxOsReleaseParser;
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="linuxOsReleaseParser"></param>
     public LinuxOsReleaseProvider(ILinuxOsReleaseParser linuxOsReleaseParser)
     {
         _linuxOsReleaseParser = linuxOsReleaseParser;

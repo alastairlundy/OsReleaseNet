@@ -16,7 +16,7 @@ using System.Threading.Tasks;
 namespace AlastairLundy.OsReleaseNet.Abstractions;
 
 /// <summary>
-/// 
+/// An interface for retrieving information about a SteamOS based operating system.
 /// </summary>
 public interface ISteamOsInfoProvider
 {
