@@ -23,9 +23,9 @@ using AlastairLundy.OsReleaseNet.Helpers;
 namespace AlastairLundy.OsReleaseNet;
 
 /// <summary>
-/// 
+/// A class that provides information about the current FreeBSD operating system.
 /// </summary>
-public class FreeBsdReleaseProvider : IFreeBsdReleaseProvider
+public class FreeBsdOsReleaseProvider : IFreeBsdOsReleaseProvider
 {
     private readonly IFreeBsdOsReleaseParser _freeBsdOsReleaseParser;
 
@@ -33,7 +33,7 @@ public class FreeBsdReleaseProvider : IFreeBsdReleaseProvider
     /// 
     /// </summary>
     /// <param name="freeBsdOsReleaseParser"></param>
-    public FreeBsdReleaseProvider(IFreeBsdOsReleaseParser freeBsdOsReleaseParser)
+    public FreeBsdOsReleaseProvider(IFreeBsdOsReleaseParser freeBsdOsReleaseParser)
     {
         _freeBsdOsReleaseParser = freeBsdOsReleaseParser;
     }

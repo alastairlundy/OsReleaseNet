@@ -14,9 +14,9 @@ namespace AlastairLundy.OsReleaseNet.Abstractions;
 using System.Runtime.Versioning;
 
 /// <summary>
-/// /
+/// An interface for retrieving information about a FreeBSD operating system.
 /// </summary>
-public interface IFreeBsdReleaseProvider
+public interface IFreeBsdOsReleaseProvider
 {
     /// <summary>
     /// Retrieves the value of the specified property from the current system.
