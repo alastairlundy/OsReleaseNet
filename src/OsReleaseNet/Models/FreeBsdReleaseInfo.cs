@@ -42,7 +42,8 @@ public class FreeBsdReleaseInfo
     /// <param name="bugReportUrl"></param>
     /// <param name="ansiColor"></param>
     /// <param name="cpeName"></param>
-    public FreeBsdReleaseInfo(string name, string version, string identifier, string prettyName, string versionId, string homeUrl, string bugReportUrl, string ansiColor, string cpeName)
+    public FreeBsdReleaseInfo(string name, string version, string identifier, string prettyName, string versionId,
+        string homeUrl, string bugReportUrl, string ansiColor, string cpeName)
     {
         Name = name;
         Version = version;
@@ -67,7 +68,8 @@ public class FreeBsdReleaseInfo
     /// <summary>
     /// The FreeBSD distribution display version. 
     /// </summary>
-    /// <remarks>This string should not be parsed into a <see cref="Version"/> object as it may contain a version number and version name. Use <see cref="VersionId"/> instead.</remarks>
+    /// <remarks>This string should not be parsed into a <see cref="Version"/> object
+    /// as it may contain a version number and version name. Use <see cref="VersionId"/> instead.</remarks>
     public string Version { get; set; }
 
     /// <summary>
