@@ -11,10 +11,11 @@ using System.Threading.Tasks;
 
 namespace AlastairLundy.OsReleaseNet.Abstractions;
 
-#if NET5_0_OR_GREATER
 using System.Runtime.Versioning;
-#endif
 
+/// <summary>
+/// /
+/// </summary>
 public interface IFreeBsdReleaseProvider
 {
     /// <summary>
@@ -22,17 +23,13 @@ public interface IFreeBsdReleaseProvider
     /// </summary>
     /// <param name="propertyName">The name of the property to retrieve.</param>
     /// <returns>The value of the specified property as a string.</returns>
-#if NET5_0_OR_GREATER
-    [SupportedOSPlatform("linux")]
-#endif
+    [SupportedOSPlatform("freebsd")]
     Task<string?> GetReleaseInfoPropertyValueAsync(string propertyName);
     
     /// <summary>
     /// Retrieves information about the current FreeBSD operating system release.
     /// </summary>
     /// <returns>An object containing information about the FreeBSD operating system release.</returns>
-#if NET5_0_OR_GREATER
-    [SupportedOSPlatform("linux")]
-#endif
+    [SupportedOSPlatform("freebsd")]
     Task<FreeBsdReleaseInfo> GetReleaseInfoAsync();
 }

@@ -8,7 +8,6 @@
  */
 
 using System.Runtime.Versioning;
-
 using System.Threading.Tasks;
 
 namespace AlastairLundy.OsReleaseNet.Abstractions;
@@ -19,35 +18,33 @@ namespace AlastairLundy.OsReleaseNet.Abstractions;
 [SupportedOSPlatform("linux")]
 public interface ILinuxOsReleaseProvider
 {
-    
-        /// <summary>
-        /// Retrieves the value of the specified property from the current system.
-        /// </summary>
-        /// <param name="propertyName">The name of the property to retrieve.</param>
-        /// <returns>The value of the specified property as a string.</returns>
-        [SupportedOSPlatform("linux")]
-        Task<string?> GetReleaseInfoPropertyValueAsync(string propertyName);
+    /// <summary>
+    /// Retrieves the value of the specified property from the current system.
+    /// </summary>
+    /// <param name="propertyName">The name of the property to retrieve.</param>
+    /// <returns>The value of the specified property as a string.</returns>
+    [SupportedOSPlatform("linux")]
+    Task<string?> GetReleaseInfoPropertyValueAsync(string propertyName);
 
-        /// <summary>
-        /// Retrieves information about the current Linux operating system release.
-        /// </summary>
-        /// <returns>An object containing information about the Linux operating system release.</returns>
-        [SupportedOSPlatform("linux")]
-        Task<LinuxOsReleaseInfo> GetReleaseInfoAsync();
-    
-        /// <summary>
-        /// Retrieves information about the base distribution of the current Linux operating system.
-        /// </summary>
-        /// <returns>The base distribution of the Linux operating system.</returns>
-        [SupportedOSPlatform("linux")]
-        Task<LinuxDistroBase> GetDistroBaseAsync();
+    /// <summary>
+    /// Retrieves information about the current Linux operating system release.
+    /// </summary>
+    /// <returns>An object containing information about the Linux operating system release.</returns>
+    [SupportedOSPlatform("linux")]
+    Task<LinuxOsReleaseInfo> GetReleaseInfoAsync();
 
-        /// <summary>
-        /// Retrieves information about the base distribution of the <see cref="LinuxOsReleaseInfo"/>.
-        /// </summary>
-        /// <param name="osReleaseInfo"></param>
-        /// <returns>The base distribution of the Linux operating system.</returns>
-        [SupportedOSPlatform("linux")]
-        LinuxDistroBase GetDistroBase(LinuxOsReleaseInfo osReleaseInfo);
+    /// <summary>
+    /// Retrieves information about the base distribution of the current Linux operating system.
+    /// </summary>
+    /// <returns>The base distribution of the Linux operating system.</returns>
+    [SupportedOSPlatform("linux")]
+    Task<LinuxDistroBase> GetDistroBaseAsync();
 
+    /// <summary>
+    /// Retrieves information about the base distribution of the <see cref="LinuxOsReleaseInfo"/>.
+    /// </summary>
+    /// <param name="osReleaseInfo"></param>
+    /// <returns>The base distribution of the Linux operating system.</returns>
+    [SupportedOSPlatform("linux")]
+    LinuxDistroBase GetDistroBase(LinuxOsReleaseInfo osReleaseInfo);
 }
