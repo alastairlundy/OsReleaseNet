@@ -76,7 +76,8 @@ public class LinuxOsReleaseInfo
     /// <summary>
     /// The distribution display version. 
     /// </summary>
-    /// <remarks>This string should not be parsed into a <see cref="Version"/> object as it may contain a version number and version name. Use <see cref="VersionId"/> instead.</remarks>
+    /// <remarks>This string should not be parsed into a <see cref="Version"/> object as it
+    /// may contain a version number and version name. Use <see cref="VersionId"/> instead.</remarks>
     public string Version { get; set; }
 
     /// <summary>
