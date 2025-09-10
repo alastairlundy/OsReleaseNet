@@ -8,6 +8,7 @@
  */
 
 // ReSharper disable once CheckNamespace
+// ReSharper disable UnusedAutoPropertyAccessor.Global
 namespace AlastairLundy.OsReleaseNet;
 
 /// <summary>
