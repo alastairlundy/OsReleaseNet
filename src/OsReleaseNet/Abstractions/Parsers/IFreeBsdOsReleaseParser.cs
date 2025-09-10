@@ -22,5 +22,5 @@ public interface IFreeBsdOsReleaseParser
     /// <param name="fileContents"></param>
     /// <returns></returns>
     [SupportedOSPlatform("freebsd")]
-    FreeBsdReleaseInfo ParseFreeBsdRelease(string[] fileContents);
+    FreeBsdOsReleaseInfo ParseFreeBsdRelease(string[] fileContents);
 }

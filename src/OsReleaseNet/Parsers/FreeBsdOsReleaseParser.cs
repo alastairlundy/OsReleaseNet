@@ -31,7 +31,7 @@ public class FreeBsdOsReleaseParser : IFreeBsdOsReleaseParser
     /// <exception cref="PlatformNotSupportedException">Thrown if run on a operating system that is not FreeBSD based.</exception>
     /// <exception cref="ArgumentException"></exception>
     [SupportedOSPlatform("freebsd")]
-    public FreeBsdReleaseInfo ParseFreeBsdRelease(string[] fileContents)
+    public FreeBsdOsReleaseInfo ParseFreeBsdRelease(string[] fileContents)
     {
         if (OperatingSystem.IsFreeBSD() == false)
             throw new PlatformNotSupportedException(Resources.Exceptions_PlatformNotSupported_FreeBsdOnly);
@@ -39,7 +39,7 @@ public class FreeBsdOsReleaseParser : IFreeBsdOsReleaseParser
         if (fileContents.Any(x => x.ToLower().Contains("id=")) == false)
             throw new ArgumentException(Resources.Exceptions_Arguments_NotOsReleaseContents);
         
-        FreeBsdReleaseInfo freeBsdReleaseInfo = new FreeBsdReleaseInfo();
+        FreeBsdOsReleaseInfo freeBsdReleaseInfo = new FreeBsdOsReleaseInfo();
             
         fileContents = ParserHelper.RemoveUnwantedCharacters(fileContents).ToArray();
         

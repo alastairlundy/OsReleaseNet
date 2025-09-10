@@ -31,5 +31,5 @@ public interface IFreeBsdReleaseProvider
     /// </summary>
     /// <returns>An object containing information about the FreeBSD operating system release.</returns>
     [SupportedOSPlatform("freebsd")]
-    Task<FreeBsdReleaseInfo> GetReleaseInfoAsync();
+    Task<FreeBsdOsReleaseInfo> GetReleaseInfoAsync();
 }

@@ -14,9 +14,9 @@ namespace AlastairLundy.OsReleaseNet;
 /// Represents a FreeBSD Distribution's OsRelease file and information contained therein.
 /// </summary>
 /// <remarks>All trademarks mentioned belong to their respective owners.</remarks>
-public class FreeBsdReleaseInfo
+public class FreeBsdOsReleaseInfo
 {
-    internal FreeBsdReleaseInfo()
+    internal FreeBsdOsReleaseInfo()
     {
         AnsiColor = string.Empty;
         VersionId = string.Empty;
@@ -42,7 +42,7 @@ public class FreeBsdReleaseInfo
     /// <param name="bugReportUrl"></param>
     /// <param name="ansiColor"></param>
     /// <param name="cpeName"></param>
-    public FreeBsdReleaseInfo(string name, string version, string identifier, string prettyName, string versionId,
+    public FreeBsdOsReleaseInfo(string name, string version, string identifier, string prettyName, string versionId,
         string homeUrl, string bugReportUrl, string ansiColor, string cpeName)
     {
         Name = name;

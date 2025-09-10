@@ -72,7 +72,7 @@ public class FreeBsdReleaseProvider : IFreeBsdReleaseProvider
     /// <exception cref="PlatformNotSupportedException">Throw if run on an Operating System
     /// that isn't FreeBSD-based.</exception>
     [SupportedOSPlatform("freebsd")]
-    public async Task<FreeBsdReleaseInfo> GetReleaseInfoAsync()
+    public async Task<FreeBsdOsReleaseInfo> GetReleaseInfoAsync()
     {
         if (OperatingSystem.IsFreeBSD() == false)
             throw new PlatformNotSupportedException(Resources.Exceptions_PlatformNotSupported_FreeBsdOnly);
