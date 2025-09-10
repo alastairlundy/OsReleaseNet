@@ -25,44 +25,46 @@ public class LinuxOsReleaseInfo
         VersionId = string.Empty;
         Name = string.Empty;
         Identifier = string.Empty;
-        Identifier_Like = string.Empty;
+        IdentifierLike = [];
         Version = string.Empty;
         PrettyName = string.Empty;
         Version = string.Empty;
         VersionCodename = string.Empty;
         HomeUrl = string.Empty;
         SupportUrl = string.Empty;
-        BugReportUrl = string.Empty;
+        BugReportUrl = string.Empty;    
         PrivacyPolicyUrl = string.Empty;
     }
     
     /// <summary>
-    /// 
+    /// Instantiates the LinuxOsReleaseInfo object.
     /// </summary>
-    /// <param name="name"></param>
-    /// <param name="version"></param>
-    /// <param name="identifier"></param>
-    /// <param name="identifierLike"></param>
-    /// <param name="prettyName"></param>
-    /// <param name="versionId"></param>
-    /// <param name="versionCodeName"></param>
-    /// <param name="homeUrl"></param>
-    /// <param name="bugReportUrl"></param>
-    /// <param name="privacyPolicyUrl"></param>
-    /// <param name="supportUrl"></param>
-    public LinuxOsReleaseInfo(string name, string version, string identifier, string identifierLike, string prettyName, string versionId, string versionCodeName, string homeUrl, string bugReportUrl, string privacyPolicyUrl, string supportUrl)
+    /// <param name="name">The name of the distribution.</param>
+    /// <param name="version">The distribution display version.</param>
+    /// <param name="identifier">The linux distribution's identifier.</param>
+    /// <param name="identifierLike">A list of distribution identifiers that the distribution has self identified as being based on.</param>
+    /// <param name="prettyName">The pretty name/display name for the Linux distribution.</param>
+    /// <param name="versionId">The distribution's version number.</param>
+    /// <param name="versionCodeName">The distribution version codename (if specified).</param>
+    /// <param name="homeUrl">The distribution's homepage/website.</param>
+    /// <param name="bugReportUrl">The distribution's bug reporting website url (if provided).</param>
+    /// <param name="privacyPolicyUrl">The distribution's privacy policy url (if provided).</param>
+    /// <param name="supportUrl">The distribution's support website url (if provided).</param>
+    public LinuxOsReleaseInfo(string name, string version, string identifier, string[] identifierLike,
+        string prettyName, string versionId, string versionCodeName, string? homeUrl = null, string? bugReportUrl = null,
+        string? privacyPolicyUrl = null, string? supportUrl = null)
     {
         Name = name;
         Version = version;
         Identifier = identifier;
-        Identifier_Like = identifierLike;
+        IdentifierLike = identifierLike;
         PrettyName = prettyName;
         VersionId = versionId;
         VersionCodename = versionCodeName;
-        HomeUrl = homeUrl;
-        SupportUrl = supportUrl;
-        BugReportUrl = bugReportUrl;
-        PrivacyPolicyUrl = privacyPolicyUrl;
+        HomeUrl = homeUrl ?? string.Empty;
+        SupportUrl = supportUrl ?? string.Empty;
+        BugReportUrl = bugReportUrl ?? string.Empty;
+        PrivacyPolicyUrl = privacyPolicyUrl ?? string.Empty;
     }
 
     /// <summary>
@@ -85,7 +87,7 @@ public class LinuxOsReleaseInfo
     /// <summary>
     /// A list of distribution identifiers that the distribution has self identified as being based on.
     /// </summary>
-    public string Identifier_Like { get; set; }
+    public string[] IdentifierLike { get; set; }
 
     /// <summary>
     /// The pretty name/display name for the Linux distribution.

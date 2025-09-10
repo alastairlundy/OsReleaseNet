@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using AlastairLundy.DotExtensions.Strings;
 
 namespace AlastairLundy.OsReleaseNet.Helpers;
 
@@ -55,13 +56,15 @@ internal class OsReleaseParser
             {
                 if (lineUpper.Contains("ID_LIKE="))
                 {
-                    linuxDistroInfo.Identifier_Like =
-                        line.Replace("ID_LIKE=", string.Empty);
+                    string identifiers = line.Replace("ID_LIKE=", string.Empty);
 
-                    if (linuxDistroInfo.Identifier_Like.ToLower().Contains("ubuntu") &&
-                        linuxDistroInfo.Identifier_Like.ToLower().Contains("debian"))
+                    if (identifiers.ContainsSpaceSeparatedSubStrings())
                     {
-                        linuxDistroInfo.Identifier_Like += $"{linuxDistroInfo}{Environment.NewLine}";
+                        linuxDistroInfo.IdentifierLike = identifiers.Split(" ");
+                    }
+                    else
+                    {
+                        linuxDistroInfo.IdentifierLike = [line];
                     }
                 }
                 else if (!lineUpper.Contains("VERSION"))

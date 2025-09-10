@@ -99,7 +99,7 @@ public class LinuxOsReleaseProvider : ILinuxOsReleaseProvider
         string? result =  await GetReleaseInfoPropertyValueAsync("ID_LIKE=");
 
         if (result is not null)
-            osReleaseInfo.Identifier_Like = result;
+            osReleaseInfo.IdentifierLike = result.Split(" ");
         else
             osReleaseInfo = await GetReleaseInfoAsync();
         
@@ -117,7 +117,19 @@ public class LinuxOsReleaseProvider : ILinuxOsReleaseProvider
     [SupportedOSPlatform("linux")]
     public LinuxDistroBase GetDistroBase(LinuxOsReleaseInfo osReleaseInfo)
     {
-        string identifierLike = osReleaseInfo.Identifier_Like.ToLower();
+        bool containsMultipleIdentifiers = osReleaseInfo.IdentifierLike.Length > 1;
+
+        string identifierLike;
+        
+        if (containsMultipleIdentifiers)
+        {
+            identifierLike = osReleaseInfo.IdentifierLike.First().ToLower();
+        }
+        else
+        {
+            identifierLike = osReleaseInfo.IdentifierLike.First().ToLower();
+        }
+         
             
         return identifierLike switch
         {
