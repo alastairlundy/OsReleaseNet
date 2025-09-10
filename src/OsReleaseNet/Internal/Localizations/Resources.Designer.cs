@@ -50,5 +50,17 @@ namespace AlastairLundy.OsReleaseNet.Internal.Localizations {
                 return ResourceManager.GetString("Exceptions_PlatformNotSupported_LinuxOnly", resourceCulture);
             }
         }
+        
+        internal static string Exceptions_Arguments_NotOsReleaseContents {
+            get {
+                return ResourceManager.GetString("Exceptions.Arguments.NotOsReleaseContents", resourceCulture);
+            }
+        }
+        
+        internal static string Exceptions_PlatformNotSupported_FreeBsdOnly {
+            get {
+                return ResourceManager.GetString("Exceptions.PlatformNotSupported.FreeBsdOnly", resourceCulture);
+            }
+        }
     }
 }

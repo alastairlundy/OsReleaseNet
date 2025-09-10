@@ -19,6 +19,12 @@
         <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
     </resheader>
     <data name="Exceptions_PlatformNotSupported_LinuxOnly" xml:space="preserve">
-        <value>This feature is not supported on Linux based operating systems.</value>
+        <value>This feature is only supported on Linux based operating systems.</value>
+    </data>
+    <data name="Exceptions.Arguments.NotOsReleaseContents" xml:space="preserve">
+        <value>The file contents must originate from an os-release file.</value>
+    </data>
+    <data name="Exceptions.PlatformNotSupported.FreeBsdOnly" xml:space="preserve">
+        <value>This feature is only supported on FreeBSD based operating systems.</value>
     </data>
 </root>

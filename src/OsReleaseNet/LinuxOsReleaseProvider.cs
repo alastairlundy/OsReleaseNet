@@ -12,14 +12,12 @@ using System.IO;
 
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
-using AlastairLundy.DotExtensions.Strings;
-
 using AlastairLundy.OsReleaseNet.Abstractions;
+using AlastairLundy.OsReleaseNet.Abstractions.Parsers;
 using AlastairLundy.OsReleaseNet.Helpers;
 using AlastairLundy.OsReleaseNet.Internal.Localizations;
 
@@ -30,7 +28,12 @@ namespace AlastairLundy.OsReleaseNet;
 /// </summary>
 public class LinuxOsReleaseProvider : ILinuxOsReleaseProvider
 {
-    private readonly OsReleaseParser _osReleaseParser = new OsReleaseParser();
+    private readonly ILinuxOsReleaseParser _linuxOsReleaseParser;
+
+    public LinuxOsReleaseProvider(ILinuxOsReleaseParser linuxOsReleaseParser)
+    {
+        _linuxOsReleaseParser = linuxOsReleaseParser;
+    }
 
     /// <summary>
     /// Retrieves the value of a specific property in the Linux OS Release Info.
@@ -48,7 +51,7 @@ public class LinuxOsReleaseProvider : ILinuxOsReleaseProvider
             
         string[] resultArray = await File.ReadAllLinesAsync("/etc/os-release");
         
-        string? result = RemoveUnwantedCharacters(resultArray)
+        string? result = ParserHelper.RemoveUnwantedCharacters(resultArray)
         .FirstOrDefault(x => x.ToUpper().Contains(propertyName.ToUpper()));
             
         if (result is not null)
@@ -75,8 +78,7 @@ public class LinuxOsReleaseProvider : ILinuxOsReleaseProvider
 
         string[] resultArray = await File.ReadAllLinesAsync("/etc/os-release");
 
-        LinuxOsReleaseInfo result = _osReleaseParser.ParseOsReleaseInfo(
-            RemoveUnwantedCharacters(resultArray));
+        LinuxOsReleaseInfo result = _linuxOsReleaseParser.ParseLinuxOsRelease(resultArray);
 
         return await Task.FromResult(result);
     }
@@ -117,20 +119,8 @@ public class LinuxOsReleaseProvider : ILinuxOsReleaseProvider
     [SupportedOSPlatform("linux")]
     public LinuxDistroBase GetDistroBase(LinuxOsReleaseInfo osReleaseInfo)
     {
-        bool containsMultipleIdentifiers = osReleaseInfo.IdentifierLike.Length > 1;
-
-        string identifierLike;
+        string identifierLike = osReleaseInfo.IdentifierLike.First().ToLower();
         
-        if (containsMultipleIdentifiers)
-        {
-            identifierLike = osReleaseInfo.IdentifierLike.First().ToLower();
-        }
-        else
-        {
-            identifierLike = osReleaseInfo.IdentifierLike.First().ToLower();
-        }
-         
-            
         return identifierLike switch
         {
             "debian" => LinuxDistroBase.Debian,
@@ -142,20 +132,5 @@ public class LinuxOsReleaseProvider : ILinuxOsReleaseProvider
             "suse" => LinuxDistroBase.SUSE,
             _ => LinuxDistroBase.NotDetected
         };
-    }
-
-    /// <summary>
-    /// Removes unwanted characters from an array of strings.
-    /// </summary>
-    /// <param name="resultArray">The input array containing strings that may contain unwanted characters.</param>
-    /// <returns>An array of strings with unwanted characters removed.</returns>
-    private IEnumerable<string> RemoveUnwantedCharacters(string[] resultArray)
-    {
-        IEnumerable<string> newResults = resultArray
-            .Where(x => string.IsNullOrWhiteSpace(x) == false && x.Equals(string.Empty) == false)
-            .Select(x => x.RemoveEscapeCharacters())
-            .Select(x => x.Replace('"'.ToString(), string.Empty));
-        
-        return newResults;
     }
 }
