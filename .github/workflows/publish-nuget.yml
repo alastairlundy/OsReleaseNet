@@ -1,4 +1,4 @@
-# This workflow will build and publish System Extensions to Nuget.
+# This workflow will build and publish OsReleaseNet to Nuget.
 
 name: Publish to Nuget
 
@@ -18,7 +18,7 @@ jobs:
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 9.0.x
-        working-directory: src/OsReleaseNet
+        working-directory: src/OsReleaseNet/
     - name: Restore dependencies
       run: dotnet restore
     - name: Create packages
