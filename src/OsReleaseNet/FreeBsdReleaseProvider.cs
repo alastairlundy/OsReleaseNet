@@ -135,14 +135,6 @@ public class FreeBsdReleaseProvider : IFreeBsdReleaseProvider
 
             if (line.Contains("VERSION="))
             {
-                if (line.Contains("LTS"))
-                {
-                    freeBsdReleaseInfo.IsLongTermSupportRelease = true;
-                }
-                else
-                {
-                    freeBsdReleaseInfo.IsLongTermSupportRelease = false;
-                }
 
                 if (line.Contains("ID="))
                 {
