@@ -1,21 +1,49 @@
-using System.Collections.Generic;
+/*
+    OsReleaseNet
+    Copyright (c) 2020-2025 Alastair Lundy
+
+    This Source Code Form is subject to the terms of the Mozilla Public
+    License, v. 2.0. If a copy of the MPL was not distributed with this
+    file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ */
+
+using System;
+using System.Linq;
+
 using AlastairLundy.DotExtensions.Strings;
 
-namespace AlastairLundy.OsReleaseNet.Helpers;
+using AlastairLundy.OsReleaseNet.Abstractions.Parsers;
+using AlastairLundy.OsReleaseNet.Helpers;
+using AlastairLundy.OsReleaseNet.Internal.Localizations;
 
-internal class OsReleaseParser
+namespace AlastairLundy.OsReleaseNet.Parsers;
+
+/// <summary>
+/// 
+/// </summary>
+public class LinuxOsReleaseParser : ILinuxOsReleaseParser
 {
     
     /// <summary>
-    /// Parses an array of strings to extract the Linux OS release information.
+    /// 
     /// </summary>
-    /// <param name="results">The input array containing strings that need to be parsed for OS release information.</param>
-    /// <returns>The extracted Linux OS release information.</returns>
-    internal LinuxOsReleaseInfo ParseOsReleaseInfo(IEnumerable<string> results)
+    /// <param name="fileContents"></param>
+    /// <returns></returns>
+    /// <exception cref="PlatformNotSupportedException"></exception>
+    /// <exception cref="ArgumentException"></exception>
+    public LinuxOsReleaseInfo ParseLinuxOsRelease(string[] fileContents)
     {
+        if (OperatingSystem.IsLinux() == false)
+            throw new PlatformNotSupportedException(Resources.Exceptions_PlatformNotSupported_LinuxOnly);
+
+        if (fileContents.Any(x => x.ToLower().Contains("id=")) == false)
+            throw new ArgumentException(Resources.Exceptions_Arguments_NotOsReleaseContents);
+        
         LinuxOsReleaseInfo linuxDistroInfo = new LinuxOsReleaseInfo();
         
-        foreach (string line in results)
+        fileContents = ParserHelper.RemoveUnwantedCharacters(fileContents).ToArray();
+        
+        foreach (string line in fileContents)
         {
             string lineUpper = line.ToUpper();
 
