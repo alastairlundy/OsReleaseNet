@@ -6,7 +6,7 @@
         <Nullable>enable</Nullable>
         <TargetFrameworks>net8.0;net9.0;</TargetFrameworks>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-        <Version>1.1.2</Version>
+        <Version>2.0.0</Version>
         <Title>AlastairLundy.OsReleaseNet</Title>
         <Authors>AlastairLundy</Authors>
         <Description>Linux OsRelease detection, SteamOS detection, and helpful detection code for Linux.</Description>
@@ -15,15 +15,20 @@
         <RepositoryType>git</RepositoryType>
         <PackageReleaseNotes>## Changes
 
-- Bump Polyfill from 8.7.3 to 8.8.0
-- Bump AlastairLundy.DotExtensions from 7.6.2 to 7.6.5
+- Bump AlastairLundy.DotExtensions from 7.6.5 to 8.3.0 @[dependabot[bot]](https://github.com/apps/dependabot) (#19, #20, &amp; #21)
+- Remove .NET Standard 2.0 support @alastairlundy (#10)
 
 ## 🚀 Features
 
-- Improve Linux Os Release Parsing code performance @alastairlundy (#14)</PackageReleaseNotes>
+- Add Freebsd support @alastairlundy (#11)
+- Made Parser logic more easily maintainable and separated it into abstraction and implementation files
+- Removed LTS detection due to potential unreliability
+- Added missing xml doc comments
+- Enabled better support for Linux OsRelease files that contain multiple values for "ID_LIKE" property
+- Fixed several incorrect exception messages thrown if running on an unsupported operating system.</PackageReleaseNotes>
         <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
         <PackageIcon>platformkit_logo_512x.jpg</PackageIcon>
-        <PackageTags>os-release, linux,</PackageTags>
+        <PackageTags>os-release, linux, freebsd</PackageTags>
         <IncludeContentInPack>true</IncludeContentInPack>
         <IncludeSymbols>true</IncludeSymbols>
         <SymbolPackageFormat>snupkg</SymbolPackageFormat>
