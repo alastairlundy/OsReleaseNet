@@ -113,6 +113,4 @@ public class FreeBsdOsReleaseParser : IFreeBsdOsReleaseParser
 
         return freeBsdReleaseInfo;
     }
-    
-    
 }
