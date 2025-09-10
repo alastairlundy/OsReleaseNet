@@ -88,8 +88,7 @@ public class FreeBsdReleaseProvider : IFreeBsdReleaseProvider
     private string[] RemoveUnwantedCharacters(string[] resultArray)
     {
         return resultArray.Where(x => string.IsNullOrWhiteSpace(x) == false)
-            .Select(x => x.Replace('"'.ToString(), string.Empty)
-            )
+            .Select(x => x.Replace('"'.ToString(), string.Empty))
             .ToArray();
     }
 
