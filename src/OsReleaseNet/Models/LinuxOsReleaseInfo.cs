@@ -34,7 +34,6 @@ public class LinuxOsReleaseInfo
         SupportUrl = string.Empty;
         BugReportUrl = string.Empty;
         PrivacyPolicyUrl = string.Empty;
-        IsLongTermSupportRelease = false;
     }
     
     /// <summary>
@@ -64,13 +63,7 @@ public class LinuxOsReleaseInfo
         SupportUrl = supportUrl;
         BugReportUrl = bugReportUrl;
         PrivacyPolicyUrl = privacyPolicyUrl;
-        IsLongTermSupportRelease = VersionId.ToLower().Contains("lts");
     }
-    
-    /// <summary>
-    /// 
-    /// </summary>
-    public bool IsLongTermSupportRelease { get; set; }
 
     /// <summary>
     /// The name of the Linux Distribution.

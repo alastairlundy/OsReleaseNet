@@ -14,7 +14,6 @@ public class FreeBsdReleaseInfo
         Version = string.Empty;
         HomeUrl = string.Empty;
         BugReportUrl = string.Empty;
-        IsLongTermSupportRelease = false;
     }
     
     public FreeBsdReleaseInfo(string name, string version, string identifier, string prettyName, string versionId, string homeUrl, string bugReportUrl, string ansiColor, string cpeName)
@@ -28,11 +27,8 @@ public class FreeBsdReleaseInfo
         BugReportUrl = bugReportUrl;
         AnsiColor = ansiColor;
         CpeName = cpeName;
-        IsLongTermSupportRelease = VersionId.ToLower().Contains("lts");
     }
     
-    public bool IsLongTermSupportRelease { get; set; }
-
     public string AnsiColor { get; set; }
 
     public string CpeName { get; set; }

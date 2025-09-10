@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 
 namespace AlastairLundy.OsReleaseNet.Helpers;
@@ -35,7 +34,6 @@ internal class OsReleaseParser
 
             if (lineUpper.Contains("VERSION="))
             {
-                linuxDistroInfo.IsLongTermSupportRelease = lineUpper.Contains("LTS");
 
                 if (lineUpper.Contains("ID="))
                 {
@@ -49,8 +47,7 @@ internal class OsReleaseParser
                 }
                 else if (!lineUpper.Contains("ID=") && !lineUpper.Contains("CODE"))
                 {
-                    linuxDistroInfo.Version = line.Replace("VERSION=", string.Empty)
-                        .Replace("LTS", string.Empty);
+                    linuxDistroInfo.Version = line.Replace("VERSION=", string.Empty);
                 }
             }
 
