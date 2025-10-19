@@ -24,7 +24,7 @@ namespace AlastairLundy.OsReleaseNet;
 
 /// <summary>
 /// Provides information about Steam OS,
-/// Valve's linux based operating system.
+/// Valve's Linux-based operating system.
 /// </summary>
 public class SteamOsInfoProvider : ISteamOsInfoProvider
 {
@@ -112,8 +112,7 @@ public class SteamOsInfoProvider : ISteamOsInfoProvider
     public async Task<bool> IsSteamOSAsync(bool includeHoloIsoAsSteamOs)
     {
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) == false)
-            throw new PlatformNotSupportedException(
-                Resources.Exceptions_PlatformNotSupported_LinuxOnly);
+            throw new PlatformNotSupportedException(Resources.Exceptions_PlatformNotSupported_LinuxOnly);
 
         LinuxOsReleaseInfo distroInfo = await _linuxOsReleaseProvider.GetReleaseInfoAsync();
         LinuxDistroBase distroBase = _linuxOsReleaseProvider.GetDistroBase(distroInfo);
