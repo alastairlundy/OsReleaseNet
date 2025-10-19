@@ -9,7 +9,6 @@ Linux OsRelease detection, SteamOS detection, and helpful detection code for Lin
     * [Compatibility](#compatibility)
 * [Contributing](#how-to-contribute)
 * [Roadmap](#roadmap)
-* [License](#license)
 
 ## Features
 * Support for detecting Linux OsRelease information
