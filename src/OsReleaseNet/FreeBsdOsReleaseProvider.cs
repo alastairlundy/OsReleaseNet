@@ -12,13 +12,18 @@ using System.Linq;
 using System.Threading.Tasks;
 
 using AlastairLundy.OsReleaseNet.Abstractions;
-
-using AlastairLundy.OsReleaseNet.Internal.Localizations;
-
-using System.IO;
-using System.Runtime.Versioning;
 using AlastairLundy.OsReleaseNet.Abstractions.Parsers;
 using AlastairLundy.OsReleaseNet.Helpers;
+using AlastairLundy.OsReleaseNet.Internal.Localizations;
+
+using System.Runtime.Versioning;
+
+#if NETSTANDARD2_0
+using OperatingSystem = Polyfills.OperatingSystemPolyfill;
+using File = Polyfills.FilePolyfill;
+#else
+using System.IO;
+#endif
 
 namespace AlastairLundy.OsReleaseNet;
 

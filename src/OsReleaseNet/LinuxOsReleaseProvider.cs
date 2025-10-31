@@ -8,8 +8,6 @@
  */
 
 using System.Runtime.Versioning;
-using System.IO;
-
 
 using System;
 using System.Linq;
@@ -20,6 +18,12 @@ using AlastairLundy.OsReleaseNet.Abstractions;
 using AlastairLundy.OsReleaseNet.Abstractions.Parsers;
 using AlastairLundy.OsReleaseNet.Helpers;
 using AlastairLundy.OsReleaseNet.Internal.Localizations;
+
+#if NETSTANDARD2_0
+using File = Polyfills.FilePolyfill;
+#else
+using System.IO;
+#endif
 
 namespace AlastairLundy.OsReleaseNet;
 
