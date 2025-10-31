@@ -17,13 +17,16 @@
 
 // ReSharper disable once CheckNamespace
 // ReSharper disable UnusedAutoPropertyAccessor.Global
+
+using System;
+
 namespace AlastairLundy.OsReleaseNet;
 
 /// <summary>
 /// Represents a Linux Distribution's OsRelease file and information contained therein.
 /// </summary>
 /// <remarks>All trademarks mentioned belong to their respective owners.</remarks>
-public class LinuxOsReleaseInfo
+public class LinuxOsReleaseInfo : IEquatable<LinuxOsReleaseInfo>
 {
     
     /// <summary>
@@ -51,7 +54,7 @@ public class LinuxOsReleaseInfo
     /// <param name="name">The name of the distribution.</param>
     /// <param name="version">The distribution display version.</param>
     /// <param name="identifier">The linux distribution's identifier.</param>
-    /// <param name="identifierLike">A list of distribution identifiers that the distribution has self identified as being based on.</param>
+    /// <param name="identifierLike">A list of distribution identifiers that the distribution has self-identified as being based on.</param>
     /// <param name="prettyName">The pretty name/display name for the Linux distribution.</param>
     /// <param name="versionId">The distribution's version number.</param>
     /// <param name="versionCodeName">The distribution version codename (if specified).</param>
@@ -95,7 +98,7 @@ public class LinuxOsReleaseInfo
 
     // ReSharper disable once InconsistentNaming
     /// <summary>
-    /// A list of distribution identifiers that the distribution has self identified as being based on.
+    /// A list of distribution identifiers that the distribution has self-identified as being based on.
     /// </summary>
     public string[] IdentifierLike { get; set; }
 
@@ -133,4 +136,68 @@ public class LinuxOsReleaseInfo
     /// The distribution version codename (if specified).
     /// </summary>
     public string VersionCodename { get; set; }
+
+    public bool Equals(LinuxOsReleaseInfo? other)
+    {
+        if (other is null) return false;
+        
+        if (ReferenceEquals(this, other)) return true;
+        
+        return Name == other.Name && Version == other.Version && Identifier == other.Identifier &&
+               IdentifierLike.Equals(other.IdentifierLike) && PrettyName == other.PrettyName &&
+               VersionId == other.VersionId && HomeUrl == other.HomeUrl &&
+               SupportUrl == other.SupportUrl && BugReportUrl == other.BugReportUrl &&
+               PrivacyPolicyUrl == other.PrivacyPolicyUrl && VersionCodename == other.VersionCodename;
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="left"></param>
+    /// <param name="right"></param>
+    /// <returns></returns>
+    public static bool Equals(LinuxOsReleaseInfo? left, LinuxOsReleaseInfo? right)
+    {
+        if (left is null || right is null) 
+            return false;
+        
+        return left.Equals(right);
+    }
+    
+    public override bool Equals(object? obj)
+    {
+        if (obj is null) return false;
+        if (ReferenceEquals(this, obj)) return true;
+        if (obj.GetType() != GetType()) return false;
+        return Equals((LinuxOsReleaseInfo)obj);
+    }
+
+    public override int GetHashCode()
+    {
+        unchecked
+        {
+            int hashCode = Name.GetHashCode();
+            hashCode = (hashCode * 397) ^ Version.GetHashCode();
+            hashCode = (hashCode * 397) ^ Identifier.GetHashCode();
+            hashCode = (hashCode * 397) ^ IdentifierLike.GetHashCode();
+            hashCode = (hashCode * 397) ^ PrettyName.GetHashCode();
+            hashCode = (hashCode * 397) ^ VersionId.GetHashCode();
+            hashCode = (hashCode * 397) ^ HomeUrl.GetHashCode();
+            hashCode = (hashCode * 397) ^ SupportUrl.GetHashCode();
+            hashCode = (hashCode * 397) ^ BugReportUrl.GetHashCode();
+            hashCode = (hashCode * 397) ^ PrivacyPolicyUrl.GetHashCode();
+            hashCode = (hashCode * 397) ^ VersionCodename.GetHashCode();
+            return hashCode;
+        }
+    }
+
+    public static bool operator ==(LinuxOsReleaseInfo? left, LinuxOsReleaseInfo? right)
+    {
+        return Equals(left, right);
+    }
+
+    public static bool operator !=(LinuxOsReleaseInfo? left, LinuxOsReleaseInfo? right)
+    {
+        return !Equals(left, right);
+    }
 }
