@@ -10,7 +10,6 @@
 using System;
 using System.Linq;
 using System.Runtime.Versioning;
-using AlastairLundy.DotExtensions.Strings;
 
 using AlastairLundy.OsReleaseNet.Abstractions.Parsers;
 using AlastairLundy.OsReleaseNet.Helpers;
@@ -34,7 +33,7 @@ public class LinuxOsReleaseParser : ILinuxOsReleaseParser
     /// </summary>
     /// <param name="fileContents">The Linux OsRelease file contents.</param>
     /// <returns>The parsed Linux OsRelease file contents as a LinuxOsReleaseInfo object.</returns>
-    /// <exception cref="PlatformNotSupportedException">Thrown if run on an operating system that is not Linux based.</exception>
+    /// <exception cref="PlatformNotSupportedException">Thrown if run on an operating system that is not Linux-based.</exception>
     /// <exception cref="ArgumentException">Thrown if the string array provided hasn't come from an os-release file.</exception>
     [SupportedOSPlatform("linux")]
     public LinuxOsReleaseInfo ParseLinuxOsRelease(string[] fileContents)
@@ -92,7 +91,7 @@ public class LinuxOsReleaseParser : ILinuxOsReleaseParser
                 {
                     string identifiers = line.Replace("ID_LIKE=", string.Empty);
 
-                    if (identifiers.ContainsSpaceSeparatedSubStrings())
+                    if (identifiers.Contains(" ") || identifiers.Contains(' '))
                     {
                         linuxDistroInfo.IdentifierLike = identifiers.Split(" ");
                     }
