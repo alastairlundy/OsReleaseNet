@@ -15,7 +15,8 @@
         <RepositoryType>git</RepositoryType>
         <PackageReleaseNotes>## Changes since 2.1.0
 * Removed dependency on DotExtensions
-* Re-added support for .NET Standard 2.0</PackageReleaseNotes>
+* Re-added support for .NET Standard 2.0
+* Re-licensed under Apache 2.0</PackageReleaseNotes>
         <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
         <PackageIcon>platformkit_logo_512x.jpg</PackageIcon>
         <PackageTags>os-release, linux, freebsd</PackageTags>
@@ -23,7 +24,7 @@
         <IncludeSymbols>true</IncludeSymbols>
         <SymbolPackageFormat>snupkg</SymbolPackageFormat>
         <EmbedUntrackedSources>true</EmbedUntrackedSources>
-        <PackageLicenseExpression>MPL-2.0</PackageLicenseExpression>
+        <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
         <PackageReadmeFile>README.md</PackageReadmeFile>
         <AssemblyName>AlastairLundy.OsReleaseNet</AssemblyName>
         <RootNamespace>AlastairLundy.OsReleaseNet</RootNamespace>
