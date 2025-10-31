@@ -6,18 +6,16 @@
         <Nullable>enable</Nullable>
         <TargetFrameworks>netstandard2.0;net8.0;net9.0;</TargetFrameworks>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-        <Version>2.1.0</Version>
-        <Title>AlastairLundy.OsReleaseNet</Title>
+        <Version>2.2.0</Version>
+        <Title>OsReleaseNet</Title>
         <Authors>AlastairLundy</Authors>
         <Description>Linux OsRelease detection, SteamOS detection, and helpful detection code for Linux.</Description>
         <Copyright>Copyright (c) Alastair Lundy 2024-2025</Copyright>
         <RepositoryUrl>https://github.com/alastairlundy/OsReleaseNet</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
-        <PackageReleaseNotes>## Changes
-- Update AlastairLundy.DotExtensions from 8.3.0 to 8.6.2
-
-### Non-Code Changes
-* Updated to use Nuget Trusted Publishing</PackageReleaseNotes>
+        <PackageReleaseNotes>## Changes since 2.1.0
+* Removed dependency on DotExtensions
+* Re-added support for .NET Standard 2.0</PackageReleaseNotes>
         <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
         <PackageIcon>platformkit_logo_512x.jpg</PackageIcon>
         <PackageTags>os-release, linux, freebsd</PackageTags>
