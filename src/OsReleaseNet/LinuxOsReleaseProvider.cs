@@ -47,6 +47,8 @@ public class LinuxOsReleaseProvider : ILinuxOsReleaseProvider
     [SupportedOSPlatform("linux")]
     public async Task<string?> GetReleaseInfoPropertyValueAsync(string propertyName)
     {
+        ArgumentException.ThrowIfNullOrEmpty(propertyName);
+        
         if (!OperatingSystem.IsLinux())
             throw new PlatformNotSupportedException(Resources.
                 Exceptions_PlatformNotSupported_LinuxOnly);

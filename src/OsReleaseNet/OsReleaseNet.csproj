@@ -28,6 +28,7 @@
         <AssemblyName>AlastairLundy.OsReleaseNet</AssemblyName>
         <RootNamespace>AlastairLundy.OsReleaseNet</RootNamespace>
         <PackageId>AlastairLundy.OsReleaseNet</PackageId>
+        <PolyArgumentExceptions>true</PolyArgumentExceptions>
     </PropertyGroup>
     
     <ItemGroup>

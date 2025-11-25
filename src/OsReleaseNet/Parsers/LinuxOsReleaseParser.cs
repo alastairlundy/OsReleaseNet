@@ -35,6 +35,8 @@ public class LinuxOsReleaseParser : ILinuxOsReleaseParser
     [SupportedOSPlatform("linux")]
     public LinuxOsReleaseInfo ParseLinuxOsRelease(string[] fileContents)
     {
+        ArgumentNullException.ThrowIfNull(fileContents);
+        
         if (!OperatingSystem.IsLinux())
             throw new PlatformNotSupportedException(Resources.Exceptions_PlatformNotSupported_LinuxOnly);
 

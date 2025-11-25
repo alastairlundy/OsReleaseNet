@@ -46,6 +46,8 @@ public class FreeBsdOsReleaseProvider : IFreeBsdOsReleaseProvider
     [SupportedOSPlatform("freebsd")]
     public async Task<string?> GetReleaseInfoPropertyValueAsync(string propertyName)
     {
+        ArgumentException.ThrowIfNullOrEmpty(propertyName);
+        
         if (!OperatingSystem.IsFreeBSD())
             throw new PlatformNotSupportedException(Resources.Exceptions_PlatformNotSupported_FreeBsdOnly);
             
