@@ -15,23 +15,9 @@
     limitations under the License.
  */
 
-using System.Runtime.Versioning;
-
-using System;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
-
-using AlastairLundy.OsReleaseNet.Abstractions;
-using AlastairLundy.OsReleaseNet.Abstractions.Parsers;
-using AlastairLundy.OsReleaseNet.Helpers;
-using AlastairLundy.OsReleaseNet.Internal.Localizations;
-
-#if NETSTANDARD2_0
-using File = Polyfills.FilePolyfill;
-#else
-using System.IO;
-#endif
 
 namespace AlastairLundy.OsReleaseNet;
 
@@ -61,7 +47,7 @@ public class LinuxOsReleaseProvider : ILinuxOsReleaseProvider
     [SupportedOSPlatform("linux")]
     public async Task<string?> GetReleaseInfoPropertyValueAsync(string propertyName)
     {
-        if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) == false)
+        if (!OperatingSystem.IsLinux())
             throw new PlatformNotSupportedException(Resources.
                 Exceptions_PlatformNotSupported_LinuxOnly);
             
@@ -69,12 +55,9 @@ public class LinuxOsReleaseProvider : ILinuxOsReleaseProvider
         
         string? result = ParserHelper.RemoveUnwantedCharacters(resultArray)
         .FirstOrDefault(x => x.ToUpper().Contains(propertyName.ToUpper()));
-            
-        if (result is not null)
-        {
-            result = result.Replace(propertyName, string.Empty)
-                .Replace("=", string.Empty);
-        }
+
+        result = result?.Replace(propertyName, string.Empty)
+            .Replace("=", string.Empty);
 
         return result;
     }
@@ -88,7 +71,7 @@ public class LinuxOsReleaseProvider : ILinuxOsReleaseProvider
     [SupportedOSPlatform("linux")]
     public async Task<LinuxOsReleaseInfo> GetReleaseInfoAsync()
     {
-        if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) == false)
+        if (!RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
             throw new PlatformNotSupportedException(
                 Resources.Exceptions_PlatformNotSupported_LinuxOnly);
 
@@ -108,7 +91,7 @@ public class LinuxOsReleaseProvider : ILinuxOsReleaseProvider
     [SupportedOSPlatform("linux")]    
     public async Task<LinuxDistroBase> GetDistroBaseAsync()
     {
-        if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) == false)
+        if (!OperatingSystem.IsLinux())
             throw new PlatformNotSupportedException(Resources.
                 Exceptions_PlatformNotSupported_LinuxOnly);
 

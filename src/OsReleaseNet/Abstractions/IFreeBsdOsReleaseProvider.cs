@@ -11,8 +11,6 @@ using System.Threading.Tasks;
 
 namespace AlastairLundy.OsReleaseNet.Abstractions;
 
-using System.Runtime.Versioning;
-
 /// <summary>
 /// An interface for retrieving information about a FreeBSD operating system.
 /// </summary>

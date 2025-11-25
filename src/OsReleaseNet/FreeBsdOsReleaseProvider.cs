@@ -15,23 +15,8 @@
     limitations under the License.
  */
 
-using System;
 using System.Linq;
 using System.Threading.Tasks;
-
-using AlastairLundy.OsReleaseNet.Abstractions;
-using AlastairLundy.OsReleaseNet.Abstractions.Parsers;
-using AlastairLundy.OsReleaseNet.Helpers;
-using AlastairLundy.OsReleaseNet.Internal.Localizations;
-
-using System.Runtime.Versioning;
-
-#if NETSTANDARD2_0
-using OperatingSystem = Polyfills.OperatingSystemPolyfill;
-using File = Polyfills.FilePolyfill;
-#else
-using System.IO;
-#endif
 
 namespace AlastairLundy.OsReleaseNet;
 
@@ -61,7 +46,7 @@ public class FreeBsdOsReleaseProvider : IFreeBsdOsReleaseProvider
     [SupportedOSPlatform("freebsd")]
     public async Task<string?> GetReleaseInfoPropertyValueAsync(string propertyName)
     {
-        if (OperatingSystem.IsFreeBSD() == false)
+        if (!OperatingSystem.IsFreeBSD())
             throw new PlatformNotSupportedException(Resources.Exceptions_PlatformNotSupported_FreeBsdOnly);
             
         string[] resultArray = await File.ReadAllLinesAsync("/etc/os-release");
@@ -69,11 +54,8 @@ public class FreeBsdOsReleaseProvider : IFreeBsdOsReleaseProvider
         string? result = ParserHelper.RemoveUnwantedCharacters(resultArray)
             .FirstOrDefault(x => x.ToUpper().Contains(propertyName.ToUpper()));
 
-        if (result is not null)
-        {
-            result = result.Replace(propertyName, string.Empty)
-                .Replace("=", string.Empty);
-        }
+        result = result?.Replace(propertyName, string.Empty)
+            .Replace("=", string.Empty);
 
         return result;
     }
@@ -87,7 +69,7 @@ public class FreeBsdOsReleaseProvider : IFreeBsdOsReleaseProvider
     [SupportedOSPlatform("freebsd")]
     public async Task<FreeBsdOsReleaseInfo> GetReleaseInfoAsync()
     {
-        if (OperatingSystem.IsFreeBSD() == false)
+        if (!OperatingSystem.IsFreeBSD())
             throw new PlatformNotSupportedException(Resources.Exceptions_PlatformNotSupported_FreeBsdOnly);
 
         string[] resultArray = await File.ReadAllLinesAsync("/etc/os-release");

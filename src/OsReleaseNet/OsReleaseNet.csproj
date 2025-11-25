@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <LangVersion>13</LangVersion>
+        <LangVersion>14</LangVersion>
         <ImplicitUsings>disable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <TargetFrameworks>netstandard2.0;net8.0;net9.0;</TargetFrameworks>
@@ -31,7 +31,7 @@
     </PropertyGroup>
     
     <ItemGroup>
-        <PackageReference Include="Polyfill" Condition="'$(TargetFramework)' == 'netstandard2.0'" Version="9.3.0"/>
+        <PackageReference Include="Polyfill" Condition="'$(TargetFramework)' == 'netstandard2.0'" Version="9.3.0" PrivateAssets="all"/>
     </ItemGroup>
 
     <ItemGroup>
