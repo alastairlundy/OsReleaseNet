@@ -6,16 +6,20 @@
         <Nullable>enable</Nullable>
         <TargetFrameworks>netstandard2.0;net8.0;net9.0;net10.0;</TargetFrameworks>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-        <Version>2.2.0</Version>
+        <Version>2.3.0</Version>
         <Title>OsReleaseNet</Title>
         <Authors>AlastairLundy</Authors>
         <Description>Linux OsRelease detection, SteamOS detection, and helpful detection code for Linux.</Description>
         <Copyright>Copyright (c) Alastair Lundy 2024-2025</Copyright>
         <RepositoryUrl>https://github.com/alastairlundy/OsReleaseNet</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
-        <PackageReleaseNotes>## Changes since 2.1.0
-* Removed dependency on DotExtensions
-* Re-added support for .NET Standard 2.0</PackageReleaseNotes>
+        <PackageReleaseNotes>### Changes since 2.2.0
+* Updated OsReleaseNet to use C# language version 14
+* Updated Polyfill from 8.9.1 to 9.3.0
+* Added .NET 10 TFM
+* Added additional Argument Exception throwing if null strings are provided to some methods
+* Added missing xml doc comments
+* Implemented ``IEquatable&lt;LinuxOsReleaseInfo&gt;`` for ``LinuxOsReleaseInfo``</PackageReleaseNotes>
         <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
         <PackageIcon>platformkit_logo_512x.jpg</PackageIcon>
         <PackageTags>os-release, linux, freebsd</PackageTags>

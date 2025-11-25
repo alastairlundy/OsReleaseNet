@@ -15,7 +15,6 @@
     limitations under the License.
  */
 
-// ReSharper disable once CheckNamespace
 // ReSharper disable UnusedAutoPropertyAccessor.Global
 
 namespace AlastairLundy.OsReleaseNet;
