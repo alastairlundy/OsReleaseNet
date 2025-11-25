@@ -35,13 +35,13 @@ public class LinuxOsReleaseParser : ILinuxOsReleaseParser
     [SupportedOSPlatform("linux")]
     public LinuxOsReleaseInfo ParseLinuxOsRelease(string[] fileContents)
     {
-        if (OperatingSystem.IsLinux() == false)
+        if (!OperatingSystem.IsLinux())
             throw new PlatformNotSupportedException(Resources.Exceptions_PlatformNotSupported_LinuxOnly);
 
-        if (fileContents.Any(x => x.ToLower().Contains("id=")) == false)
+        if (!fileContents.Any(x => x.ToLower().Contains("id=")))
             throw new ArgumentException(Resources.Exceptions_Arguments_NotOsReleaseContents);
         
-        LinuxOsReleaseInfo linuxDistroInfo = new LinuxOsReleaseInfo();
+        LinuxOsReleaseInfo linuxDistroInfo = new();
         
         fileContents = ParserHelper.RemoveUnwantedCharacters(fileContents).ToArray();
         

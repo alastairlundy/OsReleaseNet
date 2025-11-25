@@ -30,7 +30,7 @@ internal static class ParserHelper
     internal static IEnumerable<string> RemoveUnwantedCharacters(IEnumerable<string> results)
     {
         IEnumerable<string> newResults = results
-            .Where(x => string.IsNullOrWhiteSpace(x) == false && x.Equals(string.Empty) == false)
+            .Where(x => !string.IsNullOrWhiteSpace(x) && !x.Equals(string.Empty))
             .Select(x => x.Replace('"'.ToString(), string.Empty));
         
         return newResults;

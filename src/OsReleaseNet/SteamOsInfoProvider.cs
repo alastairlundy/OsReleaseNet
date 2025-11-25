@@ -65,7 +65,7 @@ public class SteamOsInfoProvider : ISteamOsInfoProvider
     {
         bool isSteamOs = await IsSteamOSAsync(includeHoloIsoAsSteamOs);
         
-        if (isSteamOs == false)
+        if (!isSteamOs)
             throw new PlatformNotSupportedException(
                 Resources.Exceptions_PlatformNotSupported_LinuxOnly);
         
@@ -112,7 +112,7 @@ public class SteamOsInfoProvider : ISteamOsInfoProvider
     [SupportedOSPlatform("linux")]
     public async Task<bool> IsSteamOSAsync(bool includeHoloIsoAsSteamOs)
     {
-        if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) == false)
+        if (!RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
             throw new PlatformNotSupportedException(Resources.Exceptions_PlatformNotSupported_LinuxOnly);
 
         LinuxOsReleaseInfo distroInfo = await _linuxOsReleaseProvider.GetReleaseInfoAsync();

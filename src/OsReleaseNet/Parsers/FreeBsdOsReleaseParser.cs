@@ -35,13 +35,15 @@ public class FreeBsdOsReleaseParser : IFreeBsdOsReleaseParser
     [SupportedOSPlatform("freebsd")]
     public FreeBsdOsReleaseInfo ParseFreeBsdRelease(string[] fileContents)
     {
-        if (OperatingSystem.IsFreeBSD() == false)
+        ArgumentNullException.ThrowIfNull(fileContents);
+        
+        if (!OperatingSystem.IsFreeBSD())
             throw new PlatformNotSupportedException(Resources.Exceptions_PlatformNotSupported_FreeBsdOnly);
 
-        if (fileContents.Any(x => x.ToLower().Contains("id=")) == false)
+        if (!fileContents.Any(x => x.ToLower().Contains("id=")))
             throw new ArgumentException(Resources.Exceptions_Arguments_NotOsReleaseContents);
         
-        FreeBsdOsReleaseInfo freeBsdReleaseInfo = new FreeBsdOsReleaseInfo();
+        FreeBsdOsReleaseInfo freeBsdReleaseInfo = new();
             
         fileContents = ParserHelper.RemoveUnwantedCharacters(fileContents).ToArray();
         
