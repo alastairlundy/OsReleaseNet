@@ -63,9 +63,17 @@ public class FreeBsdOsReleaseInfo
         AnsiColor = ansiColor;
         CpeName = cpeName;
     }
-    
+
+    /// <summary>
+    /// Represents the ANSI colour code associated with the FreeBSD distribution,
+    /// typically used to add colour formatting to terminal output or logs.
+    /// </summary>
     public string AnsiColor { get; set; }
 
+    /// <summary>
+    /// The Common Platform Enumeration (CPE) name of the FreeBSD Distribution,
+    /// representing a standardized method of identifying and describing software or operating systems.
+    /// </summary>
     public string CpeName { get; set; }
     
     /// <summary>
