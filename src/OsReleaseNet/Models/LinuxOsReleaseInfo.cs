@@ -135,10 +135,15 @@ public class LinuxOsReleaseInfo : IEquatable<LinuxOsReleaseInfo>
     /// </summary>
     public string VersionCodename { get; set; }
 
+    /// <summary>
+    /// Determines whether the specified <see cref="LinuxOsReleaseInfo"/> object is equal to the current instance.
+    /// </summary>
+    /// <param name="other">The <see cref="LinuxOsReleaseInfo"/> instance to compare with the current instance.</param>
+    /// <returns>True if the specified instance is equal to the current instance; otherwise, false.</returns>
     public bool Equals(LinuxOsReleaseInfo? other)
     {
         if (other is null) return false;
-        
+
         if (ReferenceEquals(this, other)) return true;
         
         return Name == other.Name && Version == other.Version && Identifier == other.Identifier &&
@@ -149,27 +154,38 @@ public class LinuxOsReleaseInfo : IEquatable<LinuxOsReleaseInfo>
     }
 
     /// <summary>
-    /// 
+    /// Determines whether two instances of <see cref="LinuxOsReleaseInfo"/> are considered equal.
     /// </summary>
-    /// <param name="left"></param>
-    /// <param name="right"></param>
-    /// <returns></returns>
+    /// <param name="left">The first instance of <see cref="LinuxOsReleaseInfo"/> to compare.</param>
+    /// <param name="right">The second instance of <see cref="LinuxOsReleaseInfo"/> to compare.</param>
+    /// <returns>Returns <c>true</c> if the instances are equal; otherwise, <c>false</c>.</returns>
     public static bool Equals(LinuxOsReleaseInfo? left, LinuxOsReleaseInfo? right)
     {
-        if (left is null || right is null) 
+        if (left is null || right is null)
             return false;
         
         return left.Equals(right);
     }
-    
+
+    /// <summary>
+    /// Determines whether the specified object is equal to the current instance of <see cref="LinuxOsReleaseInfo"/>.
+    /// </summary>
+    /// <param name="obj">The object to compare with the current instance.</param>
+    /// <returns>True if the specified object is equal to the current instance; otherwise, false.</returns>
     public override bool Equals(object? obj)
     {
         if (obj is null) return false;
-        if (ReferenceEquals(this, obj)) return true;
-        if (obj.GetType() != GetType()) return false;
-        return Equals((LinuxOsReleaseInfo)obj);
+
+        if (obj is LinuxOsReleaseInfo osReleaseInfo)
+            return Equals(osReleaseInfo);
+        
+        return false;
     }
 
+    /// <summary>
+    /// Returns the hash code for the current LinuxOsReleaseInfo object.
+    /// </summary>
+    /// <returns>An integer representing the hash code of the current LinuxOsReleaseInfo instance.</returns>
     public override int GetHashCode()
     {
         unchecked
@@ -189,13 +205,19 @@ public class LinuxOsReleaseInfo : IEquatable<LinuxOsReleaseInfo>
         }
     }
 
-    public static bool operator ==(LinuxOsReleaseInfo? left, LinuxOsReleaseInfo? right)
-    {
-        return Equals(left, right);
-    }
+    /// <summary>
+    /// Determines whether two instances of <see cref="LinuxOsReleaseInfo"/> are equal.
+    /// </summary>
+    /// <param name="left">The first instance of <see cref="LinuxOsReleaseInfo"/> to compare.</param>
+    /// <param name="right">The second instance of <see cref="LinuxOsReleaseInfo"/> to compare.</param>
+    /// <returns>Returns <c>true</c> if the two instances are equal; otherwise, <c>false</c>.</returns>
+    public static bool operator ==(LinuxOsReleaseInfo? left, LinuxOsReleaseInfo? right) => Equals(left, right);
 
-    public static bool operator !=(LinuxOsReleaseInfo? left, LinuxOsReleaseInfo? right)
-    {
-        return !Equals(left, right);
-    }
+    /// <summary>
+    /// Determines whether two instances of <see cref="LinuxOsReleaseInfo"/> are not equal.
+    /// </summary>
+    /// <param name="left">The first instance of <see cref="LinuxOsReleaseInfo"/> to compare.</param>
+    /// <param name="right">The second instance of <see cref="LinuxOsReleaseInfo"/> to compare.</param>
+    /// <returns>Returns <c>true</c> if the instances are not equal; otherwise, <c>false</c>.</returns>
+    public static bool operator !=(LinuxOsReleaseInfo? left, LinuxOsReleaseInfo? right) => !Equals(left, right);
 }
