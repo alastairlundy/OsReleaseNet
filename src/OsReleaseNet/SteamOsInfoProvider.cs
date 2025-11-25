@@ -18,15 +18,8 @@
 // ReSharper disable InconsistentNaming
 // ReSharper disable ConvertToPrimaryConstructor
 
-using System;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
-
-using AlastairLundy.OsReleaseNet.Abstractions;
-
-using AlastairLundy.OsReleaseNet.Internal.Localizations;
-
-using System.Runtime.Versioning;
 
 namespace AlastairLundy.OsReleaseNet;
 

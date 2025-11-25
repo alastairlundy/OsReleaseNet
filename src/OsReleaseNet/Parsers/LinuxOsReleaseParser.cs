@@ -15,18 +15,7 @@
     limitations under the License.
  */
 
-using System;
 using System.Linq;
-using System.Runtime.Versioning;
-
-using AlastairLundy.OsReleaseNet.Abstractions.Parsers;
-using AlastairLundy.OsReleaseNet.Helpers;
-using AlastairLundy.OsReleaseNet.Internal.Localizations;
-
-
-#if NETSTANDARD2_0
-using OperatingSystem = Polyfills.OperatingSystemPolyfill;
-#endif
 
 namespace AlastairLundy.OsReleaseNet.Parsers;
 
