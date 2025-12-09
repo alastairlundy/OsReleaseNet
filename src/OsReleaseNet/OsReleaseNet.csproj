@@ -37,7 +37,7 @@
     </PropertyGroup>
     
     <ItemGroup>
-        <PackageReference Include="Polyfill" Condition="'$(TargetFramework)' == 'netstandard2.0'" Version="9.3.1" PrivateAssets="all"/>
+        <PackageReference Include="Polyfill" Condition="'$(TargetFramework)' == 'netstandard2.0'" Version="9.3.2" PrivateAssets="all"/>
     </ItemGroup>
 
     <ItemGroup>
