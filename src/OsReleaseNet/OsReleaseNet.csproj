@@ -11,7 +11,7 @@
         <Authors>AlastairLundy</Authors>
         <Description>Linux OsRelease detection, SteamOS detection, and helpful detection code for Linux.</Description>
         <Copyright>Copyright (c) Alastair Lundy 2024-2025</Copyright>
-        <RepositoryUrl>https://github.com/alastairlundy/OsReleaseNet</RepositoryUrl>
+        <RepositoryUrl>https://codeberg.org/alastairlundy/OsReleaseNet/</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
         <PackageReleaseNotes>### Changes since 2.2.0
 * Updated OsReleaseNet to use C# language version 14

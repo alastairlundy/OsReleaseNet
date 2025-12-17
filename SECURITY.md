@@ -17,7 +17,8 @@ Versions that are currently supported with Bug Fixes and/or Security Fixes.
 
 ## Reporting a Security Vulnerability
 
-To report a security vulnerability please privately report a Security Vulnerability in the Security tab on this project github repo.
+To report a security vulnerability please email [oss@alastair.mozmail.com](mailto: oss@alastair.mozmail.com?subject=OsReleaseNet%20Security%20Vulnerability) with the subject line of "OsReleaseNet Security Vulnerability".
+
 Please ensure you provide all the details regarding the vulnerability. I will try to reply to your report within 2-3 Business Days acknowledging receipt of it.
 
 I will then investigate the issue further and decide whether or not to accept the vulnerability. I will then inform you whether I accept the vulnerability or not.
