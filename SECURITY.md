@@ -10,12 +10,13 @@ Versions that are currently supported with Bug Fixes and/or Security Fixes.
 
 | Version series | Supported with Bug Fixes | Supported with Security Fixes |
 |--| --|--|
+| 2.3 | Until 2.4.x | Until 2.5.x |
 | 2.2 | Until 2.4.x | Until 2.4.x |
-| 2.1 | Until 2.3.x | Until 2.4.x |
-| 2.0 | :x: | Until 2.3.x |
-| < 2.0 | :x: | :x: |
+| 2.1 | :x: | Until 2.4.x |
+| < 2.1 | :x: | :x: |
 
 ## Reporting a Security Vulnerability
+
 
 To report a security vulnerability please email [oss@alastair.mozmail.com](mailto: oss@alastair.mozmail.com?subject=OsReleaseNet%20Security%20Vulnerability) with the subject line of "OsReleaseNet Security Vulnerability".
 
