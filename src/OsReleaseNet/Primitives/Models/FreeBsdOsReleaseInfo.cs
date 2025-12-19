@@ -15,14 +15,13 @@
     limitations under the License.
  */
 
-// ReSharper disable UnusedAutoPropertyAccessor.Global
-namespace AlastairLundy.OsReleaseNet;
+namespace OsReleaseNet;
 
 /// <summary>
 /// Represents a FreeBSD Distribution's OsRelease file and information contained therein.
 /// </summary>
 /// <remarks>All trademarks mentioned belong to their respective owners.</remarks>
-public class FreeBsdOsReleaseInfo
+public class FreeBsdOsReleaseInfo : IEquatable<FreeBsdOsReleaseInfo>
 {
     internal FreeBsdOsReleaseInfo()
     {
@@ -68,48 +67,130 @@ public class FreeBsdOsReleaseInfo
     /// Represents the ANSI colour code associated with the FreeBSD distribution,
     /// typically used to add colour formatting to terminal output or logs.
     /// </summary>
-    public string AnsiColor { get; set; }
+    public string AnsiColor { get; internal set; }
 
     /// <summary>
     /// The Common Platform Enumeration (CPE) name of the FreeBSD Distribution,
     /// representing a standardized method of identifying and describing software or operating systems.
     /// </summary>
-    public string CpeName { get; set; }
+    public string CpeName { get; internal set; }
     
     /// <summary>
     /// The name of the FreeBSD Distribution.
     /// </summary>
-    public string Name { get; set; }
+    public string Name { get; internal set; }
 
     /// <summary>
     /// The FreeBSD distribution display version. 
     /// </summary>
     /// <remarks>This string should not be parsed into a <see cref="Version"/> object
     /// as it may contain a version number and version name. Use <see cref="VersionId"/> instead.</remarks>
-    public string Version { get; set; }
+    public string Version { get; internal set; }
 
     /// <summary>
     /// The FreeBSD distribution's identifier.
     /// </summary>
-    public string Identifier { get; set; }
+    public string Identifier { get; internal set; }
 
     /// <summary>
     /// The pretty name/display name for the FreeBSD distribution.
     /// </summary>
-    public string PrettyName { get; set; }
+    public string PrettyName { get; internal set; }
 
     /// <summary>
     /// The FreeBSD distribution's version number.
     /// </summary>
-    public string VersionId { get; set; }
+    public string VersionId { get; internal set; }
 
     /// <summary>
     /// The FreeBSD distribution's homepage/website.
     /// </summary>
-    public string HomeUrl { get; set; }
+    public string HomeUrl { get; internal set; }
     
     /// <summary>
     /// The FreeBSD distribution's bug reporting website url (if provided).
     /// </summary>
-    public string BugReportUrl { get; set; }
+    public string BugReportUrl { get; internal set; }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="other"></param>
+    /// <returns></returns>
+    public bool Equals(FreeBsdOsReleaseInfo? other)
+    {
+        if (other is null)
+            return false;
+        
+        return AnsiColor == other.AnsiColor &&
+               CpeName == other.CpeName &&
+               Name == other.Name &&
+               Version == other.Version &&
+               Identifier == other.Identifier &&
+               PrettyName == other.PrettyName &&
+               VersionId == other.VersionId &&
+               HomeUrl == other.HomeUrl &&
+               BugReportUrl == other.BugReportUrl;
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="obj"></param>
+    /// <returns></returns>
+    public override bool Equals(object? obj)
+    {
+        if (obj is null) return false;
+
+        if (obj is FreeBsdOsReleaseInfo other)
+            return Equals(other);
+
+        return false;
+    }
+    
+    /// <inheritdoc/>
+    public override int GetHashCode()
+    {
+        HashCode hashCode = new();
+        hashCode.Add(AnsiColor);
+        hashCode.Add(CpeName);
+        hashCode.Add(Name);
+        hashCode.Add(Version);
+        hashCode.Add(Identifier);
+        hashCode.Add(PrettyName);
+        hashCode.Add(VersionId);
+        hashCode.Add(HomeUrl);
+        hashCode.Add(BugReportUrl);
+        return hashCode.ToHashCode();
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="left"></param>
+    /// <param name="right"></param>
+    /// <returns></returns>
+    public static bool Equals(FreeBsdOsReleaseInfo? left, FreeBsdOsReleaseInfo? right)
+    {
+        if (left is null || right is null)
+            return false;
+
+        return left.Equals(right);
+    }
+    
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="left"></param>
+    /// <param name="right"></param>
+    /// <returns></returns>
+    public static bool operator ==(FreeBsdOsReleaseInfo? left, FreeBsdOsReleaseInfo? right) => Equals(left, right);
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="left"></param>
+    /// <param name="right"></param>
+    /// <returns></returns>
+    public static bool operator !=(FreeBsdOsReleaseInfo? left, FreeBsdOsReleaseInfo? right) => !Equals(left, right);
 }
