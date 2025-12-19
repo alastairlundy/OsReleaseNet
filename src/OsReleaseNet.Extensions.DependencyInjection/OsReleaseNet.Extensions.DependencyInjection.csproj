@@ -22,6 +22,7 @@
         <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Description>Enables easy Dependency Injection registration for OsReleaseNet.</Description>
+        <Version>2.4.0</Version>
     </PropertyGroup>
 
     <ItemGroup>
