@@ -56,7 +56,7 @@ public class LinuxOsReleaseProvider : ILinuxOsReleaseProvider
         string[] resultArray = await File.ReadAllLinesAsync("/etc/os-release");
         
         string? result = ParserHelper.RemoveUnwantedCharacters(resultArray)
-        .FirstOrDefault(x => x.ToUpper().Contains(propertyName.ToUpper()));
+            .FirstOrDefault(x => x.ToUpper().Contains(propertyName.ToUpper()));
 
         result = result?.Replace(propertyName, string.Empty)
             .Replace("=", string.Empty);
