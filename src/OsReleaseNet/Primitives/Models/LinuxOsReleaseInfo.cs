@@ -17,7 +17,7 @@
 
 // ReSharper disable UnusedAutoPropertyAccessor.Global
 
-namespace AlastairLundy.OsReleaseNet;
+namespace OsReleaseNet;
 
 /// <summary>
 /// Represents a Linux Distribution's OsRelease file and information contained therein.
@@ -25,7 +25,6 @@ namespace AlastairLundy.OsReleaseNet;
 /// <remarks>All trademarks mentioned belong to their respective owners.</remarks>
 public class LinuxOsReleaseInfo : IEquatable<LinuxOsReleaseInfo>
 {
-    
     /// <summary>
     /// 
     /// </summary>
@@ -79,60 +78,60 @@ public class LinuxOsReleaseInfo : IEquatable<LinuxOsReleaseInfo>
     /// <summary>
     /// The name of the Linux Distribution.
     /// </summary>
-    public string Name { get; set; }
+    public string Name { get; internal set; }
 
     /// <summary>
     /// The distribution display version. 
     /// </summary>
     /// <remarks>This string should not be parsed into a <see cref="Version"/> object as it
     /// may contain a version number and version name. Use <see cref="VersionId"/> instead.</remarks>
-    public string Version { get; set; }
+    public string Version { get; internal set; }
 
     /// <summary>
     /// The linux distribution's identifier.
     /// </summary>
-    public string Identifier { get; set; }
+    public string Identifier { get; internal set; }
 
     // ReSharper disable once InconsistentNaming
     /// <summary>
     /// A list of distribution identifiers that the distribution has self-identified as being based on.
     /// </summary>
-    public string[] IdentifierLike { get; set; }
+    public string[] IdentifierLike { get; internal set; }
 
     /// <summary>
     /// The pretty name/display name for the Linux distribution.
     /// </summary>
-    public string PrettyName { get; set; }
+    public string PrettyName { get; internal set; }
 
     /// <summary>
     /// The distribution's version number.
     /// </summary>
-    public string VersionId { get; set; }
+    public string VersionId { get; internal set; }
 
     /// <summary>
     /// The distribution's homepage/website.
     /// </summary>
-    public string HomeUrl { get; set; }
+    public string HomeUrl { get; internal set; }
     
     /// <summary>
     /// The distribution's support website url (if provided).
     /// </summary>
-    public string SupportUrl { get; set; }
+    public string SupportUrl { get; internal set; }
     
     /// <summary>
     /// The distribution's bug reporting website url (if provided).
     /// </summary>
-    public string BugReportUrl { get; set; }
+    public string BugReportUrl { get; internal set; }
     
     /// <summary>
     /// The distribution's privacy policy url (if provided).
     /// </summary>
-    public string PrivacyPolicyUrl { get; set; }
+    public string PrivacyPolicyUrl { get; internal set; }
 
     /// <summary>
     /// The distribution version codename (if specified).
     /// </summary>
-    public string VersionCodename { get; set; }
+    public string VersionCodename { get; internal set; }
 
     /// <summary>
     /// Determines whether the specified <see cref="LinuxOsReleaseInfo"/> object is equal to the current instance.
@@ -142,14 +141,18 @@ public class LinuxOsReleaseInfo : IEquatable<LinuxOsReleaseInfo>
     public bool Equals(LinuxOsReleaseInfo? other)
     {
         if (other is null) return false;
-
-        if (ReferenceEquals(this, other)) return true;
         
-        return Name == other.Name && Version == other.Version && Identifier == other.Identifier &&
-               IdentifierLike.Equals(other.IdentifierLike) && PrettyName == other.PrettyName &&
-               VersionId == other.VersionId && HomeUrl == other.HomeUrl &&
-               SupportUrl == other.SupportUrl && BugReportUrl == other.BugReportUrl &&
-               PrivacyPolicyUrl == other.PrivacyPolicyUrl && VersionCodename == other.VersionCodename;
+        return Name == other.Name &&
+               Version == other.Version &&
+               Identifier == other.Identifier &&
+               IdentifierLike.Equals(other.IdentifierLike) &&
+               PrettyName == other.PrettyName &&
+               VersionId == other.VersionId &&
+               HomeUrl == other.HomeUrl &&
+               SupportUrl == other.SupportUrl &&
+               BugReportUrl == other.BugReportUrl &&
+               PrivacyPolicyUrl == other.PrivacyPolicyUrl &&
+               VersionCodename == other.VersionCodename;
     }
 
     /// <summary>
@@ -187,21 +190,21 @@ public class LinuxOsReleaseInfo : IEquatable<LinuxOsReleaseInfo>
     /// <returns>An integer representing the hash code of the current LinuxOsReleaseInfo instance.</returns>
     public override int GetHashCode()
     {
-        unchecked
-        {
-            int hashCode = Name.GetHashCode();
-            hashCode = (hashCode * 397) ^ Version.GetHashCode();
-            hashCode = (hashCode * 397) ^ Identifier.GetHashCode();
-            hashCode = (hashCode * 397) ^ IdentifierLike.GetHashCode();
-            hashCode = (hashCode * 397) ^ PrettyName.GetHashCode();
-            hashCode = (hashCode * 397) ^ VersionId.GetHashCode();
-            hashCode = (hashCode * 397) ^ HomeUrl.GetHashCode();
-            hashCode = (hashCode * 397) ^ SupportUrl.GetHashCode();
-            hashCode = (hashCode * 397) ^ BugReportUrl.GetHashCode();
-            hashCode = (hashCode * 397) ^ PrivacyPolicyUrl.GetHashCode();
-            hashCode = (hashCode * 397) ^ VersionCodename.GetHashCode();
-            return hashCode;
-        }
+        HashCode hashCode = new();
+        
+        hashCode.Add(Name);
+        hashCode.Add(Version);
+        hashCode.Add(VersionCodename);
+        hashCode.Add(VersionId);
+        hashCode.Add(Identifier);
+        hashCode.Add(IdentifierLike);
+        hashCode.Add(PrettyName);
+        hashCode.Add(HomeUrl);
+        hashCode.Add(SupportUrl);
+        hashCode.Add(BugReportUrl);
+        hashCode.Add(PrivacyPolicyUrl);
+        
+        return hashCode.ToHashCode();
     }
 
     /// <summary>
