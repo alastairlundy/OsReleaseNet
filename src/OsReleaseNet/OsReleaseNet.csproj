@@ -33,11 +33,13 @@
         <RootNamespace>OsReleaseNet</RootNamespace>
         <PackageId>OsReleaseNet</PackageId>
         <PolyArgumentExceptions>true</PolyArgumentExceptions>
+        <IsTrimmable>true</IsTrimmable>
         <EnableTrimAnalyzer>true</EnableTrimAnalyzer>
     </PropertyGroup>
     
     <ItemGroup>
-        <PackageReference Include="Polyfill" Condition="'$(TargetFramework)' == 'netstandard2.0'" Version="9.3.4" PrivateAssets="all"/>
+        <PackageReference Include="Polyfill" Condition="'$(TargetFramework)' == 'netstandard2.0'" Version="9.4.1" PrivateAssets="all"/>
+        <PackageReference Include="Microsoft.Bcl.HashCode" Condition="'$(TargetFramework)' == 'netstandard2.0'" Version="6.0.0"/>
     </ItemGroup>
 
     <ItemGroup>
@@ -69,6 +71,10 @@
             <PackagePath></PackagePath>
             <Link>README.md</Link>
         </None>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Primitives\" />
     </ItemGroup>
 
 </Project>
