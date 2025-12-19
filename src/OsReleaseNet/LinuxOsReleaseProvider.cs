@@ -19,7 +19,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
-namespace AlastairLundy.OsReleaseNet;
+namespace OsReleaseNet;
 
 /// <summary>
 /// A class that provides information about the current Linux OS Release.

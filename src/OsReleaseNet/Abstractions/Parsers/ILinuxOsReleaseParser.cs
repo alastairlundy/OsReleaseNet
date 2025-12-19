@@ -16,7 +16,7 @@
  */
 
 
-namespace AlastairLundy.OsReleaseNet.Abstractions.Parsers;
+namespace OsReleaseNet.Abstractions.Parsers;
 
 /// <summary>
 /// An interface for parsing the contents of a Linux OsRelease file.

@@ -17,14 +17,13 @@
 
 using System.Linq;
 
-namespace AlastairLundy.OsReleaseNet.Parsers;
+namespace OsReleaseNet.Parsers;
 
 /// <summary>
 /// A class to parse the contents of a FreeBSD OsRelease file.
 /// </summary>
 public class FreeBsdOsReleaseParser : IFreeBsdOsReleaseParser
 {
-    
     /// <summary>
     /// Parses the contents of a FreeBSD OsRelease file.
     /// </summary>

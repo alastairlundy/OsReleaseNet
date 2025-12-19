@@ -18,7 +18,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace AlastairLundy.OsReleaseNet.Helpers;
+namespace OsReleaseNet.Helpers;
 
 internal static class ParserHelper
 {

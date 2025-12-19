@@ -29,9 +29,9 @@
         <EmbedUntrackedSources>true</EmbedUntrackedSources>
         <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
         <PackageReadmeFile>README.md</PackageReadmeFile>
-        <AssemblyName>AlastairLundy.OsReleaseNet</AssemblyName>
-        <RootNamespace>AlastairLundy.OsReleaseNet</RootNamespace>
-        <PackageId>AlastairLundy.OsReleaseNet</PackageId>
+        <AssemblyName>OsReleaseNet</AssemblyName>
+        <RootNamespace>OsReleaseNet</RootNamespace>
+        <PackageId>OsReleaseNet</PackageId>
         <PolyArgumentExceptions>true</PolyArgumentExceptions>
         <EnableTrimAnalyzer>true</EnableTrimAnalyzer>
     </PropertyGroup>

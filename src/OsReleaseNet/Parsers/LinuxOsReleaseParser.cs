@@ -17,14 +17,13 @@
 
 using System.Linq;
 
-namespace AlastairLundy.OsReleaseNet.Parsers;
+namespace OsReleaseNet.Parsers;
 
 /// <summary>
 /// A class to parse the contents of a Linux OsRelease file.
 /// </summary>
 public class LinuxOsReleaseParser : ILinuxOsReleaseParser
 {
-    
     /// <summary>
     /// Parses the contents of a Linux OsRelease file.
     /// </summary>
@@ -67,7 +66,6 @@ public class LinuxOsReleaseParser : ILinuxOsReleaseParser
 
             if (lineUpper.Contains("VERSION="))
             {
-
                 if (lineUpper.Contains("ID="))
                 {
                     linuxDistroInfo.VersionId =

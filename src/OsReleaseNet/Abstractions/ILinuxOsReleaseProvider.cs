@@ -17,7 +17,7 @@
 
 using System.Threading.Tasks;
 
-namespace AlastairLundy.OsReleaseNet.Abstractions;
+namespace OsReleaseNet.Abstractions;
 
 /// <summary>
 /// An interface for retrieving information about a Linux operating system.

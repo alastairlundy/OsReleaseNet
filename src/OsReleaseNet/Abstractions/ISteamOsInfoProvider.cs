@@ -20,7 +20,7 @@ using System.Threading.Tasks;
 
 // ReSharper disable InconsistentNaming
 
-namespace AlastairLundy.OsReleaseNet.Abstractions;
+namespace OsReleaseNet.Abstractions;
 
 /// <summary>
 /// An interface for retrieving information about a SteamOS based operating system.

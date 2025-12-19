@@ -21,7 +21,7 @@
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
-namespace AlastairLundy.OsReleaseNet;
+namespace OsReleaseNet;
 
 /// <summary>
 /// Provides information about Steam OS,
