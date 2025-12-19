@@ -27,7 +27,6 @@ namespace OsReleaseNet.Abstractions;
 /// </summary>
 public interface ISteamOsInfoProvider
 {
-    
     /// <summary>
     /// Retrieves the current SteamOS mode.
     /// </summary>
