@@ -17,7 +17,6 @@
 
 using System;
 using Microsoft.Extensions.DependencyInjection;
-
 using OsReleaseNet.Abstractions;
 using OsReleaseNet.Abstractions.Parsers;
 using OsReleaseNet.Parsers;
@@ -37,11 +36,11 @@ public static class OsReleaseNetServiceRegistration
     extension(IServiceCollection services)
     {
         /// <summary>
-        /// 
+        /// Registers the necessary services for OsReleaseNet functionality.
         /// </summary>
-        /// <param name="serviceLifetime"></param>
-        /// <returns></returns>
-        /// <exception cref="NotSupportedException"></exception>
+        /// <param name="serviceLifetime">The lifetime of the service instance.</param>
+        /// <returns>The updated IServiceCollection with registered services.</returns>
+        /// <exception cref="NotSupportedException">Thrown when an unsupported service lifetime is provided.</exception>
         public IServiceCollection AddOsReleaseNet(ServiceLifetime serviceLifetime)
         {
             switch (serviceLifetime)
