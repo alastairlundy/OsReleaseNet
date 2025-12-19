@@ -1,7 +1,7 @@
 # OsReleaseNet
 Linux and FreeBSD OsRelease detection, SteamOS detection, and helpful detection code for Linux.
 
-[![NuGet](https://img.shields.io/nuget/v/AlastairLundy.OsReleaseNet.svg)](https://www.nuget.org/packages/AlastairLundy.OsReleaseNet/)  [![NuGet](https://img.shields.io/nuget/dt/AlastairLundy.OsReleaseNet.svg)](https://www.nuget.org/packages/AlastairLundy.OsReleaseNet/)
+[![NuGet](https://img.shields.io/nuget/v/OsReleaseNet.svg)](https://www.nuget.org/packages/OsReleaseNet/)  [![NuGet](https://img.shields.io/nuget/dt/OsReleaseNet.svg)](https://www.nuget.org/packages/OsReleaseNet/)
 
 ## Table of Contents
 * [Features](#features)
@@ -14,13 +14,14 @@ Linux and FreeBSD OsRelease detection, SteamOS detection, and helpful detection 
 * Support for detecting Linux OsRelease information
 * Support for detecting SteamOS and SteamDeck information
 
-
 ## How to install and use OsReleaseNet
 OsReleaseNet can be installed via the .NET SDK CLI, Nuget via your IDE or code editor's package interface, or via the Nuget website.
 
-| Package Name               | Nuget Link                                                                                | .NET SDK CLI command                              |
-|----------------------------|-------------------------------------------------------------------------------------------|---------------------------------------------------|
-| AlastairLundy.OsReleaseNet | [AlastairLundy.OsReleaseNet Nuget](https://nuget.org/packages/AlastairLundy.OsReleaseNet) | ``dotnet add package AlastairLundy.OsReleaseNet`` |
+| Package Name                                | Nuget Link                                                                                                                  | .NET SDK CLI command                                               |
+|---------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------|
+| OsReleaseNet                                | [OsReleaseNet Nuget](https://nuget.org/packages/OsReleaseNet)                                                               | ``dotnet add package OsReleaseNet``                                |
+| OsReleaseNet.Extensions.DependencyInjection | [OsReleaseNet.Extensions.DependencyInjection Nuget](https://nuget.org/packages/OsReleaseNet.Extensions.DependencyInjection) | ``dotnet add package OsReleaseNet.Extensions.DependencyInjection`` |
+
 
 ### Compatibility
 OsReleaseNet supports:
