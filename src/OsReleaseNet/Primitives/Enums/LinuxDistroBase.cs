@@ -15,7 +15,7 @@
     limitations under the License.
  */
 
-namespace AlastairLundy.OsReleaseNet;
+namespace OsReleaseNet;
 
 /// <summary>
 /// Represents the base of a Linux distribution.

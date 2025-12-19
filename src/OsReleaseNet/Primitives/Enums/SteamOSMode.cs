@@ -15,7 +15,7 @@
     limitations under the License.
  */
 
-namespace AlastairLundy.OsReleaseNet;
+namespace OsReleaseNet;
 
 /// <summary>
 /// The mode that SteamOS 3.x and newer is running in.
