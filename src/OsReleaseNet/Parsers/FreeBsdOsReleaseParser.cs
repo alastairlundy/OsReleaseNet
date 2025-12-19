@@ -45,71 +45,71 @@ public class FreeBsdOsReleaseParser : IFreeBsdOsReleaseParser
         FreeBsdOsReleaseInfo freeBsdReleaseInfo = new();
 
         fileContents = ParserHelper.RemoveUnwantedCharacters(fileContents).ToArray();
-        
-        foreach (string resultLine in fileContents)
+
+        foreach (string line in fileContents)
         {
-            string line = resultLine.ToUpper();
+            string lineUpper = line.ToUpper();
 
-            if(line.Contains("ANSI_"))
+            if (lineUpper.Contains("ANSI_"))
             {
-                if (line.StartsWith("ANSI_COLOR="))
+                if (lineUpper.StartsWith("ANSI_COLOR="))
                 {
-                    freeBsdReleaseInfo.AnsiColor = resultLine.Replace("ANSI_COLOR=", string.Empty);
-                }   
-            }
-            if (line.Contains("NAME=") && !line.Contains("VERSION"))
-            {
-
-                if (line.StartsWith("CPE_"))
-                {
-                    freeBsdReleaseInfo.CpeName = resultLine.Replace("CPE_NAME=", string.Empty);
+                    freeBsdReleaseInfo.AnsiColor = line.Replace("ANSI_COLOR=", string.Empty);
                 }
-                if (line.StartsWith("PRETTY_"))
+            }
+
+            if (lineUpper.Contains("NAME=") && !lineUpper.Contains("VERSION"))
+            {
+                if (lineUpper.StartsWith("CPE_"))
+                {
+                    freeBsdReleaseInfo.CpeName = line.Replace("CPE_NAME=", string.Empty);
+                }
+
+                if (lineUpper.StartsWith("PRETTY_"))
                 {
                     freeBsdReleaseInfo.PrettyName =
-                        resultLine.Replace("PRETTY_NAME=", string.Empty);
+                        line.Replace("PRETTY_NAME=", string.Empty);
                 }
 
-                if (!line.Contains("PRETTY") && !line.Contains("CODE"))
+                if (!lineUpper.Contains("PRETTY") && !lineUpper.Contains("CODE"))
                 {
-                    freeBsdReleaseInfo.Name = resultLine
+                    freeBsdReleaseInfo.Name = line
                         .Replace("NAME=", string.Empty);
                 }
             }
 
-            if (line.Contains("VERSION="))
+            if (lineUpper.Contains("VERSION="))
             {
-
-                if (line.Contains("ID="))
+                if (lineUpper.Contains("ID="))
                 {
                     freeBsdReleaseInfo.VersionId =
-                        resultLine.Replace("VERSION_ID=", string.Empty);
+                        line.Replace("VERSION_ID=", string.Empty);
                 }
-                else if (!line.Contains("ID=") && !line.Contains("CODE"))
+                else if (!lineUpper.Contains("ID=") && !lineUpper.Contains("CODE"))
                 {
-                    freeBsdReleaseInfo.Version = resultLine.Replace("VERSION=", string.Empty)
+                    freeBsdReleaseInfo.Version = line.Replace("VERSION=", string.Empty)
                         .Replace("LTS", string.Empty);
                 }
             }
 
-            if (line.Contains("ID"))
+            if (lineUpper.Contains("ID"))
             {
-                if (!line.Contains("VERSION"))
+                if (!lineUpper.Contains("VERSION"))
                 {
-                    freeBsdReleaseInfo.Identifier = resultLine.Replace("ID=", string.Empty);
+                    freeBsdReleaseInfo.Identifier = line.Replace("ID=", string.Empty);
                 }
             }
 
-            if (line.Contains("URL="))
+            if (lineUpper.Contains("URL="))
             {
-                if (line.StartsWith("HOME_"))
+                if (lineUpper.StartsWith("HOME_"))
                 {
-                    freeBsdReleaseInfo.HomeUrl = resultLine.Replace("HOME_URL=", string.Empty);
+                    freeBsdReleaseInfo.HomeUrl = line.Replace("HOME_URL=", string.Empty);
                 }
-                else if (line.StartsWith("BUG_"))
+                else if (lineUpper.StartsWith("BUG_"))
                 {
                     freeBsdReleaseInfo.BugReportUrl =
-                        resultLine.Replace("BUG_REPORT_URL=", string.Empty);
+                        line.Replace("BUG_REPORT_URL=", string.Empty);
                 }
             }
         }
