@@ -10,7 +10,7 @@ permissions:
 
 jobs:
   build-and-publish:
-      runs-on: codeberg-small
+      runs-on: ubuntu-latest
   
       permissions:
         id-token: write 
