@@ -142,17 +142,17 @@ public class LinuxOsReleaseInfo : IEquatable<LinuxOsReleaseInfo>
     {
         if (other is null) return false;
         
-        return Name == other.Name &&
-               Version == other.Version &&
-               Identifier == other.Identifier &&
-               IdentifierLike.Equals(other.IdentifierLike) &&
-               PrettyName == other.PrettyName &&
-               VersionId == other.VersionId &&
-               HomeUrl == other.HomeUrl &&
-               SupportUrl == other.SupportUrl &&
-               BugReportUrl == other.BugReportUrl &&
-               PrivacyPolicyUrl == other.PrivacyPolicyUrl &&
-               VersionCodename == other.VersionCodename;
+        return string.Equals(Name, other.Name, StringComparison.Ordinal) &&
+string.Equals(Version, other.Version, StringComparison.Ordinal) &&
+string.Equals(Identifier, other.Identifier, StringComparison.Ordinal) &&
+IdentifierLike.Equals(other.IdentifierLike) &&
+string.Equals(PrettyName, other.PrettyName, StringComparison.Ordinal) &&
+string.Equals(VersionId, other.VersionId, StringComparison.Ordinal) &&
+string.Equals(HomeUrl, other.HomeUrl, StringComparison.Ordinal) &&
+string.Equals(SupportUrl, other.SupportUrl, StringComparison.Ordinal) &&
+string.Equals(BugReportUrl, other.BugReportUrl, StringComparison.Ordinal) &&
+string.Equals(PrivacyPolicyUrl, other.PrivacyPolicyUrl, StringComparison.Ordinal) &&
+string.Equals(VersionCodename, other.VersionCodename, StringComparison.Ordinal);
     }
 
     /// <summary>
