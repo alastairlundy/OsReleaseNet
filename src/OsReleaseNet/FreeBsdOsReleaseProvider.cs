@@ -16,6 +16,7 @@
  */
 
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace OsReleaseNet;
@@ -37,24 +38,26 @@ public class FreeBsdOsReleaseProvider : IFreeBsdOsReleaseProvider
     }
 
     /// <summary>
-    /// Retrieves the value of a specific property in the FreeBSD OS Release Info.
+    /// Retrieves the value of a specific property in the FreeBSD OS Release Information.
     /// </summary>
     /// <param name="propertyName">The name of the property to retrieve.</param>
+    /// <param name="cancellationToken"></param>
     /// <returns>The value of the specified property if found; a null string otherwise.</returns>
     /// <exception cref="PlatformNotSupportedException">Throw if run on an Operating System
     /// that isn't FreeBSD-based.</exception>
     [SupportedOSPlatform("freebsd")]
-    public async Task<string?> GetReleaseInfoPropertyValueAsync(string propertyName)
+    public async Task<string?> GetReleaseInfoPropertyValueAsync(string propertyName,
+        CancellationToken cancellationToken)
     {
         ArgumentException.ThrowIfNullOrEmpty(propertyName);
         
         if (!OperatingSystem.IsFreeBSD())
             throw new PlatformNotSupportedException(Resources.Exceptions_PlatformNotSupported_FreeBsdOnly);
             
-        string[] resultArray = await File.ReadAllLinesAsync("/etc/os-release");
+        string[] osReleaseInfoLines = await File.ReadAllLinesAsync("/etc/os-release", cancellationToken).ConfigureAwait(true);
         
-        string? result = ParserHelper.RemoveUnwantedCharacters(resultArray)
-            .FirstOrDefault(x => x.ToUpper().Contains(propertyName.ToUpper()));
+        string? result = ParserHelper.RemoveUnwantedCharacters(osReleaseInfoLines)
+            .FirstOrDefault(x => x.ToUpper().Contains(propertyName.ToUpper(), StringComparison.OrdinalIgnoreCase));
 
         result = result?.Replace(propertyName, string.Empty)
             .Replace("=", string.Empty);
@@ -65,17 +68,20 @@ public class FreeBsdOsReleaseProvider : IFreeBsdOsReleaseProvider
     /// <summary>
     /// Retrieves the FreeBSD OS release information.
     /// </summary>
+    /// <param name="cancellationToken"></param>
     /// <returns>The FreeBSD OS release information.</returns>
     /// <exception cref="PlatformNotSupportedException">Throw if run on an Operating System
     /// that isn't FreeBSD-based.</exception>
     [SupportedOSPlatform("freebsd")]
-    public async Task<FreeBsdOsReleaseInfo> GetReleaseInfoAsync()
+    public async Task<FreeBsdOsReleaseInfo> GetReleaseInfoAsync(CancellationToken cancellationToken)
     {
         if (!OperatingSystem.IsFreeBSD())
             throw new PlatformNotSupportedException(Resources.Exceptions_PlatformNotSupported_FreeBsdOnly);
 
-        string[] resultArray = await File.ReadAllLinesAsync("/etc/os-release");
+        string[] osReleaseInfoLines = await File.ReadAllLinesAsync("/etc/os-release", cancellationToken).ConfigureAwait(true);
+
+        FreeBsdOsReleaseInfo result = _freeBsdOsReleaseParser.ParseFreeBsdRelease(osReleaseInfoLines);
         
-        return await Task.FromResult(_freeBsdOsReleaseParser.ParseFreeBsdRelease(resultArray));
+        return await Task.FromResult(result).ConfigureAwait(true);
     }
 }

@@ -19,6 +19,7 @@
 // ReSharper disable ConvertToPrimaryConstructor
 
 using System.Runtime.InteropServices;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace OsReleaseNet;
@@ -35,7 +36,7 @@ public class SteamOsInfoProvider : ISteamOsInfoProvider
     /// Initializes a new instance of the <see cref="SteamOsInfoProvider"/> class.
     /// 
     /// This constructor takes an implementation of the ILinuxOsReleaseProvider interface as an argument,
-    /// which provides the necessary information about the linux based operating system.
+    /// which provides the necessary information about the Linux-based operating system.
     /// </summary>
     /// <param name="linuxOsReleaseProvider">The provider of Linux OS release information.</param>
     public SteamOsInfoProvider(ILinuxOsReleaseProvider linuxOsReleaseProvider)
@@ -46,32 +47,36 @@ public class SteamOsInfoProvider : ISteamOsInfoProvider
     /// <summary>
     /// Detects whether a device running SteamOS 3.x is running in Desktop Mode or in Gaming Mode.
     /// </summary>
+    /// <param name="cancellationToken"></param>
     /// <returns>the SteamOS mode being run if run on SteamOS.</returns>
     /// <exception cref="ArgumentException">Thrown if Holo ISO is detected and if Holo ISO isn't counted as SteamOS.</exception>
     /// <exception cref="PlatformNotSupportedException">Throw if run on an Operating System that isn't SteamOS 3 or newer</exception>
     [SupportedOSPlatform("linux")]
-    public async Task<SteamOSMode> GetSteamOSModeAsync() 
-        => await GetSteamOSModeAsync(false);
-    
+    public async Task<SteamOSMode> GetSteamOSModeAsync(CancellationToken cancellationToken) 
+        => await GetSteamOSModeAsync(false, cancellationToken).ConfigureAwait(true);
+
     /// <summary>
     /// Detects whether a device running SteamOS 3.x is running in Desktop Mode or in Gaming Mode.
     /// </summary>
     /// <param name="includeHoloIsoAsSteamOs">Whether to consider Holo ISO as Steam OS.</param>
+    /// <param name="cancellationToken"></param>
     /// <returns>the SteamOS mode being run if run on SteamOS.</returns>
     /// <exception cref="ArgumentException">Thrown if Holo ISO is detected and if Holo ISO isn't counted as SteamOS.</exception>
     /// <exception cref="PlatformNotSupportedException">Throw if run on an Operating System that isn't SteamOS 3 or newer</exception>
     [SupportedOSPlatform("linux")]
-    public async Task<SteamOSMode> GetSteamOSModeAsync(bool includeHoloIsoAsSteamOs)
+    public async Task<SteamOSMode> GetSteamOSModeAsync(bool includeHoloIsoAsSteamOs,
+        CancellationToken cancellationToken)
     {
-        bool isSteamOs = await IsSteamOSAsync(includeHoloIsoAsSteamOs);
+        bool isSteamOs = await IsSteamOSAsync(includeHoloIsoAsSteamOs, cancellationToken).ConfigureAwait(true);
         
         if (!isSteamOs)
             throw new PlatformNotSupportedException(
                 Resources.Exceptions_PlatformNotSupported_LinuxOnly);
         
-        LinuxDistroBase distroBase = await _linuxOsReleaseProvider.GetDistroBaseAsync();
+        LinuxDistroBase distroBase = await _linuxOsReleaseProvider.GetDistroBaseAsync(cancellationToken)
+            .ConfigureAwait(true);
 
-        bool isSteamOsExcludingHolo = await IsSteamOSAsync(false);
+        bool isSteamOsExcludingHolo = await IsSteamOSAsync(false, cancellationToken).ConfigureAwait(true);
 
         if (distroBase == LinuxDistroBase.Manjaro)
         {
@@ -95,37 +100,35 @@ public class SteamOsInfoProvider : ISteamOsInfoProvider
     /// <summary>
     /// Detects if a Linux distro is Steam OS.
     /// </summary>
-    /// <returns>true if running on a SteamOS 3.x based distribution, returns false otherwise.</returns>
+    /// <returns>true if running on a SteamOS 3.x-based distribution, returns false otherwise.</returns>
     /// <exception cref="PlatformNotSupportedException">Thrown if not run on a Linux-based Operating System.</exception>
     // ReSharper disable once InconsistentNaming
     [SupportedOSPlatform("linux")]
-    public async Task<bool> IsSteamOSAsync() 
-        => await IsSteamOSAsync(false);
+    public async Task<bool> IsSteamOSAsync(CancellationToken cancellationToken) 
+        => await IsSteamOSAsync(false, cancellationToken).ConfigureAwait(true);
 
     /// <summary>
     /// Detects if a Linux distro is Steam OS.
     /// </summary>
     /// <param name="includeHoloIsoAsSteamOs"></param>
-    /// <returns>true if running on a SteamOS 3.x based distribution, returns false otherwise.</returns>
+    /// <param name="cancellationToken"></param>
+    /// <returns>true if running on a SteamOS 3.x-based distribution, returns false otherwise.</returns>
     /// <exception cref="PlatformNotSupportedException">Thrown if not run on a Linux-based Operating System.</exception>
     // ReSharper disable once InconsistentNaming
     [SupportedOSPlatform("linux")]
-    public async Task<bool> IsSteamOSAsync(bool includeHoloIsoAsSteamOs)
+    public async Task<bool> IsSteamOSAsync(bool includeHoloIsoAsSteamOs, CancellationToken cancellationToken)
     {
         if (!RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
             throw new PlatformNotSupportedException(Resources.Exceptions_PlatformNotSupported_LinuxOnly);
 
-        LinuxOsReleaseInfo distroInfo = await _linuxOsReleaseProvider.GetReleaseInfoAsync();
+        LinuxOsReleaseInfo distroInfo = await _linuxOsReleaseProvider.GetReleaseInfoAsync(cancellationToken).ConfigureAwait(true);
         LinuxDistroBase distroBase = _linuxOsReleaseProvider.GetDistroBase(distroInfo);
 
         if (distroBase == LinuxDistroBase.Manjaro || distroBase == LinuxDistroBase.Arch)
         {
-            return includeHoloIsoAsSteamOs && distroInfo.PrettyName.ToLower().Contains("holo") ||
+            return (includeHoloIsoAsSteamOs && distroInfo.PrettyName.ToLower().Contains("holo")) ||
                    distroInfo.PrettyName.ToLower().Contains("steamos");
         }
-        if (distroBase == LinuxDistroBase.Debian && distroInfo.PrettyName.ToLower().Contains("steamos"))
-            // ReSharper disable once DuplicatedStatements
-            return false;
 
         //Fallback to false if it isn't detected as SteamOS.
         return false;

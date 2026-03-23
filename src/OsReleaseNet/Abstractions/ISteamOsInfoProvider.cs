@@ -16,6 +16,7 @@
    */
 
 
+using System.Threading;
 using System.Threading.Tasks;
 
 // ReSharper disable InconsistentNaming
@@ -23,37 +24,40 @@ using System.Threading.Tasks;
 namespace OsReleaseNet.Abstractions;
 
 /// <summary>
-/// An interface for retrieving information about a SteamOS based operating system.
+/// An interface for retrieving information about a SteamOS-based operating system.
 /// </summary>
 public interface ISteamOsInfoProvider
 {
     /// <summary>
     /// Retrieves the current SteamOS mode.
     /// </summary>
+    /// <param name="cancellationToken"></param>
     /// <returns>The current SteamOS mode.</returns>
     [SupportedOSPlatform("linux")]
-    Task<SteamOSMode> GetSteamOSModeAsync();
-    
+    Task<SteamOSMode> GetSteamOSModeAsync(CancellationToken cancellationToken);
+
     /// <summary>
     /// Retrieves the current SteamOS mode, including whether to include HoloISO as Steam OS.
     /// </summary>
     /// <param name="includeHoloIsoAsSteamOs">Whether HoloISO should be considered as Steam OS.</param>
+    /// <param name="cancellationToken"></param>
     /// <returns>The current SteamOS mode.</returns>
     [SupportedOSPlatform("linux")]
-    Task<SteamOSMode> GetSteamOSModeAsync(bool includeHoloIsoAsSteamOs);
+    Task<SteamOSMode> GetSteamOSModeAsync(bool includeHoloIsoAsSteamOs, CancellationToken cancellationToken);
     
     /// <summary>
     /// Checks whether the current OS is Steam OS.
     /// </summary>
     /// <returns>True if the current OS is Steam OS; false otherwise.</returns>
     [SupportedOSPlatform("linux")]
-    Task<bool> IsSteamOSAsync();
-    
+    Task<bool> IsSteamOSAsync(CancellationToken cancellationToken);
+
     /// <summary>
     /// Checks whether the current system is running a Steam OS, including an option to include HoloISO as Steam OS.
     /// </summary>
     /// <param name="includeHoloIsoAsSteamOs">Whether HoloISO should be considered as Steam OS.</param>
+    /// <param name="cancellationToken"></param>
     /// <returns>A boolean indicating whether the system is running a Steam OS.</returns>
     [SupportedOSPlatform("linux")]
-    Task<bool> IsSteamOSAsync(bool includeHoloIsoAsSteamOs);
+    Task<bool> IsSteamOSAsync(bool includeHoloIsoAsSteamOs, CancellationToken cancellationToken);
 }

@@ -17,6 +17,7 @@
 
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace OsReleaseNet;
@@ -38,14 +39,16 @@ public class LinuxOsReleaseProvider : ILinuxOsReleaseProvider
     }
 
     /// <summary>
-    /// Retrieves the value of a specific property in the Linux OS Release Info.
+    /// Retrieves the value of a specific property in the Linux OS Release Information.
     /// </summary>
     /// <param name="propertyName">The name of the property to retrieve.</param>
+    /// <param name="cancellationToken"></param>
     /// <returns>The value of the specified property if found; a null string otherwise.</returns>
     /// <exception cref="PlatformNotSupportedException">Throw if run on an Operating System
     /// that isn't Linux-based.</exception>
     [SupportedOSPlatform("linux")]
-    public async Task<string?> GetReleaseInfoPropertyValueAsync(string propertyName)
+    public async Task<string?> GetReleaseInfoPropertyValueAsync(string propertyName,
+        CancellationToken cancellationToken)
     {
         ArgumentException.ThrowIfNullOrEmpty(propertyName);
         
@@ -53,7 +56,7 @@ public class LinuxOsReleaseProvider : ILinuxOsReleaseProvider
             throw new PlatformNotSupportedException(Resources.
                 Exceptions_PlatformNotSupported_LinuxOnly);
             
-        string[] resultArray = await File.ReadAllLinesAsync("/etc/os-release");
+        string[] resultArray = await File.ReadAllLinesAsync("/etc/os-release", cancellationToken).ConfigureAwait(true);
         
         string? result = ParserHelper.RemoveUnwantedCharacters(resultArray)
             .FirstOrDefault(x => x.ToUpper().Contains(propertyName.ToUpper()));
@@ -71,17 +74,17 @@ public class LinuxOsReleaseProvider : ILinuxOsReleaseProvider
     /// <exception cref="PlatformNotSupportedException">Throw if run on an Operating System
     /// that isn't Linux-based.</exception>
     [SupportedOSPlatform("linux")]
-    public async Task<LinuxOsReleaseInfo> GetReleaseInfoAsync()
+    public async Task<LinuxOsReleaseInfo> GetReleaseInfoAsync(CancellationToken cancellationToken)
     {
         if (!RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
             throw new PlatformNotSupportedException(
                 Resources.Exceptions_PlatformNotSupported_LinuxOnly);
 
-        string[] resultArray = await File.ReadAllLinesAsync("/etc/os-release");
+        string[] resultArray = await File.ReadAllLinesAsync("/etc/os-release", cancellationToken).ConfigureAwait(true);
 
         LinuxOsReleaseInfo result = _linuxOsReleaseParser.ParseLinuxOsRelease(resultArray);
 
-        return await Task.FromResult(result);
+        return await Task.FromResult(result).ConfigureAwait(true);
     }
 
     /// <summary>
@@ -91,7 +94,7 @@ public class LinuxOsReleaseProvider : ILinuxOsReleaseProvider
     /// <exception cref="PlatformNotSupportedException">Throw if run on an Operating System
     /// that isn't Linux-based.</exception>
     [SupportedOSPlatform("linux")]    
-    public async Task<LinuxDistroBase> GetDistroBaseAsync()
+    public async Task<LinuxDistroBase> GetDistroBaseAsync(CancellationToken cancellationToken)
     {
         if (!OperatingSystem.IsLinux())
             throw new PlatformNotSupportedException(Resources.
@@ -99,12 +102,12 @@ public class LinuxOsReleaseProvider : ILinuxOsReleaseProvider
 
         LinuxOsReleaseInfo osReleaseInfo = new LinuxOsReleaseInfo();
         
-        string? result =  await GetReleaseInfoPropertyValueAsync("ID_LIKE=");
+        string? result =  await GetReleaseInfoPropertyValueAsync("ID_LIKE=", cancellationToken).ConfigureAwait(true);
 
         if (result is not null)
             osReleaseInfo.IdentifierLike = result.Split(" ");
         else
-            osReleaseInfo = await GetReleaseInfoAsync();
+            osReleaseInfo = await GetReleaseInfoAsync(cancellationToken).ConfigureAwait(true);
         
         return GetDistroBase(osReleaseInfo);
     }
