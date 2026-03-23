@@ -16,13 +16,13 @@
         <Title>OsReleaseNet.Extensions.DependencyInjection</Title>
         <Authors>AlastairLundy</Authors>
         <Copyright>Copyright (c) Alastair Lundy 2025</Copyright>
-        <RepositoryUrl>https://codeberg.org/alastairlundy/OsReleaseNet</RepositoryUrl>
+        <RepositoryUrl>https://github.com/alastairlundy/OsReleaseNet</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
-        <PackageReleaseNotes>Initial Release</PackageReleaseNotes>
+        <PackageReleaseNotes>* Updated Microsoft.Extensions.DependencyInjection.Abstractions to 10.0.5</PackageReleaseNotes>
         <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Description>Enables easy Dependency Injection registration for OsReleaseNet.</Description>
-        <Version>2.4.0</Version>
+        <Version>2.4.1</Version>
     </PropertyGroup>
 
     <ItemGroup>

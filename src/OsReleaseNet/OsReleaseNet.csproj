@@ -6,19 +6,15 @@
         <Nullable>enable</Nullable>
         <TargetFrameworks>netstandard2.0;net8.0;net9.0;net10.0;</TargetFrameworks>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-        <Version>2.4.0</Version>
+        <Version>2.4.1</Version>
         <Title>OsReleaseNet</Title>
         <Authors>AlastairLundy</Authors>
         <Description>Linux OsRelease detection, SteamOS detection, and helpful detection code for Linux.</Description>
         <Copyright>Copyright (c) Alastair Lundy 2024-2025</Copyright>
-        <RepositoryUrl>https://codeberg.org/alastairlundy/OsReleaseNet/</RepositoryUrl>
+        <RepositoryUrl>https://github.com/alastairlundy/OsReleaseNet</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
-        <PackageReleaseNotes>### Changes since 2.3.0
-* Updated Polyfill from 9.3.0 to 9.4.1
-* Implemented ``IEquatable&lt;FreeBsdOsReleaseInfo&gt;`` for ``FreeBsdOsReleaseInfo``
-* Shortened package namespaces and package Id
-* Minor formatting tweaks
-* Enabled trimming support</PackageReleaseNotes>
+        <PackageReleaseNotes>* Updated internal Polyfill version to 9.22.0
+* Optimized Polyfill usage</PackageReleaseNotes>
         <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
         <PackageIcon>platformkit_logo_512x.jpg</PackageIcon>
         <PackageTags>os-release, linux, freebsd</PackageTags>
