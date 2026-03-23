@@ -10,10 +10,9 @@ Versions that are currently supported with Bug Fixes and/or Security Fixes.
 
 | Version series | Supported with Bug Fixes | Supported with Security Fixes |
 |--| --|--|
-| 2.3 | Until 2.4.x | Until 2.5.x |
-| 2.2 | Until 2.4.x | Until 2.4.x |
-| 2.1 | :x: | Until 2.4.x |
-| < 2.1 | :x: | :x: |
+| 2.4 | Until 3.1 | Until 3.1 |
+| 2.3 | :x: | Until 3.0 |
+| < 2.3 | :x: | :x: |
 
 ## Reporting a Security Vulnerability
 
