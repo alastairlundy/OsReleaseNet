@@ -160,7 +160,7 @@ public class LinuxOsReleaseInfo : IEquatable<LinuxOsReleaseInfo>
     /// </summary>
     /// <param name="left">The first instance of <see cref="LinuxOsReleaseInfo"/> to compare.</param>
     /// <param name="right">The second instance of <see cref="LinuxOsReleaseInfo"/> to compare.</param>
-    /// <returns>Returns <c>true</c> if the instances are equal; otherwise, <c>false</c>.</returns>
+    /// <returns>Returns <see langword="true"/> if the instances are equal; otherwise, <c>false</c>.</returns>
     public static bool Equals(LinuxOsReleaseInfo? left, LinuxOsReleaseInfo? right)
     {
         if (left is null || right is null)
@@ -212,7 +212,7 @@ public class LinuxOsReleaseInfo : IEquatable<LinuxOsReleaseInfo>
     /// </summary>
     /// <param name="left">The first instance of <see cref="LinuxOsReleaseInfo"/> to compare.</param>
     /// <param name="right">The second instance of <see cref="LinuxOsReleaseInfo"/> to compare.</param>
-    /// <returns>Returns <c>true</c> if the two instances are equal; otherwise, <c>false</c>.</returns>
+    /// <returns>Returns <see langword="true"/> if the two instances are equal; otherwise, <c>false</c>.</returns>
     public static bool operator ==(LinuxOsReleaseInfo? left, LinuxOsReleaseInfo? right) => Equals(left, right);
 
     /// <summary>
@@ -220,6 +220,6 @@ public class LinuxOsReleaseInfo : IEquatable<LinuxOsReleaseInfo>
     /// </summary>
     /// <param name="left">The first instance of <see cref="LinuxOsReleaseInfo"/> to compare.</param>
     /// <param name="right">The second instance of <see cref="LinuxOsReleaseInfo"/> to compare.</param>
-    /// <returns>Returns <c>true</c> if the instances are not equal; otherwise, <c>false</c>.</returns>
+    /// <returns>Returns <see langword="true"/> if the instances are not equal; otherwise, <c>false</c>.</returns>
     public static bool operator !=(LinuxOsReleaseInfo? left, LinuxOsReleaseInfo? right) => !Equals(left, right);
 }
