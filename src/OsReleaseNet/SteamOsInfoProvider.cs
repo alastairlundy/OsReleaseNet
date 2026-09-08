@@ -118,14 +118,11 @@ public class SteamOsInfoProvider : ISteamOsInfoProvider
         LinuxOsReleaseInfo distroInfo = await _linuxOsReleaseProvider.GetReleaseInfoAsync().ConfigureAwait(false);
         LinuxDistroBase distroBase = _linuxOsReleaseProvider.GetDistroBase(distroInfo);
 
-        if (distroBase == LinuxDistroBase.Manjaro || distroBase == LinuxDistroBase.Arch)
+        if (distroBase is LinuxDistroBase.Manjaro or LinuxDistroBase.Arch)
         {
-            return includeHoloIsoAsSteamOs && distroInfo.PrettyName.ToLower().Contains("holo") ||
-                   distroInfo.PrettyName.ToLower().Contains("steamos");
+            return (includeHoloIsoAsSteamOs && distroInfo.PrettyName.Contains("holo", StringComparison.OrdinalIgnoreCase)) ||
+                   distroInfo.PrettyName.Contains("steamos", StringComparison.OrdinalIgnoreCase);
         }
-        if (distroBase == LinuxDistroBase.Debian && distroInfo.PrettyName.ToLower().Contains("steamos"))
-            // ReSharper disable once DuplicatedStatements
-            return false;
 
         //Fallback to false if it isn't detected as SteamOS.
         return false;

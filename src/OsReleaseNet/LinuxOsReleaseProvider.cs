@@ -15,6 +15,7 @@
     limitations under the License.
  */
 
+using System.Globalization;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
@@ -56,7 +57,8 @@ public class LinuxOsReleaseProvider : ILinuxOsReleaseProvider
         string[] resultArray = await File.ReadAllLinesAsync("/etc/os-release").ConfigureAwait(false);
         
         string? result = ParserHelper.RemoveUnwantedCharacters(resultArray)
-            .FirstOrDefault(x => x.ToUpper().Contains(propertyName.ToUpper()));
+            .FirstOrDefault(x => x.ToUpper(CultureInfo.CurrentCulture).Contains(propertyName.ToUpper(CultureInfo.CurrentCulture),
+                StringComparison.Ordinal));
 
         result = result?.Replace(propertyName, string.Empty)
             .Replace("=", string.Empty);
@@ -77,7 +79,7 @@ public class LinuxOsReleaseProvider : ILinuxOsReleaseProvider
             throw new PlatformNotSupportedException(
                 Resources.Exceptions_PlatformNotSupported_LinuxOnly);
 
-        string[] resultArray = await File.ReadAllLinesAsync("/etc/os-release");
+        string[] resultArray = await File.ReadAllLinesAsync("/etc/os-release").ConfigureAwait(false);
 
         LinuxOsReleaseInfo result = _linuxOsReleaseParser.ParseLinuxOsRelease(resultArray);
 
@@ -120,7 +122,7 @@ public class LinuxOsReleaseProvider : ILinuxOsReleaseProvider
     [SupportedOSPlatform("linux")]
     public LinuxDistroBase GetDistroBase(LinuxOsReleaseInfo osReleaseInfo)
     {
-        string identifierLike = osReleaseInfo.IdentifierLike.First().ToLower();
+        string identifierLike = osReleaseInfo.IdentifierLike[0].ToLower(CultureInfo.CurrentCulture);
         
         return identifierLike switch
         {

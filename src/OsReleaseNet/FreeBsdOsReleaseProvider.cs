@@ -15,6 +15,7 @@
     limitations under the License.
  */
 
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -54,7 +55,7 @@ public class FreeBsdOsReleaseProvider : IFreeBsdOsReleaseProvider
         string[] resultArray = await File.ReadAllLinesAsync("/etc/os-release").ConfigureAwait(false);
         
         string? result = ParserHelper.RemoveUnwantedCharacters(resultArray)
-            .FirstOrDefault(x => x.ToUpper().Contains(propertyName.ToUpper()));
+            .FirstOrDefault(x => x.Contains(propertyName.ToUpper(CultureInfo.CurrentCulture), StringComparison.Ordinal));
 
         result = result?.Replace(propertyName, string.Empty)
             .Replace("=", string.Empty);

@@ -15,6 +15,7 @@
     limitations under the License.
  */
 
+using System.Globalization;
 using System.Linq;
 
 namespace OsReleaseNet.Parsers;
@@ -39,74 +40,77 @@ public class FreeBsdOsReleaseParser : IFreeBsdOsReleaseParser
         if (!OperatingSystem.IsFreeBSD())
             throw new PlatformNotSupportedException(Resources.Exceptions_PlatformNotSupported_FreeBsdOnly);
 
-        if (!fileContents.Any(x => x.ToLower().Contains("id=")))
-            throw new ArgumentException(Resources.Exceptions_Arguments_NotOsReleaseContents);
+        if (!fileContents.Any(x => x.ToLower(CultureInfo.CurrentCulture).Contains("id=", StringComparison.OrdinalIgnoreCase)))
+            throw new ArgumentException(Resources.Exceptions_Arguments_NotOsReleaseContents, nameof(fileContents));
 
         FreeBsdOsReleaseInfo freeBsdReleaseInfo = new();
 
-        fileContents = ParserHelper.RemoveUnwantedCharacters(fileContents).ToArray();
+        fileContents = [.. ParserHelper.RemoveUnwantedCharacters(fileContents)];
 
         foreach (string line in fileContents)
         {
-            string lineUpper = line.ToUpper();
+            string lineUpper = line.ToUpper(CultureInfo.CurrentCulture);
 
-            if (lineUpper.Contains("ANSI_"))
+            if (lineUpper.Contains("ansi_", StringComparison.OrdinalIgnoreCase))
             {
-                if (lineUpper.StartsWith("ANSI_COLOR="))
+                if (lineUpper.StartsWith("ansi_color=", StringComparison.OrdinalIgnoreCase))
                 {
                     freeBsdReleaseInfo.AnsiColor = line.Replace("ANSI_COLOR=", string.Empty);
                 }
             }
 
-            if (lineUpper.Contains("NAME=") && !lineUpper.Contains("VERSION"))
+            if (lineUpper.Contains("name=", StringComparison.OrdinalIgnoreCase) &&
+                !lineUpper.Contains("version", StringComparison.OrdinalIgnoreCase))
             {
-                if (lineUpper.StartsWith("CPE_"))
+                if (lineUpper.StartsWith("cpe_", StringComparison.OrdinalIgnoreCase))
                 {
                     freeBsdReleaseInfo.CpeName = line.Replace("CPE_NAME=", string.Empty);
                 }
 
-                if (lineUpper.StartsWith("PRETTY_"))
+                if (lineUpper.StartsWith("pretty_", StringComparison.OrdinalIgnoreCase))
                 {
                     freeBsdReleaseInfo.PrettyName =
                         line.Replace("PRETTY_NAME=", string.Empty);
                 }
 
-                if (!lineUpper.Contains("PRETTY") && !lineUpper.Contains("CODE"))
+                if (!lineUpper.Contains("pretty", StringComparison.OrdinalIgnoreCase) &&
+                    !lineUpper.Contains("code", StringComparison.OrdinalIgnoreCase))
                 {
                     freeBsdReleaseInfo.Name = line
                         .Replace("NAME=", string.Empty);
                 }
             }
 
-            if (lineUpper.Contains("VERSION="))
+            if (lineUpper.Contains("version=", StringComparison.OrdinalIgnoreCase))
             {
-                if (lineUpper.Contains("ID="))
+                if (lineUpper.Contains("id=", StringComparison.OrdinalIgnoreCase))
                 {
                     freeBsdReleaseInfo.VersionId =
                         line.Replace("VERSION_ID=", string.Empty);
                 }
-                else if (!lineUpper.Contains("ID=") && !lineUpper.Contains("CODE"))
+                else if (!lineUpper.Contains("id=", StringComparison.OrdinalIgnoreCase) &&
+                         !lineUpper.Contains("code", StringComparison.OrdinalIgnoreCase))
                 {
                     freeBsdReleaseInfo.Version = line.Replace("VERSION=", string.Empty)
                         .Replace("LTS", string.Empty);
                 }
             }
 
-            if (lineUpper.Contains("ID"))
+            if (lineUpper.Contains("id", StringComparison.OrdinalIgnoreCase))
             {
-                if (!lineUpper.Contains("VERSION"))
+                if (!lineUpper.Contains("version", StringComparison.OrdinalIgnoreCase))
                 {
                     freeBsdReleaseInfo.Identifier = line.Replace("ID=", string.Empty);
                 }
             }
 
-            if (lineUpper.Contains("URL="))
+            if (lineUpper.Contains("url=", StringComparison.OrdinalIgnoreCase))
             {
-                if (lineUpper.StartsWith("HOME_"))
+                if (lineUpper.StartsWith("home_", StringComparison.OrdinalIgnoreCase))
                 {
                     freeBsdReleaseInfo.HomeUrl = line.Replace("HOME_URL=", string.Empty);
                 }
-                else if (lineUpper.StartsWith("BUG_"))
+                else if (lineUpper.StartsWith("bug_", StringComparison.OrdinalIgnoreCase))
                 {
                     freeBsdReleaseInfo.BugReportUrl =
                         line.Replace("BUG_REPORT_URL=", string.Empty);

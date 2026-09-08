@@ -15,6 +15,7 @@
     limitations under the License.
  */
 
+using System.Globalization;
 using System.Linq;
 
 namespace OsReleaseNet.Parsers;
@@ -39,8 +40,8 @@ public class LinuxOsReleaseParser : ILinuxOsReleaseParser
         if (!OperatingSystem.IsLinux())
             throw new PlatformNotSupportedException(Resources.Exceptions_PlatformNotSupported_LinuxOnly);
 
-        if (!fileContents.Any(x => x.ToLower().Contains("id=")))
-            throw new ArgumentException(Resources.Exceptions_Arguments_NotOsReleaseContents);
+        if (!fileContents.Any(x => x.ToLower(CultureInfo.CurrentCulture).Contains("id=", StringComparison.OrdinalIgnoreCase)))
+            throw new ArgumentException(Resources.Exceptions_Arguments_NotOsReleaseContents, nameof(fileContents));
         
         LinuxOsReleaseInfo linuxDistroInfo = new();
         
@@ -48,47 +49,52 @@ public class LinuxOsReleaseParser : ILinuxOsReleaseParser
         
         foreach (string line in fileContents)
         {
-            string lineUpper = line.ToUpper();
+            string lineUpper = line.ToUpper(CultureInfo.CurrentCulture);
 
-            if (lineUpper.Contains("NAME=") && !lineUpper.Contains("VERSION"))
+            if (lineUpper.Contains("name=", StringComparison.OrdinalIgnoreCase) &&
+                !lineUpper.Contains("version", StringComparison.OrdinalIgnoreCase))
             {
-                if (lineUpper.StartsWith("PRETTY_"))
+                if (lineUpper.StartsWith("pretty_", StringComparison.OrdinalIgnoreCase))
                 {
                     linuxDistroInfo.PrettyName =
                         line.Replace("PRETTY_NAME=", string.Empty);
                 }
 
-                if (!lineUpper.Contains("PRETTY") && !lineUpper.Contains("CODE"))
+                if (!lineUpper.Contains("pretty", StringComparison.OrdinalIgnoreCase) &&
+                    !lineUpper.Contains("CODE", StringComparison.OrdinalIgnoreCase))
                 {
                     linuxDistroInfo.Name = line.Replace("NAME=", string.Empty);
                 }
             }
 
-            if (lineUpper.Contains("VERSION="))
+            if (lineUpper.Contains("version=", StringComparison.OrdinalIgnoreCase))
             {
-                if (lineUpper.Contains("ID="))
+                if (lineUpper.Contains("id=", StringComparison.OrdinalIgnoreCase))
                 {
                     linuxDistroInfo.VersionId =
                         line.Replace("VERSION_ID=", string.Empty);
                 }
-                else if (!lineUpper.Contains("ID=") && lineUpper.Contains("CODE"))
+                else if (!lineUpper.Contains("id=", StringComparison.OrdinalIgnoreCase) && 
+                         lineUpper.Contains("code", StringComparison.OrdinalIgnoreCase))
                 {
                     linuxDistroInfo.VersionCodename =
                         line.Replace("VERSION_CODENAME=", string.Empty);
                 }
-                else if (!lineUpper.Contains("ID=") && !lineUpper.Contains("CODE"))
+                else if (!lineUpper.Contains("id=", StringComparison.OrdinalIgnoreCase) &&
+                         !lineUpper.Contains("code", StringComparison.OrdinalIgnoreCase))
                 {
                     linuxDistroInfo.Version = line.Replace("VERSION=", string.Empty);
                 }
             }
 
-            if (lineUpper.Contains("ID"))
+            if (lineUpper.Contains("id", StringComparison.OrdinalIgnoreCase))
             {
-                if (lineUpper.Contains("ID_LIKE="))
+                if (lineUpper.Contains("id_like=", StringComparison.OrdinalIgnoreCase))
                 {
                     string identifiers = line.Replace("ID_LIKE=", string.Empty);
 
-                    if (identifiers.Contains(" ") || identifiers.Contains(' '))
+                    if (identifiers.Contains(" ", StringComparison.OrdinalIgnoreCase) ||
+                        identifiers.Contains(' ', StringComparison.OrdinalIgnoreCase))
                     {
                         linuxDistroInfo.IdentifierLike = identifiers.Split(" ");
                     }
@@ -97,29 +103,29 @@ public class LinuxOsReleaseParser : ILinuxOsReleaseParser
                         linuxDistroInfo.IdentifierLike = [line];
                     }
                 }
-                else if (!lineUpper.Contains("VERSION"))
+                else if (!lineUpper.Contains("version", StringComparison.OrdinalIgnoreCase))
                 {
                     linuxDistroInfo.Identifier = line.Replace("ID=", string.Empty);
                 }
             }
 
-            if (lineUpper.Contains("URL="))
+            if (lineUpper.Contains("url=", StringComparison.OrdinalIgnoreCase))
             {
-                if (lineUpper.StartsWith("HOME_"))
+                if (lineUpper.StartsWith("home_", StringComparison.OrdinalIgnoreCase))
                 {
                     linuxDistroInfo.HomeUrl = line.Replace("HOME_URL=", string.Empty);
                 }
-                else if (lineUpper.StartsWith("SUPPORT_"))
+                else if (lineUpper.StartsWith("support_", StringComparison.OrdinalIgnoreCase))
                 {
                     linuxDistroInfo.SupportUrl =
                         line.Replace("SUPPORT_URL=", string.Empty);
                 }
-                else if (lineUpper.StartsWith("BUG_"))
+                else if (lineUpper.StartsWith("bug_", StringComparison.OrdinalIgnoreCase))
                 {
                     linuxDistroInfo.BugReportUrl =
                         line.Replace("BUG_REPORT_URL=", string.Empty);
                 }
-                else if (lineUpper.StartsWith("PRIVACY_"))
+                else if (lineUpper.StartsWith("privacy_", StringComparison.OrdinalIgnoreCase))
                 {
                     linuxDistroInfo.PrivacyPolicyUrl =
                         line.Replace("PRIVACY_POLICY_URL=", string.Empty);
