@@ -142,17 +142,17 @@ public class LinuxOsReleaseInfo : IEquatable<LinuxOsReleaseInfo>
     {
         if (other is null) return false;
         
-        return Name == other.Name &&
-               Version == other.Version &&
-               Identifier == other.Identifier &&
+        return Name.Equals(other.Name, StringComparison.OrdinalIgnoreCase) &&
+               string.Equals(Version, other.Version, StringComparison.OrdinalIgnoreCase) &&
+               string.Equals(Identifier, other.Identifier, StringComparison.OrdinalIgnoreCase) &&
                IdentifierLike.Equals(other.IdentifierLike) &&
-               PrettyName == other.PrettyName &&
-               VersionId == other.VersionId &&
-               HomeUrl == other.HomeUrl &&
-               SupportUrl == other.SupportUrl &&
-               BugReportUrl == other.BugReportUrl &&
-               PrivacyPolicyUrl == other.PrivacyPolicyUrl &&
-               VersionCodename == other.VersionCodename;
+               string.Equals(PrettyName, other.PrettyName, StringComparison.OrdinalIgnoreCase) &&
+               string.Equals(VersionId, other.VersionId, StringComparison.OrdinalIgnoreCase) &&
+               string.Equals(HomeUrl, other.HomeUrl, StringComparison.OrdinalIgnoreCase) &&
+               string.Equals(SupportUrl, other.SupportUrl, StringComparison.OrdinalIgnoreCase) &&
+               string.Equals(BugReportUrl, other.BugReportUrl, StringComparison.OrdinalIgnoreCase) &&
+               string.Equals(PrivacyPolicyUrl, other.PrivacyPolicyUrl, StringComparison.OrdinalIgnoreCase) &&
+               string.Equals(VersionCodename, other.VersionCodename, StringComparison.OrdinalIgnoreCase);
     }
 
     /// <summary>
@@ -192,17 +192,17 @@ public class LinuxOsReleaseInfo : IEquatable<LinuxOsReleaseInfo>
     {
         HashCode hashCode = new();
         
-        hashCode.Add(Name);
-        hashCode.Add(Version);
-        hashCode.Add(VersionCodename);
-        hashCode.Add(VersionId);
-        hashCode.Add(Identifier);
+        hashCode.Add(Name, StringComparer.OrdinalIgnoreCase);
+        hashCode.Add(Version, StringComparer.OrdinalIgnoreCase);
+        hashCode.Add(VersionCodename, StringComparer.OrdinalIgnoreCase);
+        hashCode.Add(VersionId, StringComparer.OrdinalIgnoreCase);
+        hashCode.Add(Identifier, StringComparer.OrdinalIgnoreCase);
         hashCode.Add(IdentifierLike);
-        hashCode.Add(PrettyName);
-        hashCode.Add(HomeUrl);
-        hashCode.Add(SupportUrl);
-        hashCode.Add(BugReportUrl);
-        hashCode.Add(PrivacyPolicyUrl);
+        hashCode.Add(PrettyName, StringComparer.OrdinalIgnoreCase);
+        hashCode.Add(HomeUrl, StringComparer.OrdinalIgnoreCase);
+        hashCode.Add(SupportUrl, StringComparer.OrdinalIgnoreCase);
+        hashCode.Add(BugReportUrl, StringComparer.OrdinalIgnoreCase);
+        hashCode.Add(PrivacyPolicyUrl, StringComparer.OrdinalIgnoreCase);
         
         return hashCode.ToHashCode();
     }
