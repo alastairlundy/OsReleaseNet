@@ -71,7 +71,7 @@ public class FreeBsdOsReleaseInfo : IEquatable<FreeBsdOsReleaseInfo>
 
     /// <summary>
     /// The Common Platform Enumeration (CPE) name of the FreeBSD Distribution,
-    /// representing a standardized method of identifying and describing software or operating systems.
+    /// representing a standardised method of identifying and describing software or operating systems.
     /// </summary>
     public string CpeName { get; internal set; }
     
@@ -122,15 +122,15 @@ public class FreeBsdOsReleaseInfo : IEquatable<FreeBsdOsReleaseInfo>
         if (other is null)
             return false;
         
-        return AnsiColor == other.AnsiColor &&
-               CpeName == other.CpeName &&
-               Name == other.Name &&
-               Version == other.Version &&
-               Identifier == other.Identifier &&
-               PrettyName == other.PrettyName &&
-               VersionId == other.VersionId &&
-               HomeUrl == other.HomeUrl &&
-               BugReportUrl == other.BugReportUrl;
+        return string.Equals(AnsiColor, other.AnsiColor, StringComparison.OrdinalIgnoreCase) &&
+               string.Equals(CpeName, other.CpeName, StringComparison.OrdinalIgnoreCase) &&
+               string.Equals(Name, other.Name, StringComparison.OrdinalIgnoreCase) &&
+               string.Equals(Version, other.Version, StringComparison.OrdinalIgnoreCase) &&
+               string.Equals(Identifier, other.Identifier, StringComparison.OrdinalIgnoreCase) &&
+               string.Equals(PrettyName, other.PrettyName, StringComparison.OrdinalIgnoreCase) &&
+               string.Equals(VersionId, other.VersionId, StringComparison.OrdinalIgnoreCase) &&
+               string.Equals(HomeUrl, other.HomeUrl, StringComparison.OrdinalIgnoreCase) &&
+               string.Equals(BugReportUrl, other.BugReportUrl, StringComparison.OrdinalIgnoreCase);
     }
 
     /// <summary>
@@ -152,15 +152,15 @@ public class FreeBsdOsReleaseInfo : IEquatable<FreeBsdOsReleaseInfo>
     public override int GetHashCode()
     {
         HashCode hashCode = new();
-        hashCode.Add(AnsiColor);
-        hashCode.Add(CpeName);
-        hashCode.Add(Name);
-        hashCode.Add(Version);
-        hashCode.Add(Identifier);
-        hashCode.Add(PrettyName);
-        hashCode.Add(VersionId);
-        hashCode.Add(HomeUrl);
-        hashCode.Add(BugReportUrl);
+        hashCode.Add(AnsiColor, StringComparer.OrdinalIgnoreCase);
+        hashCode.Add(CpeName, StringComparer.OrdinalIgnoreCase);
+        hashCode.Add(Name, StringComparer.OrdinalIgnoreCase);
+        hashCode.Add(Version, StringComparer.OrdinalIgnoreCase);
+        hashCode.Add(Identifier, StringComparer.OrdinalIgnoreCase);
+        hashCode.Add(PrettyName, StringComparer.OrdinalIgnoreCase);
+        hashCode.Add(VersionId, StringComparer.OrdinalIgnoreCase);
+        hashCode.Add(HomeUrl, StringComparer.OrdinalIgnoreCase);
+        hashCode.Add(BugReportUrl, StringComparer.OrdinalIgnoreCase);
         return hashCode.ToHashCode();
     }
 
