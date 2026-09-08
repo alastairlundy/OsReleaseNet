@@ -32,7 +32,7 @@ public class SteamOsInfoProvider : ISteamOsInfoProvider
     private readonly ILinuxOsReleaseProvider _linuxOsReleaseProvider;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="SteamOsInfoProvider"/> class.
+    /// Initialises a new instance of the <see cref="SteamOsInfoProvider"/> class.
     /// 
     /// This constructor takes an implementation of the ILinuxOsReleaseProvider interface as an argument,
     /// which provides the necessary information about the linux based operating system.
@@ -51,7 +51,7 @@ public class SteamOsInfoProvider : ISteamOsInfoProvider
     /// <exception cref="PlatformNotSupportedException">Throw if run on an Operating System that isn't SteamOS 3 or newer</exception>
     [SupportedOSPlatform("linux")]
     public async Task<SteamOSMode> GetSteamOSModeAsync() 
-        => await GetSteamOSModeAsync(false);
+        => await GetSteamOSModeAsync(false).ConfigureAwait(false);
     
     /// <summary>
     /// Detects whether a device running SteamOS 3.x is running in Desktop Mode or in Gaming Mode.
@@ -63,15 +63,15 @@ public class SteamOsInfoProvider : ISteamOsInfoProvider
     [SupportedOSPlatform("linux")]
     public async Task<SteamOSMode> GetSteamOSModeAsync(bool includeHoloIsoAsSteamOs)
     {
-        bool isSteamOs = await IsSteamOSAsync(includeHoloIsoAsSteamOs);
+        bool isSteamOs = await IsSteamOSAsync(includeHoloIsoAsSteamOs).ConfigureAwait(false);
         
         if (!isSteamOs)
             throw new PlatformNotSupportedException(
                 Resources.Exceptions_PlatformNotSupported_LinuxOnly);
         
-        LinuxDistroBase distroBase = await _linuxOsReleaseProvider.GetDistroBaseAsync();
+        LinuxDistroBase distroBase = await _linuxOsReleaseProvider.GetDistroBaseAsync().ConfigureAwait(false);
 
-        bool isSteamOsExcludingHolo = await IsSteamOSAsync(false);
+        bool isSteamOsExcludingHolo = await IsSteamOSAsync(false).ConfigureAwait(false);
 
         if (distroBase == LinuxDistroBase.Manjaro)
         {
@@ -100,7 +100,7 @@ public class SteamOsInfoProvider : ISteamOsInfoProvider
     // ReSharper disable once InconsistentNaming
     [SupportedOSPlatform("linux")]
     public async Task<bool> IsSteamOSAsync() 
-        => await IsSteamOSAsync(false);
+        => await IsSteamOSAsync(false).ConfigureAwait(false);
 
     /// <summary>
     /// Detects if a Linux distro is Steam OS.
@@ -115,7 +115,7 @@ public class SteamOsInfoProvider : ISteamOsInfoProvider
         if (!RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
             throw new PlatformNotSupportedException(Resources.Exceptions_PlatformNotSupported_LinuxOnly);
 
-        LinuxOsReleaseInfo distroInfo = await _linuxOsReleaseProvider.GetReleaseInfoAsync();
+        LinuxOsReleaseInfo distroInfo = await _linuxOsReleaseProvider.GetReleaseInfoAsync().ConfigureAwait(false);
         LinuxDistroBase distroBase = _linuxOsReleaseProvider.GetDistroBase(distroInfo);
 
         if (distroBase == LinuxDistroBase.Manjaro || distroBase == LinuxDistroBase.Arch)

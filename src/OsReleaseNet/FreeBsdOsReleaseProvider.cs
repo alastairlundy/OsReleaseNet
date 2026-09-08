@@ -51,7 +51,7 @@ public class FreeBsdOsReleaseProvider : IFreeBsdOsReleaseProvider
         if (!OperatingSystem.IsFreeBSD())
             throw new PlatformNotSupportedException(Resources.Exceptions_PlatformNotSupported_FreeBsdOnly);
             
-        string[] resultArray = await File.ReadAllLinesAsync("/etc/os-release");
+        string[] resultArray = await File.ReadAllLinesAsync("/etc/os-release").ConfigureAwait(false);
         
         string? result = ParserHelper.RemoveUnwantedCharacters(resultArray)
             .FirstOrDefault(x => x.ToUpper().Contains(propertyName.ToUpper()));
@@ -74,8 +74,8 @@ public class FreeBsdOsReleaseProvider : IFreeBsdOsReleaseProvider
         if (!OperatingSystem.IsFreeBSD())
             throw new PlatformNotSupportedException(Resources.Exceptions_PlatformNotSupported_FreeBsdOnly);
 
-        string[] resultArray = await File.ReadAllLinesAsync("/etc/os-release");
+        string[] resultArray = await File.ReadAllLinesAsync("/etc/os-release").ConfigureAwait(false);
         
-        return await Task.FromResult(_freeBsdOsReleaseParser.ParseFreeBsdRelease(resultArray));
+        return await Task.FromResult(_freeBsdOsReleaseParser.ParseFreeBsdRelease(resultArray)).ConfigureAwait(false);
     }
 }

@@ -53,7 +53,7 @@ public class LinuxOsReleaseProvider : ILinuxOsReleaseProvider
             throw new PlatformNotSupportedException(Resources.
                 Exceptions_PlatformNotSupported_LinuxOnly);
             
-        string[] resultArray = await File.ReadAllLinesAsync("/etc/os-release");
+        string[] resultArray = await File.ReadAllLinesAsync("/etc/os-release").ConfigureAwait(false);
         
         string? result = ParserHelper.RemoveUnwantedCharacters(resultArray)
             .FirstOrDefault(x => x.ToUpper().Contains(propertyName.ToUpper()));
@@ -81,7 +81,7 @@ public class LinuxOsReleaseProvider : ILinuxOsReleaseProvider
 
         LinuxOsReleaseInfo result = _linuxOsReleaseParser.ParseLinuxOsRelease(resultArray);
 
-        return await Task.FromResult(result);
+        return await Task.FromResult(result).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -99,12 +99,12 @@ public class LinuxOsReleaseProvider : ILinuxOsReleaseProvider
 
         LinuxOsReleaseInfo osReleaseInfo = new LinuxOsReleaseInfo();
         
-        string? result =  await GetReleaseInfoPropertyValueAsync("ID_LIKE=");
+        string? result =  await GetReleaseInfoPropertyValueAsync("ID_LIKE=").ConfigureAwait(false);
 
         if (result is not null)
             osReleaseInfo.IdentifierLike = result.Split(" ");
         else
-            osReleaseInfo = await GetReleaseInfoAsync();
+            osReleaseInfo = await GetReleaseInfoAsync().ConfigureAwait(false);
         
         return GetDistroBase(osReleaseInfo);
     }
