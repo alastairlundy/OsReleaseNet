@@ -15,7 +15,6 @@
     limitations under the License.
  */
 
-using System.Globalization;
 using System.Linq;
 
 namespace OsReleaseNet.Parsers;
@@ -40,7 +39,7 @@ public class FreeBsdOsReleaseParser : IFreeBsdOsReleaseParser
         if (!OperatingSystem.IsFreeBSD())
             throw new PlatformNotSupportedException(Resources.Exceptions_PlatformNotSupported_FreeBsdOnly);
 
-        if (!fileContents.Any(x => x.ToLower(CultureInfo.CurrentCulture).Contains("id=", StringComparison.OrdinalIgnoreCase)))
+        if (!fileContents.Any(x => x.Contains("id=", StringComparison.OrdinalIgnoreCase)))
             throw new ArgumentException(Resources.Exceptions_Arguments_NotOsReleaseContents, nameof(fileContents));
 
         FreeBsdOsReleaseInfo freeBsdReleaseInfo = new();
@@ -49,7 +48,7 @@ public class FreeBsdOsReleaseParser : IFreeBsdOsReleaseParser
 
         foreach (string line in fileContents)
         {
-            string lineUpper = line.ToUpper(CultureInfo.CurrentCulture);
+            string lineUpper = line.ToUpperInvariant();
 
             if (lineUpper.Contains("ansi_", StringComparison.OrdinalIgnoreCase))
             {
@@ -91,8 +90,7 @@ public class FreeBsdOsReleaseParser : IFreeBsdOsReleaseParser
                 else if (!lineUpper.Contains("id=", StringComparison.OrdinalIgnoreCase) &&
                          !lineUpper.Contains("code", StringComparison.OrdinalIgnoreCase))
                 {
-                    freeBsdReleaseInfo.Version = line.Replace("VERSION=", string.Empty)
-                        .Replace("LTS", string.Empty);
+                    freeBsdReleaseInfo.Version = line.Replace("VERSION=", string.Empty).Trim();
                 }
             }
 

@@ -15,7 +15,6 @@
     limitations under the License.
  */
 
-using System.Globalization;
 using System.Linq;
 
 namespace OsReleaseNet.Parsers;
@@ -40,7 +39,7 @@ public class LinuxOsReleaseParser : ILinuxOsReleaseParser
         if (!OperatingSystem.IsLinux())
             throw new PlatformNotSupportedException(Resources.Exceptions_PlatformNotSupported_LinuxOnly);
 
-        if (!fileContents.Any(x => x.ToLower(CultureInfo.CurrentCulture).Contains("id=", StringComparison.OrdinalIgnoreCase)))
+        if (!fileContents.Any(x => x.Contains("id=", StringComparison.OrdinalIgnoreCase)))
             throw new ArgumentException(Resources.Exceptions_Arguments_NotOsReleaseContents, nameof(fileContents));
         
         LinuxOsReleaseInfo linuxDistroInfo = new();
@@ -49,7 +48,7 @@ public class LinuxOsReleaseParser : ILinuxOsReleaseParser
         
         foreach (string line in fileContents)
         {
-            string lineUpper = line.ToUpper(CultureInfo.CurrentCulture);
+            string lineUpper = line.ToUpperInvariant();
 
             if (lineUpper.Contains("name=", StringComparison.OrdinalIgnoreCase) &&
                 !lineUpper.Contains("version", StringComparison.OrdinalIgnoreCase))

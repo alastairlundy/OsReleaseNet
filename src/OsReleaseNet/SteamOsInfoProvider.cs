@@ -46,9 +46,8 @@ public class SteamOsInfoProvider : ISteamOsInfoProvider
     /// <summary>
     /// Detects whether a device running SteamOS 3.x is running in Desktop Mode or in Gaming Mode.
     /// </summary>
-    /// <returns>the SteamOS mode being run if run on SteamOS.</returns>
-    /// <exception cref="ArgumentException">Thrown if Holo ISO is detected and if Holo ISO isn't counted as SteamOS.</exception>
-    /// <exception cref="PlatformNotSupportedException">Throw if run on an Operating System that isn't SteamOS 3 or newer</exception>
+    /// <returns>the SteamOS mode being run if run on SteamOS; <see cref="SteamOSMode.NotSteamOS"/> otherwise.</returns>
+    /// <exception cref="PlatformNotSupportedException">Throw if run on an Operating System that isn't Linux-based.</exception>
     [SupportedOSPlatform("linux")]
     public async Task<SteamOSMode> GetSteamOSModeAsync() 
         => await GetSteamOSModeAsync(false).ConfigureAwait(false);
@@ -57,39 +56,24 @@ public class SteamOsInfoProvider : ISteamOsInfoProvider
     /// Detects whether a device running SteamOS 3.x is running in Desktop Mode or in Gaming Mode.
     /// </summary>
     /// <param name="includeHoloIsoAsSteamOs">Whether to consider Holo ISO as Steam OS.</param>
-    /// <returns>the SteamOS mode being run if run on SteamOS.</returns>
-    /// <exception cref="ArgumentException">Thrown if Holo ISO is detected and if Holo ISO isn't counted as SteamOS.</exception>
-    /// <exception cref="PlatformNotSupportedException">Throw if run on an Operating System that isn't SteamOS 3 or newer</exception>
+    /// <returns>the SteamOS mode being run if run on SteamOS; <see cref="SteamOSMode.NotSteamOS"/> otherwise.</returns>
+    /// <exception cref="PlatformNotSupportedException">Throw if run on an Operating System that isn't Linux-based.</exception>
     [SupportedOSPlatform("linux")]
     public async Task<SteamOSMode> GetSteamOSModeAsync(bool includeHoloIsoAsSteamOs)
     {
         bool isSteamOs = await IsSteamOSAsync(includeHoloIsoAsSteamOs).ConfigureAwait(false);
         
         if (!isSteamOs)
-            throw new PlatformNotSupportedException(
-                Resources.Exceptions_PlatformNotSupported_LinuxOnly);
+            return SteamOSMode.NotSteamOS;
         
         LinuxDistroBase distroBase = await _linuxOsReleaseProvider.GetDistroBaseAsync().ConfigureAwait(false);
 
-        bool isSteamOsExcludingHolo = await IsSteamOSAsync(false).ConfigureAwait(false);
-
-        if (distroBase == LinuxDistroBase.Manjaro)
+        return distroBase switch
         {
-            if (includeHoloIsoAsSteamOs || isSteamOsExcludingHolo)
-            {
-                return SteamOSMode.DesktopMode;
-            }
-        }
-
-        if (distroBase == LinuxDistroBase.Arch)
-        {
-            if (includeHoloIsoAsSteamOs || isSteamOsExcludingHolo)
-            {
-                return SteamOSMode.GamingMode;
-            }
-        }
-
-        return SteamOSMode.NotSteamOS;
+            LinuxDistroBase.Manjaro => SteamOSMode.DesktopMode,
+            LinuxDistroBase.Arch => SteamOSMode.GamingMode,
+            _ => SteamOSMode.NotSteamOS,
+        };
     }
 
     /// <summary>
@@ -120,8 +104,13 @@ public class SteamOsInfoProvider : ISteamOsInfoProvider
 
         if (distroBase is LinuxDistroBase.Manjaro or LinuxDistroBase.Arch)
         {
-            return (includeHoloIsoAsSteamOs && distroInfo.PrettyName.Contains("holo", StringComparison.OrdinalIgnoreCase)) ||
-                   distroInfo.PrettyName.Contains("steamos", StringComparison.OrdinalIgnoreCase);
+            string? prettyName = distroInfo.PrettyName;
+
+            if (string.IsNullOrEmpty(prettyName))
+                return false;
+
+            return (includeHoloIsoAsSteamOs && prettyName.Contains("holo", StringComparison.OrdinalIgnoreCase)) ||
+                   prettyName.Contains("steamos", StringComparison.OrdinalIgnoreCase);
         }
 
         //Fallback to false if it isn't detected as SteamOS.

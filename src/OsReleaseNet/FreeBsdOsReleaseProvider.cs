@@ -15,7 +15,6 @@
     limitations under the License.
  */
 
-using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -51,16 +50,22 @@ public class FreeBsdOsReleaseProvider : IFreeBsdOsReleaseProvider
         
         if (!OperatingSystem.IsFreeBSD())
             throw new PlatformNotSupportedException(Resources.Exceptions_PlatformNotSupported_FreeBsdOnly);
+
+        string key = propertyName.Trim().TrimEnd('=').Trim();
+
+        ArgumentException.ThrowIfNullOrWhiteSpace(key);
             
         string[] resultArray = await File.ReadAllLinesAsync("/etc/os-release").ConfigureAwait(false);
+
+        string prefix = key + "=";
         
         string? result = ParserHelper.RemoveUnwantedCharacters(resultArray)
-            .FirstOrDefault(x => x.Contains(propertyName.ToUpper(CultureInfo.CurrentCulture), StringComparison.Ordinal));
+            .FirstOrDefault(x => x.StartsWith(prefix, StringComparison.OrdinalIgnoreCase));
 
-        result = result?.Replace(propertyName, string.Empty)
-            .Replace("=", string.Empty);
+        if (result is null)
+            return null;
 
-        return result;
+        return result.Substring(prefix.Length).Trim();
     }
 
     /// <summary>

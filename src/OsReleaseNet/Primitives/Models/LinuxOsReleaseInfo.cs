@@ -17,6 +17,8 @@
 
 // ReSharper disable UnusedAutoPropertyAccessor.Global
 
+using System.Linq;
+
 namespace OsReleaseNet;
 
 /// <summary>
@@ -142,10 +144,14 @@ public class LinuxOsReleaseInfo : IEquatable<LinuxOsReleaseInfo>
     {
         if (other is null) return false;
         
-        return Name.Equals(other.Name, StringComparison.OrdinalIgnoreCase) &&
+        bool identifierLikeEquals = ReferenceEquals(IdentifierLike, other.IdentifierLike) ||
+            (IdentifierLike is not null && other.IdentifierLike is not null &&
+             IdentifierLike.SequenceEqual(other.IdentifierLike, StringComparer.OrdinalIgnoreCase));
+
+        return string.Equals(Name, other.Name, StringComparison.OrdinalIgnoreCase) &&
                string.Equals(Version, other.Version, StringComparison.OrdinalIgnoreCase) &&
                string.Equals(Identifier, other.Identifier, StringComparison.OrdinalIgnoreCase) &&
-               IdentifierLike.Equals(other.IdentifierLike) &&
+               identifierLikeEquals &&
                string.Equals(PrettyName, other.PrettyName, StringComparison.OrdinalIgnoreCase) &&
                string.Equals(VersionId, other.VersionId, StringComparison.OrdinalIgnoreCase) &&
                string.Equals(HomeUrl, other.HomeUrl, StringComparison.OrdinalIgnoreCase) &&
@@ -197,7 +203,11 @@ public class LinuxOsReleaseInfo : IEquatable<LinuxOsReleaseInfo>
         hashCode.Add(VersionCodename, StringComparer.OrdinalIgnoreCase);
         hashCode.Add(VersionId, StringComparer.OrdinalIgnoreCase);
         hashCode.Add(Identifier, StringComparer.OrdinalIgnoreCase);
-        hashCode.Add(IdentifierLike);
+        if (IdentifierLike is not null)
+        {
+            foreach (string identifier in IdentifierLike)
+                hashCode.Add(identifier, StringComparer.OrdinalIgnoreCase);
+        }
         hashCode.Add(PrettyName, StringComparer.OrdinalIgnoreCase);
         hashCode.Add(HomeUrl, StringComparer.OrdinalIgnoreCase);
         hashCode.Add(SupportUrl, StringComparer.OrdinalIgnoreCase);

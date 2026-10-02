@@ -29,10 +29,12 @@ internal static class ParserHelper
     /// <returns>An array of strings with unwanted characters removed.</returns>
     internal static IEnumerable<string> RemoveUnwantedCharacters(IEnumerable<string> results)
     {
-        IEnumerable<string> newResults = results
-            .Where(x => !string.IsNullOrWhiteSpace(x) && !x.Equals(string.Empty))
-            .Select(x => x.Replace('"'.ToString(), string.Empty));
-        
-        return newResults;
+        return results
+            .Where(x => !string.IsNullOrWhiteSpace(x))
+            .Select(x => x.Trim())
+            .Where(x => x.Length != 0 && x[0] != '#')
+            .Select(x => x.Replace("\"", string.Empty)
+                .Replace("'", string.Empty).Trim())
+            .Where(x => x.Length != 0);
     }
 }

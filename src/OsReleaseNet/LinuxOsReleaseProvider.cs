@@ -15,7 +15,6 @@
     limitations under the License.
  */
 
-using System.Globalization;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
@@ -53,17 +52,22 @@ public class LinuxOsReleaseProvider : ILinuxOsReleaseProvider
         if (!OperatingSystem.IsLinux())
             throw new PlatformNotSupportedException(Resources.
                 Exceptions_PlatformNotSupported_LinuxOnly);
+
+        string key = propertyName.Trim().TrimEnd('=').Trim();
+
+        ArgumentException.ThrowIfNullOrWhiteSpace(key);
             
         string[] resultArray = await File.ReadAllLinesAsync("/etc/os-release").ConfigureAwait(false);
+
+        string prefix = key + "=";
         
         string? result = ParserHelper.RemoveUnwantedCharacters(resultArray)
-            .FirstOrDefault(x => x.ToUpper(CultureInfo.CurrentCulture).Contains(propertyName.ToUpper(CultureInfo.CurrentCulture),
-                StringComparison.Ordinal));
+            .FirstOrDefault(x => x.StartsWith(prefix, StringComparison.OrdinalIgnoreCase));
 
-        result = result?.Replace(propertyName, string.Empty)
-            .Replace("=", string.Empty);
+        if (result is null)
+            return null;
 
-        return result;
+        return result.Substring(prefix.Length).Trim();
     }
 
     /// <summary>
@@ -98,17 +102,19 @@ public class LinuxOsReleaseProvider : ILinuxOsReleaseProvider
         if (!OperatingSystem.IsLinux())
             throw new PlatformNotSupportedException(Resources.
                 Exceptions_PlatformNotSupported_LinuxOnly);
-
-        LinuxOsReleaseInfo osReleaseInfo = new LinuxOsReleaseInfo();
         
-        string? result =  await GetReleaseInfoPropertyValueAsync("ID_LIKE=").ConfigureAwait(false);
+        string? result =  await GetReleaseInfoPropertyValueAsync("ID_LIKE").ConfigureAwait(false);
 
-        if (result is not null)
-            osReleaseInfo.IdentifierLike = result.Split(" ");
-        else
-            osReleaseInfo = await GetReleaseInfoAsync().ConfigureAwait(false);
+        if (!string.IsNullOrWhiteSpace(result))
+        {
+            LinuxOsReleaseInfo osReleaseInfo = new LinuxOsReleaseInfo();
+            osReleaseInfo.IdentifierLike = result!.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+            return GetDistroBase(osReleaseInfo);
+        }
+
+        LinuxOsReleaseInfo fullInfo = await GetReleaseInfoAsync().ConfigureAwait(false);
         
-        return GetDistroBase(osReleaseInfo);
+        return GetDistroBase(fullInfo);
     }
 
     /// <summary>
@@ -122,9 +128,38 @@ public class LinuxOsReleaseProvider : ILinuxOsReleaseProvider
     [SupportedOSPlatform("linux")]
     public LinuxDistroBase GetDistroBase(LinuxOsReleaseInfo osReleaseInfo)
     {
-        string identifierLike = osReleaseInfo.IdentifierLike[0].ToLower(CultureInfo.CurrentCulture);
+        ArgumentNullException.ThrowIfNull(osReleaseInfo);
+
+        if (osReleaseInfo.IdentifierLike is not null)
+        {
+            foreach (string entry in osReleaseInfo.IdentifierLike)
+            {
+                if (string.IsNullOrWhiteSpace(entry))
+                    continue;
+
+                LinuxDistroBase mapped = MapIdentifierToDistroBase(entry.Trim());
+
+                if (mapped != LinuxDistroBase.NotDetected)
+                    return mapped;
+            }
+        }
+
+        if (!string.IsNullOrWhiteSpace(osReleaseInfo.Identifier))
+        {
+            LinuxDistroBase fromIdentifier = MapIdentifierToDistroBase(osReleaseInfo.Identifier.Trim());
+
+            if (fromIdentifier != LinuxDistroBase.NotDetected)
+                return fromIdentifier;
+        }
         
-        return identifierLike switch
+        return LinuxDistroBase.NotDetected;
+    }
+
+    private static LinuxDistroBase MapIdentifierToDistroBase(string identifier)
+    {
+        string normalized = identifier.ToLowerInvariant();
+        
+        return normalized switch
         {
             "debian" => LinuxDistroBase.Debian,
             "ubuntu" => LinuxDistroBase.Ubuntu,
