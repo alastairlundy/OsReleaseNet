@@ -50,63 +50,51 @@ public class LinuxOsReleaseParser : ILinuxOsReleaseParser
         {
             string lineUpper = line.ToUpperInvariant();
 
-            if (lineUpper.Contains("name=", StringComparison.OrdinalIgnoreCase) &&
-                !lineUpper.Contains("version", StringComparison.OrdinalIgnoreCase))
+            if (lineUpper.StartsWith("PRETTY_NAME=", StringComparison.Ordinal))
             {
-                if (lineUpper.StartsWith("pretty_", StringComparison.OrdinalIgnoreCase))
-                {
-                    linuxDistroInfo.PrettyName =
-                        line.Replace("PRETTY_NAME=", string.Empty);
-                }
+                linuxDistroInfo.PrettyName =
+                    line.Substring("PRETTY_NAME=".Length);
+            }
+            else if (lineUpper.StartsWith("NAME=", StringComparison.Ordinal))
+            {
+                linuxDistroInfo.Name = line.Substring("NAME=".Length);
+            }
+            // CPE_NAME= and *CODENAME= lines are intentionally ignored here;
+            // they are handled (or explicitly skipped) in their own blocks.
 
-                if (!lineUpper.Contains("pretty", StringComparison.OrdinalIgnoreCase) &&
-                    !lineUpper.Contains("CODE", StringComparison.OrdinalIgnoreCase))
-                {
-                    linuxDistroInfo.Name = line.Replace("NAME=", string.Empty);
-                }
+            if (lineUpper.StartsWith("VERSION_ID=", StringComparison.Ordinal))
+            {
+                linuxDistroInfo.VersionId =
+                    line.Substring("VERSION_ID=".Length);
+            }
+            else if (lineUpper.StartsWith("VERSION_CODENAME=", StringComparison.Ordinal))
+            {
+                linuxDistroInfo.VersionCodename =
+                    line.Substring("VERSION_CODENAME=".Length);
+            }
+            else if (lineUpper.StartsWith("VERSION=", StringComparison.Ordinal))
+            {
+                linuxDistroInfo.Version = line.Substring("VERSION=".Length);
+            }
+            else if (lineUpper.StartsWith("UBUNTU_CODENAME=", StringComparison.Ordinal) &&
+                     string.IsNullOrEmpty(linuxDistroInfo.VersionCodename))
+            {
+                linuxDistroInfo.VersionCodename =
+                    line.Substring("UBUNTU_CODENAME=".Length);
             }
 
-            if (lineUpper.Contains("version=", StringComparison.OrdinalIgnoreCase))
+            if (lineUpper.StartsWith("ID_LIKE=", StringComparison.Ordinal))
             {
-                if (lineUpper.Contains("id=", StringComparison.OrdinalIgnoreCase))
-                {
-                    linuxDistroInfo.VersionId =
-                        line.Replace("VERSION_ID=", string.Empty);
-                }
-                else if (!lineUpper.Contains("id=", StringComparison.OrdinalIgnoreCase) && 
-                         lineUpper.Contains("code", StringComparison.OrdinalIgnoreCase))
-                {
-                    linuxDistroInfo.VersionCodename =
-                        line.Replace("VERSION_CODENAME=", string.Empty);
-                }
-                else if (!lineUpper.Contains("id=", StringComparison.OrdinalIgnoreCase) &&
-                         !lineUpper.Contains("code", StringComparison.OrdinalIgnoreCase))
-                {
-                    linuxDistroInfo.Version = line.Replace("VERSION=", string.Empty);
-                }
-            }
+                string identifiers = line.Substring("ID_LIKE=".Length);
 
-            if (lineUpper.Contains("id", StringComparison.OrdinalIgnoreCase))
+                linuxDistroInfo.IdentifierLike = identifiers.Split([' '],
+                    StringSplitOptions.RemoveEmptyEntries);
+            }
+            else if (lineUpper.StartsWith("ID=", StringComparison.Ordinal))
             {
-                if (lineUpper.Contains("id_like=", StringComparison.OrdinalIgnoreCase))
-                {
-                    string identifiers = line.Replace("ID_LIKE=", string.Empty);
-
-                    if (identifiers.Contains(" ", StringComparison.OrdinalIgnoreCase) ||
-                        identifiers.Contains(' ', StringComparison.OrdinalIgnoreCase))
-                    {
-                        linuxDistroInfo.IdentifierLike = identifiers.Split(" ");
-                    }
-                    else
-                    {
-                        linuxDistroInfo.IdentifierLike = [line];
-                    }
-                }
-                else if (!lineUpper.Contains("version", StringComparison.OrdinalIgnoreCase))
-                {
-                    linuxDistroInfo.Identifier = line.Replace("ID=", string.Empty);
-                }
+                linuxDistroInfo.Identifier = line.Substring("ID=".Length);
             }
+            // VERSION_ID=, VARIANT_ID= and VARIANT= are intentionally not mapped to Identifier.
 
             if (lineUpper.Contains("url=", StringComparison.OrdinalIgnoreCase))
             {

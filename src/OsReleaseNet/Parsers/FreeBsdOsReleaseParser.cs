@@ -58,49 +58,36 @@ public class FreeBsdOsReleaseParser : IFreeBsdOsReleaseParser
                 }
             }
 
-            if (lineUpper.Contains("name=", StringComparison.OrdinalIgnoreCase) &&
-                !lineUpper.Contains("version", StringComparison.OrdinalIgnoreCase))
+            if (lineUpper.StartsWith("CPE_NAME=", StringComparison.Ordinal))
             {
-                if (lineUpper.StartsWith("cpe_", StringComparison.OrdinalIgnoreCase))
-                {
-                    freeBsdReleaseInfo.CpeName = line.Replace("CPE_NAME=", string.Empty);
-                }
-
-                if (lineUpper.StartsWith("pretty_", StringComparison.OrdinalIgnoreCase))
-                {
-                    freeBsdReleaseInfo.PrettyName =
-                        line.Replace("PRETTY_NAME=", string.Empty);
-                }
-
-                if (!lineUpper.Contains("pretty", StringComparison.OrdinalIgnoreCase) &&
-                    !lineUpper.Contains("code", StringComparison.OrdinalIgnoreCase))
-                {
-                    freeBsdReleaseInfo.Name = line
-                        .Replace("NAME=", string.Empty);
-                }
+                freeBsdReleaseInfo.CpeName = line.Substring("CPE_NAME=".Length);
+            }
+            else if (lineUpper.StartsWith("PRETTY_NAME=", StringComparison.Ordinal))
+            {
+                freeBsdReleaseInfo.PrettyName =
+                    line.Substring("PRETTY_NAME=".Length);
+            }
+            else if (lineUpper.StartsWith("NAME=", StringComparison.Ordinal))
+            {
+                freeBsdReleaseInfo.Name = line
+                    .Substring("NAME=".Length);
             }
 
-            if (lineUpper.Contains("version=", StringComparison.OrdinalIgnoreCase))
+            if (lineUpper.StartsWith("VERSION_ID=", StringComparison.Ordinal))
             {
-                if (lineUpper.Contains("id=", StringComparison.OrdinalIgnoreCase))
-                {
-                    freeBsdReleaseInfo.VersionId =
-                        line.Replace("VERSION_ID=", string.Empty);
-                }
-                else if (!lineUpper.Contains("id=", StringComparison.OrdinalIgnoreCase) &&
-                         !lineUpper.Contains("code", StringComparison.OrdinalIgnoreCase))
-                {
-                    freeBsdReleaseInfo.Version = line.Replace("VERSION=", string.Empty).Trim();
-                }
+                freeBsdReleaseInfo.VersionId =
+                    line.Substring("VERSION_ID=".Length);
+            }
+            else if (lineUpper.StartsWith("VERSION=", StringComparison.Ordinal))
+            {
+                freeBsdReleaseInfo.Version = line.Substring("VERSION=".Length).Trim();
             }
 
-            if (lineUpper.Contains("id", StringComparison.OrdinalIgnoreCase))
+            if (lineUpper.StartsWith("ID=", StringComparison.Ordinal))
             {
-                if (!lineUpper.Contains("version", StringComparison.OrdinalIgnoreCase))
-                {
-                    freeBsdReleaseInfo.Identifier = line.Replace("ID=", string.Empty);
-                }
+                freeBsdReleaseInfo.Identifier = line.Substring("ID=".Length);
             }
+            // ID_LIKE=, VERSION_ID=, VARIANT_ID= and VARIANT= are intentionally not mapped to Identifier.
 
             if (lineUpper.Contains("url=", StringComparison.OrdinalIgnoreCase))
             {
