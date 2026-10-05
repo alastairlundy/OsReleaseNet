@@ -17,6 +17,7 @@
 
 using System.Linq;
 using System.Threading.Tasks;
+using OsReleaseNet.Internal;
 
 namespace OsReleaseNet;
 
@@ -26,14 +27,19 @@ namespace OsReleaseNet;
 public class FreeBsdOsReleaseProvider : IFreeBsdOsReleaseProvider
 {
     private readonly IFreeBsdOsReleaseParser _freeBsdOsReleaseParser;
+    private readonly Func<Task<string[]>> _readOsReleaseLines;
 
     /// <summary>
-    /// 
+    /// Initialises a new instance of the <see cref="FreeBsdOsReleaseProvider"/> class.
     /// </summary>
-    /// <param name="freeBsdOsReleaseParser"></param>
-    public FreeBsdOsReleaseProvider(IFreeBsdOsReleaseParser freeBsdOsReleaseParser)
+    /// <param name="freeBsdOsReleaseParser">The parser used to turn the raw os-release lines into a <see cref="FreeBsdOsReleaseInfo"/>.</param>
+    /// <param name="readOsReleaseLines">The optional line source returning the raw os-release lines.
+    /// When omitted, the system-wide os-release file is read.</param>
+    public FreeBsdOsReleaseProvider(IFreeBsdOsReleaseParser freeBsdOsReleaseParser,
+        Func<Task<string[]>>? readOsReleaseLines = null)
     {
         _freeBsdOsReleaseParser = freeBsdOsReleaseParser;
+        _readOsReleaseLines = readOsReleaseLines ?? DistroBaseResolver.DefaultReadOsReleaseLines;
     }
 
     /// <summary>
@@ -56,7 +62,7 @@ public class FreeBsdOsReleaseProvider : IFreeBsdOsReleaseProvider
 
         ArgumentException.ThrowIfNullOrWhiteSpace(key);
             
-        string[] resultArray = await File.ReadAllLinesAsync("/etc/os-release").ConfigureAwait(false);
+        string[] resultArray = await _readOsReleaseLines().ConfigureAwait(false);
 
         string prefix = key + "=";
         
@@ -81,7 +87,7 @@ public class FreeBsdOsReleaseProvider : IFreeBsdOsReleaseProvider
         if (!OperatingSystem.IsFreeBSD())
             throw new PlatformNotSupportedException(Resources.Exceptions_PlatformNotSupported_FreeBsdOnly);
 
-        string[] resultArray = await File.ReadAllLinesAsync("/etc/os-release").ConfigureAwait(false);
+        string[] resultArray = await _readOsReleaseLines().ConfigureAwait(false);
         
         return await Task.FromResult(_freeBsdOsReleaseParser.ParseFreeBsdRelease(resultArray)).ConfigureAwait(false);
     }
