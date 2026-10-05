@@ -30,6 +30,7 @@ public interface IFreeBsdOsReleaseProvider
     /// <param name="propertyName">The name of the property to retrieve.</param>
     /// <returns>The value of the specified property as a string.</returns>
     [SupportedOSPlatform("freebsd")]
+    [Obsolete("Use GetReleaseInfoAsync for single-property reads instead. This member is obsolete and will be removed in a future release.")]
     Task<string?> GetReleaseInfoPropertyValueAsync(string propertyName);
     
     /// <summary>

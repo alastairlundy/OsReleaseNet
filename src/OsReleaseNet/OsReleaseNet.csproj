@@ -6,14 +6,15 @@
         <Nullable>enable</Nullable>
         <TargetFrameworks>netstandard2.0;net8.0;net9.0;net10.0;</TargetFrameworks>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-        <Version>2.4.1</Version>
+        <Version>2.5.0</Version>
         <Title>OsReleaseNet</Title>
         <Authors>AlastairLundy</Authors>
         <Description>Linux OsRelease detection, SteamOS detection, and helpful detection code for Linux.</Description>
         <Copyright>Copyright (c) Alastair Lundy 2024-2025</Copyright>
         <RepositoryUrl>https://github.com/alastairlundy/OsReleaseNet</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
-        <PackageReleaseNotes>* Updated internal Polyfill version to 9.22.0
+        <PackageReleaseNotes>* Marked GetReleaseInfoPropertyValueAsync (Linux and FreeBSD providers) and the synchronous GetDistroBase overload as obsolete; use GetReleaseInfoAsync and GetDistroBaseAsync instead
+* Updated internal Polyfill version to 9.22.0
 * Optimized Polyfill usage</PackageReleaseNotes>
         <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
         <PackageIcon>platformkit_logo_512x.jpg</PackageIcon>
