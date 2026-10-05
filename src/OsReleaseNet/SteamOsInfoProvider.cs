@@ -20,6 +20,7 @@
 
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
+using OsReleaseNet.Internal;
 
 namespace OsReleaseNet;
 
@@ -61,19 +62,20 @@ public class SteamOsInfoProvider : ISteamOsInfoProvider
     [SupportedOSPlatform("linux")]
     public async Task<SteamOSMode> GetSteamOSModeAsync(bool includeHoloIsoAsSteamOs)
     {
-        bool isSteamOs = await IsSteamOSAsync(includeHoloIsoAsSteamOs).ConfigureAwait(false);
-        
-        if (!isSteamOs)
-            return SteamOSMode.NotSteamOS;
-        
-        LinuxDistroBase distroBase = await _linuxOsReleaseProvider.GetDistroBaseAsync().ConfigureAwait(false);
+        (LinuxOsReleaseInfo distroInfo, LinuxDistroBase distroBase) = await GetReleaseInfoAndDistroBaseAsync().ConfigureAwait(false);
 
-        return distroBase switch
+        if (IsSteamOsRelease(distroInfo, distroBase, includeHoloIsoAsSteamOs))
         {
-            LinuxDistroBase.Manjaro => SteamOSMode.DesktopMode,
-            LinuxDistroBase.Arch => SteamOSMode.GamingMode,
-            _ => SteamOSMode.NotSteamOS,
-        };
+            return distroBase switch
+            {
+                LinuxDistroBase.Manjaro => SteamOSMode.DesktopMode,
+                LinuxDistroBase.Arch => SteamOSMode.GamingMode,
+                _ => SteamOSMode.NotSteamOS,
+            };
+        }
+
+        //Fallback to NotSteamOS if it isn't detected as SteamOS.
+        return SteamOSMode.NotSteamOS;
     }
 
     /// <summary>
@@ -96,19 +98,40 @@ public class SteamOsInfoProvider : ISteamOsInfoProvider
     [SupportedOSPlatform("linux")]
     public async Task<bool> IsSteamOSAsync(bool includeHoloIsoAsSteamOs)
     {
+        (LinuxOsReleaseInfo distroInfo, LinuxDistroBase distroBase) = await GetReleaseInfoAndDistroBaseAsync().ConfigureAwait(false);
+
+        return IsSteamOsRelease(distroInfo, distroBase, includeHoloIsoAsSteamOs);
+    }
+
+    /// <summary>
+    /// Fetches the Linux release information once and resolves its distro base through the shared internal core.
+    /// </summary>
+    /// <remarks>This helper is the single-parse path for the SteamOS checks and mode question - exactly one
+    /// <see cref="ILinuxOsReleaseProvider.GetReleaseInfoAsync"/> call per invocation, with the distro base
+    /// resolved from that same information.</remarks>
+    /// <returns>A tuple of the fetched <see cref="LinuxOsReleaseInfo"/> and the distro base resolved from it.</returns>
+    /// <exception cref="PlatformNotSupportedException">Thrown if not run on a Linux-based Operating System.</exception>
+    private async Task<(LinuxOsReleaseInfo DistroInfo, LinuxDistroBase DistroBase)> GetReleaseInfoAndDistroBaseAsync()
+    {
         if (!RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
             throw new PlatformNotSupportedException(Resources.Exceptions_PlatformNotSupported_LinuxOnly);
 
         LinuxOsReleaseInfo distroInfo = await _linuxOsReleaseProvider.GetReleaseInfoAsync().ConfigureAwait(false);
 
-        // Temporary suppression (CS0612/CS0618) - the synchronous GetDistroBase call is being replaced
-        // by the shared internal distro-base core and removed together with this suppression in OsReleaseNet 3.0.0.
-#pragma warning disable CS0612 // Type or member is obsolete
-#pragma warning disable CS0618 // Type or member is obsolete
-        LinuxDistroBase distroBase = _linuxOsReleaseProvider.GetDistroBase(distroInfo);
-#pragma warning restore CS0612 // Type or member is obsolete
-#pragma warning restore CS0618 // Type or member is obsolete
+        return (distroInfo, DistroBaseResolver.Resolve(distroInfo));
+    }
 
+    /// <summary>
+    /// Determines whether a fetched release information and its resolved distro base identify Steam OS.
+    /// </summary>
+    /// <remarks>The distro base check plus the <see cref="LinuxOsReleaseInfo.PrettyName"/> check,
+    /// including Holo ISO handling, mirrors the pre-rework detection logic unchanged.</remarks>
+    /// <param name="distroInfo">The fetched Linux OS release information.</param>
+    /// <param name="distroBase">The distro base resolved from <paramref name="distroInfo"/>.</param>
+    /// <param name="includeHoloIsoAsSteamOs">Whether to consider Holo ISO as Steam OS.</param>
+    /// <returns>true if the release information identifies a SteamOS 3.x based distribution; false otherwise.</returns>
+    private static bool IsSteamOsRelease(LinuxOsReleaseInfo distroInfo, LinuxDistroBase distroBase, bool includeHoloIsoAsSteamOs)
+    {
         if (distroBase is LinuxDistroBase.Manjaro or LinuxDistroBase.Arch)
         {
             string? prettyName = distroInfo.PrettyName;
