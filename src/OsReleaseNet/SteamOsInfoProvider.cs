@@ -100,7 +100,14 @@ public class SteamOsInfoProvider : ISteamOsInfoProvider
             throw new PlatformNotSupportedException(Resources.Exceptions_PlatformNotSupported_LinuxOnly);
 
         LinuxOsReleaseInfo distroInfo = await _linuxOsReleaseProvider.GetReleaseInfoAsync().ConfigureAwait(false);
+
+        // Temporary suppression (CS0612/CS0618) - the synchronous GetDistroBase call is being replaced
+        // by the shared internal distro-base core and removed together with this suppression in OsReleaseNet 3.0.0.
+#pragma warning disable CS0612 // Type or member is obsolete
+#pragma warning disable CS0618 // Type or member is obsolete
         LinuxDistroBase distroBase = _linuxOsReleaseProvider.GetDistroBase(distroInfo);
+#pragma warning restore CS0612 // Type or member is obsolete
+#pragma warning restore CS0618 // Type or member is obsolete
 
         if (distroBase is LinuxDistroBase.Manjaro or LinuxDistroBase.Arch)
         {

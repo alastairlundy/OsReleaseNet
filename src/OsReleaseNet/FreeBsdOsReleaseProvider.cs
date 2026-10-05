@@ -44,6 +44,7 @@ public class FreeBsdOsReleaseProvider : IFreeBsdOsReleaseProvider
     /// <exception cref="PlatformNotSupportedException">Throw if run on an Operating System
     /// that isn't FreeBSD-based.</exception>
     [SupportedOSPlatform("freebsd")]
+    [Obsolete("Use GetReleaseInfoAsync for single-property reads instead. This member is obsolete and will be removed in a future release.")]
     public async Task<string?> GetReleaseInfoPropertyValueAsync(string propertyName)
     {
         ArgumentException.ThrowIfNullOrEmpty(propertyName);

@@ -30,6 +30,7 @@ public interface ILinuxOsReleaseProvider
     /// <param name="propertyName">The name of the property to retrieve.</param>
     /// <returns>The value of the specified property as a string.</returns>
     [SupportedOSPlatform("linux")]
+    [Obsolete("Use GetReleaseInfoAsync for single-property reads instead. This member is obsolete and will be removed in OsReleaseNet 3.0.0.")]
     Task<string?> GetReleaseInfoPropertyValueAsync(string propertyName);
 
     /// <summary>
@@ -52,5 +53,6 @@ public interface ILinuxOsReleaseProvider
     /// <param name="osReleaseInfo"></param>
     /// <returns>The base distribution of the Linux operating system.</returns>
     [SupportedOSPlatform("linux")]
+    [Obsolete("Use GetDistroBaseAsync instead. This member is obsolete and will be removed in OsReleaseNet 3.0.0.")]
     LinuxDistroBase GetDistroBase(LinuxOsReleaseInfo osReleaseInfo);
 }

@@ -45,6 +45,7 @@ public class LinuxOsReleaseProvider : ILinuxOsReleaseProvider
     /// <exception cref="PlatformNotSupportedException">Throw if run on an Operating System
     /// that isn't Linux-based.</exception>
     [SupportedOSPlatform("linux")]
+    [Obsolete("Use GetReleaseInfoAsync for single-property reads instead. This member is obsolete and will be removed in OsReleaseNet 3.0.0.")]
     public async Task<string?> GetReleaseInfoPropertyValueAsync(string propertyName)
     {
         ArgumentException.ThrowIfNullOrEmpty(propertyName);
@@ -126,6 +127,7 @@ public class LinuxOsReleaseProvider : ILinuxOsReleaseProvider
     /// <returns>The detected LinuxDistroBase as an enum if successfully detected,
     /// the LinuxDistroBase.NotDetected enum value otherwise.</returns>
     [SupportedOSPlatform("linux")]
+    [Obsolete("Use GetDistroBaseAsync instead. This member is obsolete and will be removed in OsReleaseNet 3.0.0.")]
     public LinuxDistroBase GetDistroBase(LinuxOsReleaseInfo osReleaseInfo)
     {
         ArgumentNullException.ThrowIfNull(osReleaseInfo);
