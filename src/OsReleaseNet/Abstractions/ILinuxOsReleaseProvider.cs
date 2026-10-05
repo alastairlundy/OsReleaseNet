@@ -25,15 +25,6 @@ namespace OsReleaseNet.Abstractions;
 public interface ILinuxOsReleaseProvider
 {
     /// <summary>
-    /// Retrieves the value of the specified property from the current system.
-    /// </summary>
-    /// <param name="propertyName">The name of the property to retrieve.</param>
-    /// <returns>The value of the specified property as a string.</returns>
-    [SupportedOSPlatform("linux")]
-    [Obsolete("Use GetReleaseInfoAsync for single-property reads instead. This member is obsolete and will be removed in OsReleaseNet 3.0.0.")]
-    Task<string?> GetReleaseInfoPropertyValueAsync(string propertyName);
-
-    /// <summary>
     /// Retrieves information about the current Linux operating system release.
     /// </summary>
     /// <returns>An object containing information about the Linux operating system release.</returns>
@@ -46,13 +37,4 @@ public interface ILinuxOsReleaseProvider
     /// <returns>The base distribution of the Linux operating system.</returns>
     [SupportedOSPlatform("linux")]
     Task<LinuxDistroBase> GetDistroBaseAsync();
-
-    /// <summary>
-    /// Retrieves information about the base distribution of the <see cref="LinuxOsReleaseInfo"/>.
-    /// </summary>
-    /// <param name="osReleaseInfo"></param>
-    /// <returns>The base distribution of the Linux operating system.</returns>
-    [SupportedOSPlatform("linux")]
-    [Obsolete("Use GetDistroBaseAsync instead. This member is obsolete and will be removed in OsReleaseNet 3.0.0.")]
-    LinuxDistroBase GetDistroBase(LinuxOsReleaseInfo osReleaseInfo);
 }
