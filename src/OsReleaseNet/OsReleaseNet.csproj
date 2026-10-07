@@ -43,6 +43,12 @@
     </ItemGroup>
 
     <ItemGroup>
+        <!-- Grant the test project access to internals so the distro-base core gets direct unit
+             coverage through the internal module, without a test-only seam on the public surface. -->
+        <InternalsVisibleTo Include="OsReleaseNet.Tests" />
+    </ItemGroup>
+
+    <ItemGroup>
       <EmbeddedResource Update="Internal\Localizations\Resources.resx">
         <Generator>ResXFileCodeGenerator</Generator>
         <LastGenOutput>Resources.Designer.cs</LastGenOutput>

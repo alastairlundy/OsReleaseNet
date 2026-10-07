@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    Central package management lives in src/Directory.Packages.props, which MSBuild does not
+    auto-discover from tests/. Import it explicitly so the TUnit version stays central, and flag
+    it as imported - NuGet applies central versions only when CentralPackageVersionsFileImported
+    is set, which NuGet.props sets only for the file it discovers itself.
+  -->
+  <Import Project="..\..\src\Directory.Packages.props" />
+
+  <PropertyGroup>
+    <CentralPackageVersionsFileImported>true</CentralPackageVersionsFileImported>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <!-- T012: the test project targets net10.0 only. -->
+    <TargetFramework>net10.0</TargetFramework>
+    <OutputType>Exe</OutputType>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <IsPackable>false</IsPackable>
+    <AssemblyName>OsReleaseNet.Tests</AssemblyName>
+    <RootNamespace>OsReleaseNet.Tests</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- T008: TUnit, a source-generated AOT-friendly runner. No Microsoft.NET.Test.Sdk. -->
+    <PackageReference Include="TUnit" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\OsReleaseNet\OsReleaseNet.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OsReleaseNet", "OsReleaseNe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OsReleaseNet.Extensions.DependencyInjection", "OsReleaseNet.Extensions.DependencyInjection\OsReleaseNet.Extensions.DependencyInjection.csproj", "{88476F06-6813-4A7B-834D-9D91515D8E22}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OsReleaseNet.Tests", "..\tests\OsReleaseNet.Tests\OsReleaseNet.Tests.csproj", "{005AA67E-BCBD-488B-98D5-82271D503335}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{88476F06-6813-4A7B-834D-9D91515D8E22}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{88476F06-6813-4A7B-834D-9D91515D8E22}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{88476F06-6813-4A7B-834D-9D91515D8E22}.Release|Any CPU.Build.0 = Release|Any CPU
+		{005AA67E-BCBD-488B-98D5-82271D503335}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{005AA67E-BCBD-488B-98D5-82271D503335}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{005AA67E-BCBD-488B-98D5-82271D503335}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{005AA67E-BCBD-488B-98D5-82271D503335}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
