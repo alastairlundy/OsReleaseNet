@@ -18,7 +18,6 @@
 // ReSharper disable InconsistentNaming
 // ReSharper disable ConvertToPrimaryConstructor
 
-using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using OsReleaseNet.Internal;
 
@@ -70,6 +69,8 @@ public class SteamOsInfoProvider : ISteamOsInfoProvider
             {
                 LinuxDistroBase.Manjaro => SteamOSMode.DesktopMode,
                 LinuxDistroBase.Arch => SteamOSMode.GamingMode,
+                // Unreachable in practice: IsSteamOsRelease only returns true for Manjaro/Arch.
+                // Required because the compiler cannot prove the switch is exhaustive.
                 _ => SteamOSMode.NotSteamOS,
             };
         }
@@ -113,7 +114,7 @@ public class SteamOsInfoProvider : ISteamOsInfoProvider
     /// <exception cref="PlatformNotSupportedException">Thrown if not run on a Linux-based Operating System.</exception>
     private async Task<(LinuxOsReleaseInfo DistroInfo, LinuxDistroBase DistroBase)> GetReleaseInfoAndDistroBaseAsync()
     {
-        if (!RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+        if (!OperatingSystem.IsLinux())
             throw new PlatformNotSupportedException(Resources.Exceptions_PlatformNotSupported_LinuxOnly);
 
         LinuxOsReleaseInfo distroInfo = await _linuxOsReleaseProvider.GetReleaseInfoAsync().ConfigureAwait(false);
