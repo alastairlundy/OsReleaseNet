@@ -1,0 +1,49 @@
+# This workflow runs the unit suite and the real-file integration leg.
+# Ubuntu-only: Windows is not a supported platform, so no Windows leg exists.
+
+name: Tests
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  unit-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6.0.0
+        with:
+          dotnet-version: 10.0.x
+      - name: Restore dependencies
+        run: dotnet restore src/OsReleaseNet.sln
+      - name: Build
+        run: dotnet build src/OsReleaseNet.sln --configuration Release --no-restore
+      - name: Unit tests (integration leg excluded)
+        run: >-
+          dotnet test --project tests/OsReleaseNet.Tests/OsReleaseNet.Tests.csproj
+          --configuration Release --no-build
+          --treenode-filter "/*/*/*/*[Category!=Integration]"
+
+  integration-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6.0.0
+        with:
+          dotnet-version: 10.0.x
+      - name: Restore dependencies
+        run: dotnet restore src/OsReleaseNet.sln
+      - name: Build
+        run: dotnet build src/OsReleaseNet.sln --configuration Release --no-restore
+      - name: Integration tests (real /etc/os-release)
+        run: >-
+          dotnet test --project tests/OsReleaseNet.Tests/OsReleaseNet.Tests.csproj
+          --configuration Release --no-build
+          --treenode-filter "/*/*/*/*[Category=Integration]"
